@@ -1,28 +1,29 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-//#define DEBUG_FLAG
 
-char entrada[90000000];
-char saida [90000000];
+char entrada1[90000000];
+char saida1[90000000];
 
 int tamEntrada;
+int tamY;
 int tamResto;
-int cont_K;
-int cont_S;
 
 /*void substituirY()
 {
-    tamResto = tamEntrada - 1;
+	tamResto = tamEntrada - 1;
 
-    memcpy(resto, &entrada[1], (tamEntrada-1)*sizeof(char));
-    memcpy(entrada, Y, tamY*sizeof(char));
-    memcpy(&entrada[tamY], resto, tamResto*sizeof(char));
+	memcpy(resto, &entrada[1], (tamEntrada-1)*sizeof(char));
 
-    tamEntrada = tamEntrada - 1 + tamY;
+
+	memcpy(entrada, Y, tamY*sizeof(char));
+
+	memcpy(&entrada[tamY], resto, tamResto*sizeof(char));
+
+	tamEntrada = tamEntrada - 1 + tamY;
 }
 */
-void tirarParenteses()
+void tirarParenteses(char *entrada, char* saida)
 {
     int abreFecha = 0;
     int i = 1;
@@ -39,22 +40,20 @@ void tirarParenteses()
         i++;
     }
     i--;
-    memmove(&entrada[0],&entrada[1],(tamEntrada-1)*sizeof(char));
-    memmove(&entrada[i-1],&entrada[i],(tamEntrada - i)*sizeof(char));
 
-    entrada[tamEntrada - 2] = '\0';
-    tamEntrada -= 2;
+    memcpy(saida,&entrada[1],(i-1)*sizeof(char));
+    memcpy(&saida[i-1],&entrada[i+1],(tamEntrada - i)*sizeof(char));
 
+    tamEntrada-=2;
 }
 
-void OperarS()
+void OperarS(char *entrada, char* saida)
 {
     int tamA, tamB, tamC;
     int abreFecha = 0;
     int i = 1;
     int parte = 1;
     int qtd_carac = 0;
-
     while(parte <= 3)
     {
         qtd_carac = 0;
@@ -91,14 +90,13 @@ void OperarS()
             tamB = qtd_carac;
         }
         else if(parte == 3)
-        {;
+        {
             tamC = qtd_carac;
         }
         i++;
         parte++;
     }
     tamResto = (tamEntrada-i);
-
 
     saida[0] = '(';
     memcpy(&saida[1],&entrada[1],tamA*sizeof(char));
@@ -112,23 +110,17 @@ void OperarS()
 
     memcpy(&saida[tamA+tamC+tamB+tamC+4],&entrada[tamA+tamB+tamC+1],tamResto*sizeof(char));
 
-    memcpy(entrada,saida,(tamA+tamC+tamB+tamC+4+tamResto)*sizeof(char));
-
     tamEntrada = (tamA+tamC+tamB+tamC+4+tamResto);
 
-    #ifdef DEBUG_FLAG
-        cont_S++;
-    #endif
 }
 
-void OperarK()
+void OperarK(char *entrada, char* saida)
 {
     int tamA, tamB;
     int abreFecha = 0;
     int i = 1;
     int parte = 1;
     int qtd_carac = 0;
-
     while(parte <= 2)
     {
         qtd_carac = 0;
@@ -169,42 +161,47 @@ void OperarK()
     }
     tamResto = (tamEntrada-i);
 
-    memmove(&entrada[0],&entrada[1],(tamEntrada-1)*sizeof(char));
-    memmove(&entrada[tamA],&entrada[tamA+tamB],tamResto*sizeof(char));
+    memcpy(&saida[0],&entrada[1],tamA*sizeof(char));
+    memcpy(&saida[tamA],&entrada[tamA+tamB+1],tamResto*sizeof(char));
 
-    entrada[tamA+tamResto] = '\0';
+    saida[tamA+tamResto] = '\0';
+
     tamEntrada = tamA + tamResto;
-
-    #ifdef DEBUG_FLAG
-        cont_K++;
-    #endif
 }
 int main()
 {
     FILE *arq = fopen("string.in", "r");
-    fscanf(arq,"%s",entrada);
+    fscanf(arq,"%s",entrada1);
+    //printf("\n%s\n",entrada1);
 
-    tamEntrada = strlen(entrada);
+    char *pontE = entrada1;
+    char *pontS = saida1;
+    char *aux;
+    tamEntrada = strlen(entrada1);
 
     while(tamEntrada != 1)
     {
-        if(entrada[0] == '(')
+        if(pontE[0] == '(')
         {
-            tirarParenteses();
+            tirarParenteses(pontE, pontS);
         }
         /*else if(entrada[0] == 'Y')
         {
             substituirY();
         }*/
-        else if(entrada[0] == 'S')
+        else if(pontE[0] == 'S')
         {
-            OperarS();
+            OperarS(pontE, pontS);
         }
-        else if(entrada[0]== 'K')
+        else if(pontE[0]== 'K')
         {
-            OperarK();
+            OperarK(pontE, pontS);
         }
+
+        aux = pontE;
+        pontE = pontS;
+        pontS = aux;
     }
-    printf("\n%s\n",entrada);
+    printf("\n%s\n",pontE);
     return 0;
 }
