@@ -1,5 +1,4 @@
 // Gerador para K e S
-
 #include <stdio.h>
 #include <stdlib.h>
 
