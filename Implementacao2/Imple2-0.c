@@ -14,6 +14,7 @@ int cont_K;
 int cont_P;
 int cont_I;
 int cont_C;
+int cont_B;
 
 /*void substituirY()
 {
@@ -306,6 +307,74 @@ void OperarC(char *entrada, char* saida)
     #endif
 }
 
+void OperarB(char *entrada, char* saida)
+{
+    int tamF, tamG, tamX;
+    int abreFecha = 0;
+    int i = 1;
+    int parte = 1;
+    int qtd_carac = 0;
+    while(parte <= 3)
+    {
+        qtd_carac = 0;
+        if(entrada[i] == '(')
+        {
+            qtd_carac++;
+            i++;
+            while(abreFecha != -1)
+            {
+                if(entrada[i] == '(')
+                {
+                    abreFecha++;
+                }
+                else if(entrada[i] == ')')
+                {
+                    abreFecha--;
+                }
+                i++;
+                qtd_carac++;
+            }
+            i--;
+            abreFecha = 0;
+        }
+        else
+        {
+            qtd_carac++;
+        }
+        if(parte == 1)
+        {
+            tamF = qtd_carac;
+        }
+        if(parte == 2)
+        {
+            tamG = qtd_carac;
+        }
+        else if(parte == 3)
+        {
+            tamX = qtd_carac;
+        }
+        i++;
+        parte++;
+    }
+    tamResto = (tamEntrada-i);
+
+    memcpy(&saida[0],&entrada[1],tamF*sizeof(char));
+    saida[tamF] = '(';
+    memcpy(&saida[tamF+1],&entrada[tamF+1],tamG*sizeof(char));
+    memcpy(&saida[tamF+tamG+1],&entrada[tamF+tamG+1],tamX*sizeof(char));
+    saida[tamF+tamG+tamX+1] = ')';
+
+    memcpy(&saida[tamF+tamG+tamX+2],&entrada[tamF+tamG+tamX+1],tamResto*sizeof(char));
+
+    saida[tamF+tamG+tamX+2+tamResto] = '\0';
+
+    tamEntrada = (tamF+tamG+tamX+2+tamResto);
+    printf("\n%s\n",saida);
+    #ifdef DEBUG_FLAG
+       cont_B++;
+    #endif
+}
+
 int main()
 {
     FILE *arq = fopen("string.in", "r");
@@ -343,6 +412,10 @@ int main()
 		{
 			OperarC(pontE, pontS);
 		}
+        else if(pontE[0] == 'B')
+		{
+			OperarB(pontE, pontS);
+		}
 
         aux = pontE;
         pontE = pontS;
@@ -354,7 +427,8 @@ int main()
     //printf("\n%d\n",cont_K);
     printf("\n%d\n",cont_P);
     //printf("\n%d\n",cont_I);
-    printf("\n%d\n",cont_C);
+    //printf("\n%d\n",cont_C);
+    printf("\n%d\n",cont_B);
 
     return 0;
 }
