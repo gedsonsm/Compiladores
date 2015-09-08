@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-//#define DEBUG_FLAG
+#define DEBUG_FLAG
 
 char entrada1[90000000];
 char saida1[90000000];
@@ -13,6 +13,7 @@ int cont_S;
 int cont_K;
 int cont_P;
 int cont_I;
+int cont_C;
 
 /*void substituirY()
 {
@@ -50,9 +51,9 @@ void tirarParenteses(char *entrada, char* saida)
     memcpy(&saida[i-1],&entrada[i+1],(tamEntrada - i)*sizeof(char));
 
     tamEntrada-=2;
-	//#ifdef DEBUG_FLAG
-	//	cont_P++;
-	//#endif
+	#ifdef DEBUG_FLAG
+		cont_P++;
+	#endif
 }
 
 void OperarS(char *entrada, char* saida)
@@ -119,7 +120,7 @@ void OperarS(char *entrada, char* saida)
     memcpy(&saida[tamA+tamC+tamB+tamC+4],&entrada[tamA+tamB+tamC+1],tamResto*sizeof(char));
 
     tamEntrada = (tamA+tamC+tamB+tamC+4+tamResto);
-	
+
     //#ifdef DEBUG_FLAG
     //   cont_S++;
     //#endif
@@ -234,9 +235,75 @@ void OperarI(char *entrada, char* saida)
 
     tamEntrada = tamA + tamResto;
 
-    //#ifdef DEBUG_FLAG
-    //    cont_I++;
-    //#endif
+    #ifdef DEBUG_FLAG
+        cont_I++;
+    #endif
+}
+
+void OperarC(char *entrada, char* saida)
+{
+    int tamF, tamX, tamY;
+    int abreFecha = 0;
+    int i = 1;
+    int parte = 1;
+    int qtd_carac = 0;
+    while(parte <= 3)
+    {
+        qtd_carac = 0;
+        if(entrada[i] == '(')
+        {
+            qtd_carac++;
+            i++;
+            while(abreFecha != -1)
+            {
+                if(entrada[i] == '(')
+                {
+                    abreFecha++;
+                }
+                else if(entrada[i] == ')')
+                {
+                    abreFecha--;
+                }
+                i++;
+                qtd_carac++;
+            }
+            i--;
+            abreFecha = 0;
+        }
+        else
+        {
+            qtd_carac++;
+        }
+        if(parte == 1)
+        {
+            tamF = qtd_carac;
+        }
+        if(parte == 2)
+        {
+            tamX = qtd_carac;
+        }
+        else if(parte == 3)
+        {
+            tamY = qtd_carac;
+        }
+        i++;
+        parte++;
+    }
+    tamResto = (tamEntrada-i);
+
+    memcpy(&saida[0],&entrada[1],tamF*sizeof(char));
+    memcpy(&saida[tamF],&entrada[tamF+tamX+1],tamY*sizeof(char));
+    memcpy(&saida[tamF+tamY],&entrada[tamF+1],tamX*sizeof(char));
+
+    memcpy(&saida[tamF+tamY+tamX],&entrada[tamF+tamX+tamY+1],tamResto*sizeof(char));
+
+    saida[tamF+tamY+tamX+tamResto] = '\0';
+
+    tamEntrada = (tamF+tamX+tamY+tamResto);
+
+    #ifdef DEBUG_FLAG
+       cont_C++;
+    #endif
 }
 
 int main()
@@ -268,18 +335,26 @@ int main()
         {
             OperarK(pontE, pontS);
         }
-	else if(pontE[0] == 'I')
-	{
-	    OperarI(pontE, pontS);
-	}
+		else if(pontE[0] == 'I')
+		{
+			OperarI(pontE, pontS);
+		}
+        else if(pontE[0] == 'C')
+		{
+			OperarC(pontE, pontS);
+		}
 
         aux = pontE;
         pontE = pontS;
         pontS = aux;
     }
-    //printf("\n%s\n",pontE);
+
+    printf("\n%s\n",pontE);
     //printf("\n%d\n",cont_S);
     //printf("\n%d\n",cont_K);
-    //printf("\n%d\n",cont_P);
+    printf("\n%d\n",cont_P);
+    //printf("\n%d\n",cont_I);
+    printf("\n%d\n",cont_C);
+
     return 0;
 }
