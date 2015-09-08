@@ -114,17 +114,18 @@ void OperarS(char *entrada, char* saida)
     saida[tamA+tamC+1] = ')';
 
     saida[tamA+tamC+2] = '(';
-    memcpy(&saida[tamA+tamC+3],&entrada[tamA+1],tamB*sizeof(char));
-    memcpy(&saida[tamA+tamC+tamB+3],&entrada[tamA+tamB+1],tamC*sizeof(char));
+    memcpy(&saida[tamA+tamC+3],&entrada[tamA+1],(tamB+tamC)*sizeof(char));
+    //memcpy(&saida[tamA+tamC+3],&entrada[tamA+1],(tamB)*sizeof(char));
+    //memcpy(&saida[tamA+tamC+tamB+3],&entrada[tamA+tamB+1],tamC*sizeof(char));
     saida[tamA+tamC+tamB+tamC+3] = ')';
 
     memcpy(&saida[tamA+tamC+tamB+tamC+4],&entrada[tamA+tamB+tamC+1],tamResto*sizeof(char));
 
     tamEntrada = (tamA+tamC+tamB+tamC+4+tamResto);
 
-    //#ifdef DEBUG_FLAG
-    //   cont_S++;
-    //#endif
+    #ifdef DEBUG_FLAG
+       cont_S++;
+    #endif
 }
 
 void OperarK(char *entrada, char* saida)
@@ -181,9 +182,9 @@ void OperarK(char *entrada, char* saida)
 
     tamEntrada = tamA + tamResto;
 
-    //#ifdef DEBUG_FLAG
-    //    cont_K++;
-    //#endif
+    #ifdef DEBUG_FLAG
+        cont_K++;
+    #endif
 }
 
 void OperarI(char *entrada, char* saida)
@@ -360,8 +361,9 @@ void OperarB(char *entrada, char* saida)
 
     memcpy(&saida[0],&entrada[1],tamF*sizeof(char));
     saida[tamF] = '(';
-    memcpy(&saida[tamF+1],&entrada[tamF+1],tamG*sizeof(char));
-    memcpy(&saida[tamF+tamG+1],&entrada[tamF+tamG+1],tamX*sizeof(char));
+    memcpy(&saida[tamF+1],&entrada[tamF+1],(tamG+tamX)*sizeof(char));
+    //memcpy(&saida[tamF+1],&entrada[tamF+1],tamG*sizeof(char));
+    //memcpy(&saida[tamF+tamG+1],&entrada[tamF+tamG+1],tamX*sizeof(char));
     saida[tamF+tamG+tamX+1] = ')';
 
     memcpy(&saida[tamF+tamG+tamX+2],&entrada[tamF+tamG+tamX+1],tamResto*sizeof(char));
@@ -423,12 +425,12 @@ int main()
     }
 
     printf("\n%s\n",pontE);
-    //printf("\n%d\n",cont_S);
-    //printf("\n%d\n",cont_K);
+    printf("\n%d\n",cont_S);
+    printf("\n%d\n",cont_K);
     printf("\n%d\n",cont_P);
     //printf("\n%d\n",cont_I);
     //printf("\n%d\n",cont_C);
-    printf("\n%d\n",cont_B);
+    //printf("\n%d\n",cont_B);
 
     return 0;
 }
