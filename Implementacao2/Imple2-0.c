@@ -15,6 +15,9 @@ int cont_P;
 int cont_I;
 int cont_C;
 int cont_B;
+int cont_SH;
+int cont_CH;
+int cont_BH;
 
 /*void substituirY()
 {
@@ -59,6 +62,7 @@ void tirarParenteses(char *entrada, char* saida)
 
 void OperarS(char *entrada, char* saida)
 {
+    printf("ENO");
     int tamA, tamB, tamC;
     int abreFecha = 0;
     int i = 1;
@@ -371,11 +375,232 @@ void OperarB(char *entrada, char* saida)
     saida[tamF+tamG+tamX+2+tamResto] = '\0';
 
     tamEntrada = (tamF+tamG+tamX+2+tamResto);
-    printf("\n%s\n",saida);
+    //printf("\n%s\n",saida);
     #ifdef DEBUG_FLAG
        cont_B++;
     #endif
 }
+
+void OperarSHifen(char *entrada, char* saida)
+{
+    int tamA, tamB, tamC, tamD;
+    int abreFecha = 0;
+    int i = 2;
+    int parte = 1;
+    int qtd_carac = 0;
+    while(parte <= 4)
+    {
+        qtd_carac = 0;
+        if(entrada[i] == '(')
+        {
+            qtd_carac++;
+            i++;
+            while(abreFecha != -1)
+            {
+                if(entrada[i] == '(')
+                {
+                    abreFecha++;
+                }
+                else if(entrada[i] == ')')
+                {
+                    abreFecha--;
+                }
+                i++;
+                qtd_carac++;
+            }
+            i--;
+            abreFecha = 0;
+            //printf("%d\n",qtd_carac);
+        }
+        else
+        {
+            qtd_carac++;
+        }
+        if(parte == 1)
+        {
+            tamA = qtd_carac;
+        }
+        else if(parte == 2)
+        {
+            tamB = qtd_carac;
+        }
+        else if(parte == 3)
+        {
+            tamC = qtd_carac;
+        }
+        else if(parte == 4)
+        {
+            tamD = qtd_carac;
+        }
+        i++;
+        parte++;
+    }
+    tamResto = (tamEntrada-i);
+
+
+    memcpy(&saida[0],&entrada[2],tamA*sizeof(char));
+    //saida[tamA] = ' ';
+    saida[tamA] = '(';
+    memcpy(&saida[tamA+1],&entrada[tamA+2],tamB*sizeof(char));
+    memcpy(&saida[tamA+1+tamB],&entrada[tamA+2+tamB+tamC],tamD*sizeof(char));
+    saida[tamA+1+tamB+tamD] = ')';
+    saida[tamA+2+tamB+tamD] = '(';
+    memcpy(&saida[tamA+3+tamB+tamD],&entrada[tamA+2+tamB],(tamC+tamD)*sizeof(char));
+    saida[tamA+3+tamB+2*tamD+tamC] = ')';
+    memcpy(&saida[tamA+4+tamB+2*tamD+tamC],&entrada[tamA+2+tamB+tamC+tamD],tamResto*sizeof(char));
+    saida[tamA+3+tamB+2*tamD+tamC+tamResto+1] = '\0';
+    tamEntrada = (tamA+tamC+tamB+2*tamD+4+tamResto);
+
+    //printf("%s\n",saida);
+    #ifdef DEBUG_FLAG
+        cont_SH++;
+    #endif
+}
+
+
+void OperarBHifen(char *entrada, char* saida)
+{
+    int tamA, tamB, tamC, tamD;
+    int abreFecha = 0;
+    int i = 2;
+    int parte = 1;
+    int qtd_carac = 0;
+    while(parte <= 4)
+    {
+        qtd_carac = 0;
+        if(entrada[i] == '(')
+        {
+            qtd_carac++;
+            i++;
+            while(abreFecha != -1)
+            {
+                if(entrada[i] == '(')
+                {
+                    abreFecha++;
+                }
+                else if(entrada[i] == ')')
+                {
+                    abreFecha--;
+                }
+                i++;
+                qtd_carac++;
+            }
+            i--;
+            abreFecha = 0;
+            //printf("%d\n",qtd_carac);
+        }
+        else
+        {
+            qtd_carac++;
+        }
+        if(parte == 1)
+        {
+            tamA = qtd_carac;
+        }
+        else if(parte == 2)
+        {
+            tamB = qtd_carac;
+        }
+        else if(parte == 3)
+        {
+            tamC = qtd_carac;
+        }
+        else if(parte == 4)
+        {
+            tamD = qtd_carac;
+        }
+        i++;
+        parte++;
+    }
+    tamResto = (tamEntrada-i);
+    
+    memcpy(&saida[0],&entrada[2],tamA*sizeof(char));
+    memcpy(&saida[tamA],&entrada[tamA+2],tamB*sizeof(char));
+    saida[tamA+tamB] = '(';
+    memcpy(&saida[tamA+1+tamB],&entrada[tamA+2+tamB],tamC*sizeof(char));
+    memcpy(&saida[tamA+1+tamB+tamC],&entrada[tamA+2+tamB+tamC],tamD*sizeof(char));
+    saida[tamA+1+tamB+tamC+tamD] = ')';
+    memcpy(&saida[tamA+2+tamB+tamC+tamD],&entrada[tamA+2+tamB+tamC+tamD],tamResto*sizeof(char));
+    saida[tamA+2+tamB+tamC+tamD+tamResto] = '\0';
+    tamEntrada = (tamA+tamC+tamB+tamD+tamResto+2);
+
+
+    #ifdef DEBUG_FLAG
+        cont_BH++;
+    #endif
+}
+
+
+void OperarCHifen(char *entrada, char* saida)
+{
+    int tamA, tamB, tamC, tamD;
+    int abreFecha = 0;
+    int i = 2;
+    int parte = 1;
+    int qtd_carac = 0;
+    while(parte <= 4)
+    {
+        qtd_carac = 0;
+        if(entrada[i] == '(')
+        {
+            qtd_carac++;
+            i++;
+            while(abreFecha != -1)
+            {
+                if(entrada[i] == '(')
+                {
+                    abreFecha++;
+                }
+                else if(entrada[i] == ')')
+                {
+                    abreFecha--;
+                }
+                i++;
+                qtd_carac++;
+            }
+            i--;
+            abreFecha = 0;
+            //printf("%d\n",qtd_carac);
+        }
+        else
+        {
+            qtd_carac++;
+        }
+        if(parte == 1)
+        {
+            tamA = qtd_carac;
+        }
+        else if(parte == 2)
+        {
+            tamB = qtd_carac;
+        }
+        else if(parte == 3)
+        {
+            tamC = qtd_carac;
+        }
+        else if(parte == 4)
+        {
+            tamD = qtd_carac;
+        }
+        i++;
+        parte++;
+    }
+    tamResto = (tamEntrada-i);
+    
+    memcpy(&saida[0],&entrada[2],tamA*sizeof(char));
+    saida[tamA] = '(';
+    memcpy(&saida[tamA+1],&entrada[tamA+2],tamB*sizeof(char));
+    memcpy(&saida[tamA+1+tamB],&entrada[tamA+2+tamB+tamC],tamD*sizeof(char));
+    saida[tamA+1+tamB+tamD] = ')';
+    memcpy(&saida[tamA+2+tamB+tamD],&entrada[tamA+2+tamB],tamC*sizeof(char));
+    memcpy(&saida[tamA+2+tamB+tamD+tamC],&entrada[tamA+2+tamB+tamC+tamD],tamResto*sizeof(char));
+    saida[tamA+2+tamB+tamC+tamD+tamResto] = '\0';
+    tamEntrada = (tamA+tamC+tamB+tamD+tamResto+2);
+    #ifdef DEBUG_FLAG
+        cont_CH++;
+    #endif
+}
+
 
 int main()
 {
@@ -398,6 +623,22 @@ int main()
         {
             substituirY();
         }*/
+        else if((pontE[0] == 'S')&&(pontE[1] == 39))
+        {
+
+            OperarSHifen(pontE, pontS);
+
+        }
+        else if((pontE[0] == 'B')&&(pontE[1] == 39))
+        {
+
+            OperarBHifen(pontE, pontS);
+        }
+        else if((pontE[0] == 'C')&&(pontE[1] == 39))
+        {
+
+            OperarCHifen(pontE, pontS);
+        }
         else if(pontE[0] == 'S')
         {
             OperarS(pontE, pontS);
@@ -425,12 +666,16 @@ int main()
     }
 
     printf("\n%s\n",pontE);
-    printf("\n%d\n",cont_S);
-    printf("\n%d\n",cont_K);
-    printf("\n%d\n",cont_P);
+    //printf("\n%d\n",cont_S);
+    //printf("\n%d\n",cont_K);
+    //printf("\n%d\n",cont_P);
     //printf("\n%d\n",cont_I);
     //printf("\n%d\n",cont_C);
     //printf("\n%d\n",cont_B);
+
+    //printf("\n%d\n",cont_SH);
+    //printf("\n%d\n",cont_CH);
+    //printf("\n%d\n",cont_BH);
 
     return 0;
 }
