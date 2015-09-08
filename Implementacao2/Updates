@@ -2,3 +2,6 @@
 #Adicionada função OperarC (08/09)
 #Adicionada função OperarB (08/09)
 #Adicionadas OperarS e OperarB com 1 memcpy a menos (08/09)
+#Adicionada função OperarSHifen (08/09)
+#Adicionada função OperarBHifen (08/09)
+#Adicionada função OperarCHifen (08/09)
