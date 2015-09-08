@@ -20,7 +20,7 @@ int main()
     }
         fputs(valordeY,entradagerada);
         fputs("((",entradagerada);
-        fputs(valordeY,entradagerada);
+        fputs(valordeY,entradagerada); 
         fputs("(KK))K)",entradagerada);
 
     for(i = 0 ; i < numY-2 ; i++)
