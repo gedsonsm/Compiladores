@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#define DEBUG_FLAG
+//#define DEBUG_FLAG
 
 char entrada1[90000000];
 char saida1[90000000];
@@ -19,17 +19,14 @@ int cont_SH;
 int cont_CH;
 int cont_BH;
 
+int parou;
+
 /*void substituirY()
 {
 	tamResto = tamEntrada - 1;
-
 	memcpy(resto, &entrada[1], (tamEntrada-1)*sizeof(char));
-
-
 	memcpy(entrada, Y, tamY*sizeof(char));
-
 	memcpy(&entrada[tamY], resto, tamResto*sizeof(char));
-
 	tamEntrada = tamEntrada - 1 + tamY;
 }
 */
@@ -58,11 +55,11 @@ void tirarParenteses(char *entrada, char* saida)
 	#ifdef DEBUG_FLAG
 		cont_P++;
 	#endif
+
 }
 
-void OperarS(char *entrada, char* saida)
+int OperarS(char *entrada, char* saida)
 {
-    printf("ENO");
     int tamA, tamB, tamC;
     int abreFecha = 0;
     int i = 1;
@@ -91,6 +88,11 @@ void OperarS(char *entrada, char* saida)
             i--;
             abreFecha = 0;
         }
+        else if(entrada[i] == '\0')
+	{
+		parou = 1;
+		return 1;
+	}
         else
         {
             qtd_carac++;
@@ -130,9 +132,10 @@ void OperarS(char *entrada, char* saida)
     #ifdef DEBUG_FLAG
        cont_S++;
     #endif
+    return 0;
 }
 
-void OperarK(char *entrada, char* saida)
+int OperarK(char *entrada, char* saida)
 {
     int tamA, tamB;
     int abreFecha = 0;
@@ -162,6 +165,11 @@ void OperarK(char *entrada, char* saida)
             i--;
             abreFecha = 0;
         }
+        else if(entrada[i] == '\0')
+	{
+		parou = 1;
+		return 1;
+	}
         else
         {
             qtd_carac++;
@@ -189,9 +197,10 @@ void OperarK(char *entrada, char* saida)
     #ifdef DEBUG_FLAG
         cont_K++;
     #endif
+    return 0;
 }
 
-void OperarI(char *entrada, char* saida)
+int OperarI(char *entrada, char* saida)
 {
     int tamA;
     int abreFecha = 0;
@@ -221,6 +230,11 @@ void OperarI(char *entrada, char* saida)
             i--;
             abreFecha = 0;
         }
+        else if(entrada[i] == '\0')
+	{
+		parou = 1;
+		return 1;
+	}
         else
         {
             qtd_carac++;
@@ -244,9 +258,10 @@ void OperarI(char *entrada, char* saida)
     #ifdef DEBUG_FLAG
         cont_I++;
     #endif
+    return 0;
 }
 
-void OperarC(char *entrada, char* saida)
+int OperarC(char *entrada, char* saida)
 {
     int tamF, tamX, tamY;
     int abreFecha = 0;
@@ -276,6 +291,11 @@ void OperarC(char *entrada, char* saida)
             i--;
             abreFecha = 0;
         }
+        else if(entrada[i] == '\0')
+	{
+		parou = 1;
+		return 1;
+	}
         else
         {
             qtd_carac++;
@@ -310,9 +330,10 @@ void OperarC(char *entrada, char* saida)
     #ifdef DEBUG_FLAG
        cont_C++;
     #endif
+    return 0;
 }
 
-void OperarB(char *entrada, char* saida)
+int OperarB(char *entrada, char* saida)
 {
     int tamF, tamG, tamX;
     int abreFecha = 0;
@@ -342,6 +363,11 @@ void OperarB(char *entrada, char* saida)
             i--;
             abreFecha = 0;
         }
+        else if(entrada[i] == '\0')
+	{
+		parou = 1;
+		return 1;
+	}
         else
         {
             qtd_carac++;
@@ -364,6 +390,7 @@ void OperarB(char *entrada, char* saida)
     tamResto = (tamEntrada-i);
 
     memcpy(&saida[0],&entrada[1],tamF*sizeof(char));
+
     saida[tamF] = '(';
     memcpy(&saida[tamF+1],&entrada[tamF+1],(tamG+tamX)*sizeof(char));
     //memcpy(&saida[tamF+1],&entrada[tamF+1],tamG*sizeof(char));
@@ -375,13 +402,14 @@ void OperarB(char *entrada, char* saida)
     saida[tamF+tamG+tamX+2+tamResto] = '\0';
 
     tamEntrada = (tamF+tamG+tamX+2+tamResto);
-    //printf("\n%s\n",saida);
+
     #ifdef DEBUG_FLAG
        cont_B++;
     #endif
+    return 0;
 }
 
-void OperarSHifen(char *entrada, char* saida)
+int OperarSHifen(char *entrada, char* saida)
 {
     int tamA, tamB, tamC, tamD;
     int abreFecha = 0;
@@ -390,16 +418,13 @@ void OperarSHifen(char *entrada, char* saida)
     int qtd_carac = 0;
     while(parte <= 4)
     {
-
         qtd_carac = 0;
         if(entrada[i] == '(')
         {
-
             qtd_carac++;
             i++;
             while(abreFecha != -1)
             {
-
                 if(entrada[i] == '(')
                 {
                     abreFecha++;
@@ -413,11 +438,14 @@ void OperarSHifen(char *entrada, char* saida)
             }
             i--;
             abreFecha = 0;
-            //printf("%d\n",qtd_carac);
         }
+        else if(entrada[i] == '\0')
+	{
+		parou = 1;
+		return 1;
+	}
         else
         {
-
             qtd_carac++;
         }
         if(parte == 1)
@@ -441,27 +469,30 @@ void OperarSHifen(char *entrada, char* saida)
     }
     tamResto = (tamEntrada-i);
 
-
     memcpy(&saida[0],&entrada[2],tamA*sizeof(char));
-    //saida[tamA] = ' ';
+
     saida[tamA] = '(';
     memcpy(&saida[tamA+1],&entrada[tamA+2],tamB*sizeof(char));
     memcpy(&saida[tamA+1+tamB],&entrada[tamA+2+tamB+tamC],tamD*sizeof(char));
     saida[tamA+1+tamB+tamD] = ')';
+
     saida[tamA+2+tamB+tamD] = '(';
     memcpy(&saida[tamA+3+tamB+tamD],&entrada[tamA+2+tamB],(tamC+tamD)*sizeof(char));
     saida[tamA+3+tamB+2*tamD+tamC] = ')';
-    memcpy(&saida[tamA+4+tamB+2*tamD+tamC],&entrada[tamA+2+tamB+tamC+tamD],tamResto*sizeof(char));
-    saida[tamA+3+tamB+2*tamD+tamC+tamResto+1] = '\0';
-    tamEntrada = (tamA+tamC+tamB+2*tamD+4+tamResto);
 
-    //printf("%s\n",saida);
+    memcpy(&saida[tamA+4+tamB+2*tamD+tamC],&entrada[tamA+2+tamB+tamC+tamD],tamResto*sizeof(char));
+
+    saida[tamA+3+tamB+2*tamD+tamC+tamResto+1] = '\0';
+
+    tamEntrada = (tamA+tamC+tamB+2*tamD+4+tamResto);
+    
     #ifdef DEBUG_FLAG
         cont_SH++;
     #endif
+    return 0;
 }
 
-void OperarBHifen(char *entrada, char* saida)
+int OperarBHifen(char *entrada, char* saida)
 {
     int tamA, tamB, tamC, tamD;
     int abreFecha = 0;
@@ -470,16 +501,13 @@ void OperarBHifen(char *entrada, char* saida)
     int qtd_carac = 0;
     while(parte <= 4)
     {
-
         qtd_carac = 0;
         if(entrada[i] == '(')
         {
-
             qtd_carac++;
             i++;
             while(abreFecha != -1)
             {
-
                 if(entrada[i] == '(')
                 {
                     abreFecha++;
@@ -493,11 +521,14 @@ void OperarBHifen(char *entrada, char* saida)
             }
             i--;
             abreFecha = 0;
-            //printf("%d\n",qtd_carac);
         }
+        else if(entrada[i] == '\0')
+	{
+		parou = 1;
+		return 1;
+	}
         else
         {
-
             qtd_carac++;
         }
         if(parte == 1)
@@ -520,21 +551,27 @@ void OperarBHifen(char *entrada, char* saida)
         parte++;
     }
     tamResto = (tamEntrada-i);
+
     memcpy(&saida[0],&entrada[2],(tamA+tamB)*sizeof(char));
+
     saida[tamA+tamB] = '(';
     memcpy(&saida[tamA+1+tamB],&entrada[tamA+2+tamB],(tamC+tamD)*sizeof(char));
     saida[tamA+1+tamB+tamC+tamD] = ')';
+
     memcpy(&saida[tamA+2+tamB+tamC+tamD],&entrada[tamA+2+tamB+tamC+tamD],tamResto*sizeof(char));
+
     saida[tamA+2+tamB+tamC+tamD+tamResto] = '\0';
+
     tamEntrada = (tamA+tamC+tamB+tamD+tamResto+2);
 
 
     #ifdef DEBUG_FLAG
         cont_BH++;
     #endif
+    return 0;
 }
 
-void OperarCHifen(char *entrada, char* saida)
+int OperarCHifen(char *entrada, char* saida)
 {
     int tamA, tamB, tamC, tamD;
     int abreFecha = 0;
@@ -543,16 +580,13 @@ void OperarCHifen(char *entrada, char* saida)
     int qtd_carac = 0;
     while(parte <= 4)
     {
-
         qtd_carac = 0;
         if(entrada[i] == '(')
         {
-
             qtd_carac++;
             i++;
             while(abreFecha != -1)
             {
-
                 if(entrada[i] == '(')
                 {
                     abreFecha++;
@@ -566,11 +600,14 @@ void OperarCHifen(char *entrada, char* saida)
             }
             i--;
             abreFecha = 0;
-            //printf("%d\n",qtd_carac);
         }
+        else if(entrada[i] == '\0')
+	{
+		parou = 1;
+		return 1;
+	}
         else
         {
-
             qtd_carac++;
         }
         if(parte == 1)
@@ -593,28 +630,32 @@ void OperarCHifen(char *entrada, char* saida)
         parte++;
     }
     tamResto = (tamEntrada-i);
+
     memcpy(&saida[0],&entrada[2],tamA*sizeof(char));
+
     saida[tamA] = '(';
     memcpy(&saida[tamA+1],&entrada[tamA+2],tamB*sizeof(char));
     memcpy(&saida[tamA+1+tamB],&entrada[tamA+2+tamB+tamC],tamD*sizeof(char));
     saida[tamA+1+tamB+tamD] = ')';
+
     memcpy(&saida[tamA+2+tamB+tamD],&entrada[tamA+2+tamB],tamC*sizeof(char));
+
     memcpy(&saida[tamA+2+tamB+tamD+tamC],&entrada[tamA+2+tamB+tamC+tamD],tamResto*sizeof(char));
+
     saida[tamA+2+tamB+tamC+tamD+tamResto] = '\0';
+
     tamEntrada = (tamA+tamC+tamB+tamD+tamResto+2);
+
     #ifdef DEBUG_FLAG
         cont_CH++;
     #endif
+    return 0;
 }
-
-
-
 
 int main()
 {
     FILE *arq = fopen("string.in", "r");
     fscanf(arq,"%s",entrada1);
-    //printf("\n%s\n",entrada1);
 
     char *pontE = entrada1;
     char *pontS = saida1;
@@ -667,23 +708,25 @@ int main()
 		{
 			OperarB(pontE, pontS);
 		}
-
+        if(parou == 1)
+            break;
         aux = pontE;
         pontE = pontS;
         pontS = aux;
-        //printf("\n%s\n",pontE);
     }
+    
     printf("\nResposta = %s\n",pontE);
-
-    printf("ContS = %d\n",cont_S);
-    printf("ContK = %d\n",cont_K);
-    printf("ContP = %d\n",cont_P);
-    printf("ContI = %d\n",cont_I);
-    printf("ContC = %d\n",cont_C);
-    printf("ContB = %d\n",cont_B);
-    printf("ContSH = %d\n",cont_SH);
-    printf("ContCH = %d\n",cont_CH);
-    printf("ContBH = %d\n",cont_BH);
+    #ifdef DEBUG_FLAG
+        printf("\nContS = %d\n",cont_S);
+        printf("ContK = %d\n",cont_K);
+        printf("ContP = %d\n",cont_P);
+        printf("ContI = %d\n",cont_I);
+        printf("ContC = %d\n",cont_C);
+        printf("ContB = %d\n",cont_B);
+        printf("ContSH = %d\n",cont_SH);
+        printf("ContCH = %d\n",cont_CH);
+        printf("ContBH = %d\n",cont_BH);
+    #endif
 
     return 0;
 }
