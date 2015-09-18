@@ -21,41 +21,45 @@ int cont_BH;
 
 int parou;
 
-/*void substituirY()
-{
-	tamResto = tamEntrada - 1;
-	memcpy(resto, &entrada[1], (tamEntrada-1)*sizeof(char));
-	memcpy(entrada, Y, tamY*sizeof(char));
-	memcpy(&entrada[tamY], resto, tamResto*sizeof(char));
-	tamEntrada = tamEntrada - 1 + tamY;
-}
-*/
+
 void tirarParenteses(char *entrada, char* saida)
 {
-    int abreFecha = 0;
-    int i = 1;
-    while(abreFecha != -1)
+
+    int contgeral = 1,parenteses =1,abreFecha,ini = 0,fin,a;
+    while(1)
     {
-        if(entrada[i] == '(')
+        if(entrada[contgeral]=='(')
+            parenteses++;
+        else
         {
-            abreFecha++;
+            fin = parenteses;
+            for(a=0;a<parenteses;a++)
+            {
+                abreFecha = 1;
+                while(abreFecha != 0)
+                {
+                    if(entrada[contgeral] == '(')
+                    {
+                        abreFecha++;
+                    }
+                    else if(entrada[contgeral] == ')')
+                    {
+                        abreFecha--;
+                    }
+                    contgeral++;
+                }
+                memcpy(&saida[ini],&entrada[fin],(contgeral-fin-1)*sizeof(char));
+                ini = ini + (contgeral-fin-1);
+                fin = contgeral;
+            }
+            memcpy(&saida[ini],&entrada[fin],(tamEntrada-fin)*sizeof(char));
+            saida[ini+(tamEntrada-fin)] = '\0';
+            break;
         }
-        else if(entrada[i] == ')')
-        {
-            abreFecha--;
-        }
-        i++;
+        contgeral++;
+
     }
-    i--;
-
-    memcpy(saida,&entrada[1],(i-1)*sizeof(char));
-    memcpy(&saida[i-1],&entrada[i+1],(tamEntrada - i)*sizeof(char));
-
-    tamEntrada-=2;
-	#ifdef DEBUG_FLAG
-		cont_P++;
-	#endif
-
+    tamEntrada = tamEntrada - 2*parenteses;
 }
 
 int OperarS(char *entrada, char* saida)
@@ -89,10 +93,10 @@ int OperarS(char *entrada, char* saida)
             abreFecha = 0;
         }
         else if(entrada[i] == '\0')
-	{
-		parou = 1;
-		return 1;
-	}
+        {
+            parou = 1;
+            return 1;
+        }
         else
         {
             qtd_carac++;
@@ -413,7 +417,7 @@ int OperarSHifen(char *entrada, char* saida)
 {
     int tamA, tamB, tamC, tamD;
     int abreFecha = 0;
-    int i = 2;
+    int i = 1;
     int parte = 1;
     int qtd_carac = 0;
     while(parte <= 4)
@@ -440,10 +444,10 @@ int OperarSHifen(char *entrada, char* saida)
             abreFecha = 0;
         }
         else if(entrada[i] == '\0')
-	{
-		parou = 1;
-		return 1;
-	}
+        {
+            parou = 1;
+            return 1;
+        }
         else
         {
             qtd_carac++;
@@ -469,23 +473,23 @@ int OperarSHifen(char *entrada, char* saida)
     }
     tamResto = (tamEntrada-i);
 
-    memcpy(&saida[0],&entrada[2],tamA*sizeof(char));
+    memcpy(&saida[0],&entrada[1],tamA*sizeof(char));
 
     saida[tamA] = '(';
-    memcpy(&saida[tamA+1],&entrada[tamA+2],tamB*sizeof(char));
-    memcpy(&saida[tamA+1+tamB],&entrada[tamA+2+tamB+tamC],tamD*sizeof(char));
+    memcpy(&saida[tamA+1],&entrada[tamA+1],tamB*sizeof(char));
+    memcpy(&saida[tamA+1+tamB],&entrada[tamA+1+tamB+tamC],tamD*sizeof(char));
     saida[tamA+1+tamB+tamD] = ')';
 
     saida[tamA+2+tamB+tamD] = '(';
-    memcpy(&saida[tamA+3+tamB+tamD],&entrada[tamA+2+tamB],(tamC+tamD)*sizeof(char));
+    memcpy(&saida[tamA+3+tamB+tamD],&entrada[tamA+1+tamB],(tamC+tamD)*sizeof(char));
     saida[tamA+3+tamB+2*tamD+tamC] = ')';
 
-    memcpy(&saida[tamA+4+tamB+2*tamD+tamC],&entrada[tamA+2+tamB+tamC+tamD],tamResto*sizeof(char));
+    memcpy(&saida[tamA+4+tamB+2*tamD+tamC],&entrada[tamA+1+tamB+tamC+tamD],tamResto*sizeof(char));
 
     saida[tamA+3+tamB+2*tamD+tamC+tamResto+1] = '\0';
 
     tamEntrada = (tamA+tamC+tamB+2*tamD+4+tamResto);
-    
+
     #ifdef DEBUG_FLAG
         cont_SH++;
     #endif
@@ -496,7 +500,7 @@ int OperarBHifen(char *entrada, char* saida)
 {
     int tamA, tamB, tamC, tamD;
     int abreFecha = 0;
-    int i = 2;
+    int i = 1;
     int parte = 1;
     int qtd_carac = 0;
     while(parte <= 4)
@@ -552,13 +556,13 @@ int OperarBHifen(char *entrada, char* saida)
     }
     tamResto = (tamEntrada-i);
 
-    memcpy(&saida[0],&entrada[2],(tamA+tamB)*sizeof(char));
+    memcpy(&saida[0],&entrada[1],(tamA+tamB)*sizeof(char));
 
     saida[tamA+tamB] = '(';
-    memcpy(&saida[tamA+1+tamB],&entrada[tamA+2+tamB],(tamC+tamD)*sizeof(char));
+    memcpy(&saida[tamA+1+tamB],&entrada[tamA+1+tamB],(tamC+tamD)*sizeof(char));
     saida[tamA+1+tamB+tamC+tamD] = ')';
 
-    memcpy(&saida[tamA+2+tamB+tamC+tamD],&entrada[tamA+2+tamB+tamC+tamD],tamResto*sizeof(char));
+    memcpy(&saida[tamA+2+tamB+tamC+tamD],&entrada[tamA+1+tamB+tamC+tamD],tamResto*sizeof(char));
 
     saida[tamA+2+tamB+tamC+tamD+tamResto] = '\0';
 
@@ -575,7 +579,7 @@ int OperarCHifen(char *entrada, char* saida)
 {
     int tamA, tamB, tamC, tamD;
     int abreFecha = 0;
-    int i = 2;
+    int i = 1;
     int parte = 1;
     int qtd_carac = 0;
     while(parte <= 4)
@@ -631,16 +635,16 @@ int OperarCHifen(char *entrada, char* saida)
     }
     tamResto = (tamEntrada-i);
 
-    memcpy(&saida[0],&entrada[2],tamA*sizeof(char));
+    memcpy(&saida[0],&entrada[1],tamA*sizeof(char));
 
     saida[tamA] = '(';
-    memcpy(&saida[tamA+1],&entrada[tamA+2],tamB*sizeof(char));
-    memcpy(&saida[tamA+1+tamB],&entrada[tamA+2+tamB+tamC],tamD*sizeof(char));
+    memcpy(&saida[tamA+1],&entrada[tamA+1],tamB*sizeof(char));
+    memcpy(&saida[tamA+1+tamB],&entrada[tamA+1+tamB+tamC],tamD*sizeof(char));
     saida[tamA+1+tamB+tamD] = ')';
 
-    memcpy(&saida[tamA+2+tamB+tamD],&entrada[tamA+2+tamB],tamC*sizeof(char));
+    memcpy(&saida[tamA+2+tamB+tamD],&entrada[tamA+1+tamB],tamC*sizeof(char));
 
-    memcpy(&saida[tamA+2+tamB+tamD+tamC],&entrada[tamA+2+tamB+tamC+tamD],tamResto*sizeof(char));
+    memcpy(&saida[tamA+2+tamB+tamD+tamC],&entrada[tamA+1+tamB+tamC+tamD],tamResto*sizeof(char));
 
     saida[tamA+2+tamB+tamC+tamD+tamResto] = '\0';
 
@@ -662,71 +666,55 @@ int main()
     char *aux;
     tamEntrada = strlen(entrada1);
 
-    while(tamEntrada != 1)
+    while(1)
     {
-        if(pontE[0] == '(')
+        switch(pontE[0])
         {
-            tirarParenteses(pontE, pontS);
-        }
-        /*else if(entrada[0] == 'Y')
-        {
-            substituirY();
-        }*/
-        else if((pontE[0] == 'S')&&(pontE[1] == 39))
-        {
-
-            OperarSHifen(pontE, pontS);
-
-        }
-        else if((pontE[0] == 'B')&&(pontE[1] == 39))
-        {
-
-            OperarBHifen(pontE, pontS);
-        }
-        else if((pontE[0] == 'C')&&(pontE[1] == 39))
-        {
-
-            OperarCHifen(pontE, pontS);
-        }
-        else if(pontE[0] == 'S')
-        {
-            OperarS(pontE, pontS);
-        }
-        else if(pontE[0]== 'K')
-        {
-            OperarK(pontE, pontS);
-        }
-		else if(pontE[0] == 'I')
-		{
-			OperarI(pontE, pontS);
-		}
-        else if(pontE[0] == 'C')
-		{
-			OperarC(pontE, pontS);
-		}
-        else if(pontE[0] == 'B')
-		{
-			OperarB(pontE, pontS);
-		}
-        if(parou == 1)
+            case '(':
+                tirarParenteses(pontE, pontS);
             break;
+
+            case 'W':
+                OperarSHifen(pontE, pontS);
+            break;
+
+            case 'H':
+                OperarBHifen(pontE, pontS);
+            break;
+
+            case 'P':
+                OperarCHifen(pontE, pontS);
+            break;
+
+            case 'S':
+                OperarS(pontE, pontS);
+            break;
+
+            case 'K':
+                OperarK(pontE, pontS);
+            break;
+
+            case 'I':
+                OperarI(pontE, pontS);
+            break;
+
+            case 'C':
+                OperarC(pontE, pontS);
+            break;
+
+            case 'B':
+                OperarB(pontE, pontS);
+            break;
+        }
+        if(parou == 1)
+        {
+            break;
+        }
         aux = pontE;
         pontE = pontS;
         pontS = aux;
     }
-    
     printf("\nResposta = %s\n",pontE);
-    #ifdef DEBUG_FLAG
-        printf("\nContS = %d\n",cont_S);
-        printf("ContK = %d\n",cont_K);
-        printf("ContP = %d\n",cont_P);
-        printf("ContI = %d\n",cont_I);
-        printf("ContC = %d\n",cont_C);
-        printf("ContB = %d\n",cont_B);
-        printf("ContSH = %d\n",cont_SH);
-        printf("ContCH = %d\n",cont_CH);
-        printf("ContBH = %d\n",cont_BH);
-    #endif
-
     return 0;
 }
+ // S' = W // C' = P // B' = H
