@@ -2,13 +2,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main()
+int main(int argc, char *argv[])
 {
-    int numY = 200;
-    printf("Numero de repeticoes de Y: ");
+    int numY = atoi(argv[1]);
+    /*printf("Numero de repeticoes de Y: ");
     scanf("%d", &numY);
+    */
     int i=0;
-    char valordeY[1000] = "S'(C'BI(SII))I(B(C'BI(SII))I)";
+    //char valordeY[1000] = "S'(C'BI(SII))I(B(C'BI(SII))I)";
+    char valordeY[1000] = "W(PBI(SII))I(B(PBI(SII))I)";
 
     FILE *entradagerada;
     entradagerada = fopen ("string.in", "w");
@@ -31,3 +33,4 @@ int main()
 
     return 0;
 }
+// S' = W // C' = P // B' = H
