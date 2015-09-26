@@ -61,7 +61,7 @@ int criaLista(struct Lista *pLista, char *entrada)
             break;
         
             case ')':
-                inseriNo(pLista, ')');
+                //inseriNo(pLista, ')');
                 return 0;
             break;
 
