@@ -19,8 +19,8 @@ struct Lista
 };
 
 void iniciaLista(struct Lista *pLista);
-void printaLista (struct Lista *pLista);
+int printaLista (struct Lista *pLista);
 void inseriNo (struct Lista *pLista, char carac);
-void criaLista(struct Lista *pLista, char *entrada);
+int criaLista(struct Lista *pLista, char *entrada);
 
 #endif

@@ -6,16 +6,19 @@ void iniciaLista(struct Lista *pLista)
     pLista -> ultimo = NULL;
 }
 
-void printaLista (struct Lista *pLista)
+int printaLista (struct Lista *pLista)
 {
+	struct No *p;
 
-    struct No *p;
     for (p = pLista -> primeiro; p != NULL; p = p -> prox) 
     {
         printf("%c", p -> c);
+		if(p -> c == '(')
+        {          
+            printaLista(p -> lLista);
+        }
     }
-    printf("\n");
-
+	return 0;
 }
 
 
@@ -41,36 +44,30 @@ void inseriNo (struct Lista *pLista, char carac)
     }
 }
 
-void criaLista(struct Lista *pLista, char *entrada, int indice) //incompleta
+int indice;
+int criaLista(struct Lista *pLista, char *entrada)
 {
-    for(;entrada[indice] == '\0'; indice++)
-    {       
-        switch(entrada[i])
+    for(;entrada[indice] != '\0'; indice++)
+    {
+        switch(entrada[indice])
         {
             case '(':
-                struct No *novo = (struct No*) malloc (sizeof (struct No));
-                struct Lista l;
-                iniciaLista(&l);
-
-
-                novo -> c = '(';
-                novo -> ante = pLista -> ultimo
-                novo -> prox = NULL;
-                pLista -> ultimo = novo;
-                
-                novo -> lLista = l;
-                
+                inseriNo(pLista, '(');
                 indice++;
-                criaLista(l, entrada, indice);
-            break;
 
-            case ')'
-                
+                pLista -> ultimo -> lLista = (struct Lista*) malloc (sizeof (struct Lista));
+                iniciaLista(pLista -> ultimo -> lLista);
+                criaLista(pLista -> ultimo -> lLista, entrada);
+            break;
+        
+            case ')':
+                inseriNo(pLista, ')');
+                return 0;
             break;
 
             default:
-                inseriNo(pLista, entrada[indice])
+                inseriNo(pLista, entrada[indice]);
         }
     }
-
+    return 0;
 }
