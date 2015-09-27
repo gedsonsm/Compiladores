@@ -1,114 +1,134 @@
-#include "reducoes.h"
+#include "operacoesComLista.h"
 
+int indice; 
 
-struct Lista S(struct Lista *pLista)
+void iniciaLista(struct Lista *pLista)
 {
-	struct No *p = (struct No*) malloc (sizeof (struct No));
-	struct No *a, *b, *c, *resto;
-
-	a = (struct No*) malloc (sizeof (struct No));
-	b = (struct No*) malloc (sizeof (struct No));
-	c = (struct No*) malloc (sizeof (struct No));
-	resto = (struct No*) malloc (sizeof (struct No));
-
-	struct Lista l, c2;//lista aux
-	iniciaLista(&l);
-	iniciaLista(&c2); 
-
-	p = pLista -> primeiro;// recebe o 1o no da lista(o no q ten o carac 'S')
-
-	a = p -> prox; // cata o 'a'
-	
-	p = p -> prox; // cata o 'b'
-	b = p -> prox;
-	
-	p = p -> prox; // cata o 'c'
-	c = p -> prox;
-
-	p = p -> prox; // cata o 'resto'
-	if(p -> prox != NULL)
-		resto = p -> prox;
-
-	c->prox = NULL;
-	clonaNo(c, &c2);//clona o 'c'
-
-	
-	l.primeiro = a;// L -> a
-	a -> ante = NULL;
-	a -> prox = NULL;
-	l.ultimo = a;
-
-	a -> prox = c; //L-> a -> c
-	c -> ante = a;
-	c -> prox = NULL;
-	l.ultimo = c;
-	
-	inseriNo(&l, '(');//L-> a -> c -> (
-
-	l.ultimo -> lLista = (struct Lista*)malloc(sizeof(struct Lista));	// L -> a - > c -> (
-	l.ultimo -> lLista -> primeiro = b;								 	//                 |
-	l.ultimo -> lLista -> ultimo = b;   	 						 	// 			       v
-	b -> ante = NULL;    		    					             	//				   b
-	b -> prox = NULL;
-								 								    
-
-	b -> prox = c2.primeiro;		   				// L -> a - > c -> (
-	l.ultimo -> lLista -> ultimo = c2.primeiro;		//                 |
-	c2.primeiro -> ante = b;                    	//				   v
-	c2.primeiro -> prox = NULL;	    				//				   b -> c
-
-
-	l.ultimo -> prox = resto;	// L -> a - > c -> ( -> resto
-	resto -> ante = l.ultimo;	//                 |
-						    	//				    v
-	 						 	//		  		    b -> c 
-	
-	if(pLista -> ultimo != c)
-		l.ultimo = pLista -> ultimo; // att o ultimo da lista principal
-	else
-		l.ultimo = c;
-
-	return l;
+    pLista -> primeiro = NULL;
+    pLista -> ultimo = NULL;
 }
 
-struct Lista K(struct Lista *pLista)
+int printaLista (struct Lista *pLista)
 {
-	struct No *p = (struct No*) malloc (sizeof (struct No));
-	struct No *a, *b, *c, *resto;
+	struct No *p;
 
-	a = (struct No*) malloc (sizeof (struct No));
-	b = (struct No*) malloc (sizeof (struct No));
-	resto = (struct No*) malloc (sizeof (struct No));
-
-	struct Lista l;//lista aux
-	iniciaLista(&l);
-
-	p = pLista -> primeiro;// recebe o 1o no da lista(o no q ten o carac 'K')
-
-	a = p -> prox; // cata o 'a'
-	
-	p = p -> prox; // cata o 'b'
-	b = p -> prox;
-
-	p = p -> prox; // cata o 'resto'
-	if(p -> prox != NULL)
-		resto = p -> prox;
-
-	l.primeiro = a;// L -> a
-	a -> ante = NULL;
-	a -> prox = NULL;
-	l.ultimo = a;
-	
-
-	l.ultimo -> prox = resto;	// L -> a - > c -> ( -> resto
-	resto -> ante = l.ultimo;	//                 |
-						    	//				    v
-	 						 	//		  		    b -> c 
-	
-	if(pLista -> ultimo != b)
-		l.ultimo = pLista -> ultimo; // att o ultimo da lista principal
-	else
-		l.ultimo = a;
-
-	return l;
+    for (p = pLista -> primeiro; p != NULL; p = p -> prox) 
+    {
+        printf("%c", p -> c);
+		if(p -> c == '(')
+        {          
+            printaLista(p -> lLista);
+             printf(")");
+        }
+    }
+	return 0;
 }
+
+
+void inseriNo (struct Lista *pLista, char carac)
+{
+    struct No *novo;
+    novo = (struct No*) malloc (sizeof (struct No));
+    novo -> c = carac;
+    
+    if(pLista->primeiro == NULL)
+    {
+        novo -> prox = NULL;
+        novo -> ante = NULL;
+        pLista -> primeiro = novo;
+        pLista -> ultimo = novo;
+    }
+    else
+    {
+        novo -> prox = NULL;
+        novo -> ante = pLista -> ultimo;
+        pLista -> ultimo -> prox = novo;
+        pLista -> ultimo = novo;
+    }
+}
+
+
+int criaLista(struct Lista *pLista, char *entrada)
+{
+    for(;entrada[indice] != '\0'; indice++)
+    {
+        switch(entrada[indice])
+        {
+            case '(':
+                inseriNo(pLista, '(');
+                indice++;
+
+                pLista -> ultimo -> lLista = (struct Lista*) malloc (sizeof (struct Lista));
+                iniciaLista(pLista -> ultimo -> lLista);
+                criaLista(pLista -> ultimo -> lLista, entrada);
+            break;
+        
+            case ')':
+                //inseriNo(pLista, ')');
+                return 0;
+            break;
+
+            default:
+                inseriNo(pLista, entrada[indice]);
+        }
+    }
+    return 0;
+}
+
+int clonaNo(struct No *novo,struct Lista *clone)
+{
+
+    for(;novo  != NULL; novo = novo->prox)
+    {
+        switch(novo -> c)
+        {
+            case '(':
+
+                inseriNo(clone, '(');
+                indice++;
+                clone -> ultimo -> lLista = (struct Lista*) malloc (sizeof (struct Lista));
+                iniciaLista(clone -> ultimo -> lLista);
+                clonaNo(novo->lLista->primeiro,clone -> ultimo -> lLista);
+            break;
+            case ')':
+                return 0;
+            break;
+
+            default:
+                inseriNo(clone, novo -> c);
+        }
+    }
+    return 0;
+}
+
+void removeParenteses(struct Lista *pLista)
+{
+    struct No *aux;
+    struct Lista *l;
+    aux = (struct No*) malloc (sizeof (struct No));
+    l = (struct Lista*) malloc (sizeof (struct Lista));
+
+    aux = pLista -> primeiro -> prox;
+    l = pLista -> primeiro -> lLista;
+    
+    pLista -> primeiro = l->primeiro;
+    l -> ultimo -> prox = aux;  
+}
+
+// struct Lista removeParenteses (struct Lista *Pnovo,struct No *Anterior,struct No *LAnterior)
+// {
+//     struct No *novo = Pnovo->primeiro;
+//     if(novo -> c == '(')
+//     {
+//         if(novo->prox==NULL)
+//             *Pnovo = removeParenteses (novo->lLista,Anterior,Pnovo->ultimo);
+//         else
+//             *Pnovo = removeParenteses (novo->lLista,novo->prox,Pnovo->ultimo);
+//             free(novo);
+//     }
+//     Pnovo-> ultimo -> prox = Anterior;
+//     if(Anterior!=NULL)
+//         Anterior->ante = Pnovo-> ultimo;
+//     Pnovo-> ultimo = LAnterior;
+//     return *Pnovo;
+// }
