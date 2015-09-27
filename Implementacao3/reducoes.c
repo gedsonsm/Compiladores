@@ -1,7 +1,7 @@
 #include "reducoes.h"
 
 
-struct Lista S(struct Lista *pLista, int *parou)
+struct Lista S(struct Lista *pLista,int *Parou)
 {
 	struct No *p = (struct No*) malloc (sizeof (struct No));
 	struct No *a, *b, *c, *resto;
@@ -13,32 +13,35 @@ struct Lista S(struct Lista *pLista, int *parou)
 
 	struct Lista l, c2;//lista aux
 	iniciaLista(&l);
-	iniciaLista(&c2); 
+	iniciaLista(&c2);
 
-	p = pLista -> primeiro;// recebe o 1o no da lista(o no q tem o carac 'S')
-
+	p = pLista -> primeiro;// recebe o 1o no da lista(o no q ten o carac 'S')
 	a = p -> prox; // cata o 'a'
-	
+    if(a==NULL)
+    {
+         *Parou=1;
+         return *pLista;
+    }
 	p = p -> prox; // cata o 'b'
 	b = p -> prox;
-	
+    if(b==NULL)
+    {
+         *Parou=1;
+         return *pLista;
+    }
 	p = p -> prox; // cata o 'c'
 	c = p -> prox;
-
+    if(c==NULL)
+    {
+         *Parou=1;
+         return *pLista;
+    }
 	p = p -> prox; // cata o 'resto'
-	if(p -> prox != NULL)
-		resto = p -> prox;
-
-	if(a == NULL || b == NULL || c == NULL)
-	{
-		*parou = 1;
-		return *pLista;
-	}
+    resto = p -> prox;
 
 	c->prox = NULL;
 	clonaNo(c, &c2);//clona o 'c'
 
-	
 	l.primeiro = a;// L -> a
 	a -> ante = NULL;
 	a -> prox = NULL;
@@ -48,7 +51,7 @@ struct Lista S(struct Lista *pLista, int *parou)
 	c -> ante = a;
 	c -> prox = NULL;
 	l.ultimo = c;
-	
+
 	inseriNo(&l, '(');//L-> a -> c -> (
 
 	l.ultimo -> lLista = (struct Lista*)malloc(sizeof(struct Lista));	// L -> a - > c -> (
@@ -56,7 +59,7 @@ struct Lista S(struct Lista *pLista, int *parou)
 	l.ultimo -> lLista -> ultimo = b;   	 						 	// 			       v
 	b -> ante = NULL;    		    					             	//				   b
 	b -> prox = NULL;
-								 								    
+
 
 	b -> prox = c2.primeiro;		   				// L -> a - > c -> (
 	l.ultimo -> lLista -> ultimo = c2.primeiro;		//                 |
@@ -64,17 +67,16 @@ struct Lista S(struct Lista *pLista, int *parou)
 	c2.primeiro -> prox = NULL;	    				//				   b -> c
 
 
-	l.ultimo -> prox = resto;	// L -> a - > c -> ( -> resto
-	resto -> ante = l.ultimo;	//                 |
-						    	//				    v
-	 						 	//		  		    b -> c 
-	
+    l.ultimo -> prox = resto;	        // L -> a - > c -> ( -> resto
+    if(resto!=NULL)
+        resto -> ante = l.ultimo;	    //                 |
+                                        //				    v
+                                        //		  		    b -> c
+
 	if(pLista -> ultimo != c)
 		l.ultimo = pLista -> ultimo; // att o ultimo da lista principal
 	else
 		l.ultimo = c;
-
-	*parou = 0;
 	return l;
 }
 
