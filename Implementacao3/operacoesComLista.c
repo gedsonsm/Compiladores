@@ -71,3 +71,47 @@ int criaLista(struct Lista *pLista, char *entrada)
     }
     return 0;
 }
+
+int clonaNo(struct No *novo,struct Lista *clone)
+{
+
+    for(;novo  != NULL; novo = novo->prox)
+    {
+        switch(novo -> c)
+        {
+            case '(':
+
+                inseriNo(clone, '(');
+                indice++;
+                clone -> ultimo -> lLista = (struct Lista*) malloc (sizeof (struct Lista));
+                iniciaLista(clone -> ultimo -> lLista);
+                clonaNo(novo->lLista->primeiro,clone -> ultimo -> lLista);
+            break;
+            case ')':
+                return 0;
+            break;
+
+            default:
+                inseriNo(clone, novo -> c);
+        }
+    }
+    return 0;
+}
+
+struct Lista removeParenteses (struct Lista *Pnovo,struct No *Anterior,struct No *LAnterior) // chame assim: str = removeParenteses (&str,NULL,NULL)
+{
+
+    struct No *novo = Pnovo->primeiro;
+    if(novo -> c == '(')
+    {
+        if(novo->prox==NULL)
+            *Pnovo = removeParenteses (novo->lLista,Anterior,Pnovo->ultimo);
+        else
+            *Pnovo = removeParenteses (novo->lLista,novo->prox,Pnovo->ultimo);
+        free(novo);
+    }
+    Pnovo-> ultimo -> prox = Anterior;
+    Pnovo-> ultimo = LAnterior;
+    return *Pnovo;
+
+}
