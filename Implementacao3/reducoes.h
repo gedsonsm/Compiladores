@@ -7,5 +7,6 @@
 #include "operacoesComLista.h"
 
 struct Lista S(struct Lista *pLista);
+struct Lista K(struct Lista *pLista);
 
 #endif
