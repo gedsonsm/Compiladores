@@ -264,7 +264,7 @@ struct Lista B(struct Lista *pLista, int *parou)
 
 };
 
-struct Lista L(struct Lista *pLista, int *parou)
+struct Lista I(struct Lista *pLista, int *parou)
 {
     if(pLista-> primeiro -> prox!=NULL)
     {
