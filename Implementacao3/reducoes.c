@@ -274,7 +274,7 @@ struct Lista I(struct Lista *pLista, int *parou)
     else
         *parou=1;
     return *pLista;
-};
+}
 
 struct Lista SH(struct Lista *pLista, int *parou)
 {
