@@ -9,4 +9,5 @@
 struct Lista S(struct Lista *pLista, int *parou);
 struct Lista K(struct Lista *pLista, int *parou);
 
+
 #endif
