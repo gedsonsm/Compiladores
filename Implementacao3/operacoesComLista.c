@@ -1,5 +1,7 @@
 #include "operacoesComLista.h"
 
+int indice; 
+
 void iniciaLista(struct Lista *pLista)
 {
     pLista -> primeiro = NULL;
@@ -16,6 +18,7 @@ int printaLista (struct Lista *pLista)
 		if(p -> c == '(')
         {          
             printaLista(p -> lLista);
+             printf(")");
         }
     }
 	return 0;
@@ -44,7 +47,7 @@ void inseriNo (struct Lista *pLista, char carac)
     }
 }
 
-int indice;
+
 int criaLista(struct Lista *pLista, char *entrada)
 {
     for(;entrada[indice] != '\0'; indice++)
@@ -61,7 +64,7 @@ int criaLista(struct Lista *pLista, char *entrada)
             break;
         
             case ')':
-                inseriNo(pLista, ')');
+                //inseriNo(pLista, ')');
                 return 0;
             break;
 
@@ -70,4 +73,48 @@ int criaLista(struct Lista *pLista, char *entrada)
         }
     }
     return 0;
+}
+
+int clonaNo(struct No *novo,struct Lista *clone)
+{
+
+    for(;novo  != NULL; novo = novo->prox)
+    {
+        switch(novo -> c)
+        {
+            case '(':
+
+                inseriNo(clone, '(');
+                indice++;
+                clone -> ultimo -> lLista = (struct Lista*) malloc (sizeof (struct Lista));
+                iniciaLista(clone -> ultimo -> lLista);
+                clonaNo(novo->lLista->primeiro,clone -> ultimo -> lLista);
+            break;
+            case ')':
+                return 0;
+            break;
+
+            default:
+                inseriNo(clone, novo -> c);
+        }
+    }
+    return 0;
+}
+
+struct Lista removeParenteses (struct Lista *Pnovo,struct No *Anterior,struct No *LAnterior)
+{
+    struct No *novo = Pnovo->primeiro;
+    if(novo -> c == '(')
+    {
+        if(novo->prox==NULL)
+            *Pnovo = removeParenteses (novo->lLista,Anterior,Pnovo->ultimo);
+        else
+            *Pnovo = removeParenteses (novo->lLista,novo->prox,Pnovo->ultimo);
+            free(novo);
+    }
+    Pnovo-> ultimo -> prox = Anterior;
+    if(Anterior!=NULL)
+        Anterior->ante = Pnovo-> ultimo;
+    Pnovo-> ultimo = LAnterior;
+    return *Pnovo;
 }

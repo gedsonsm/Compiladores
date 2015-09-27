@@ -20,6 +20,7 @@ int main()
 	strEntrada[tamanhoEntrada+1] = '\0'; 
 
 	parou = criaLista(&str, strEntrada);
+    str = S(&str);
 	printaLista(&str);
 
 	

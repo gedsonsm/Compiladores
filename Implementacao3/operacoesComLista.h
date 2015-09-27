@@ -22,5 +22,7 @@ void iniciaLista(struct Lista *pLista);
 int printaLista (struct Lista *pLista);
 void inseriNo (struct Lista *pLista, char carac);
 int criaLista(struct Lista *pLista, char *entrada);
+struct Lista removeParenteses (struct Lista *Pnovo,struct No *Anterior,struct No *LAnterior);
+int clonaNo(struct No *novo,struct Lista *clone);
 
 #endif

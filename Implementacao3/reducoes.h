@@ -4,7 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "operacoesComLista.h"
 
-int S(struct Lista *pLista);
+struct Lista S(struct Lista *pLista);
 
 #endif
