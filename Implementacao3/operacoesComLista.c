@@ -18,6 +18,7 @@ int printaLista (struct Lista *pLista)
 		if(p -> c == '(')
         {          
             printaLista(p -> lLista);
+             printf(")");
         }
     }
 	return 0;
@@ -100,9 +101,8 @@ int clonaNo(struct No *novo,struct Lista *clone)
     return 0;
 }
 
-struct Lista removeParenteses (struct Lista *Pnovo,struct No *Anterior,struct No *LAnterior) // chame assim: str = removeParenteses (&str,NULL,NULL)
+struct Lista removeParenteses (struct Lista *Pnovo,struct No *Anterior,struct No *LAnterior)
 {
-
     struct No *novo = Pnovo->primeiro;
     if(novo -> c == '(')
     {
@@ -110,10 +110,11 @@ struct Lista removeParenteses (struct Lista *Pnovo,struct No *Anterior,struct No
             *Pnovo = removeParenteses (novo->lLista,Anterior,Pnovo->ultimo);
         else
             *Pnovo = removeParenteses (novo->lLista,novo->prox,Pnovo->ultimo);
-        //free(&novo);
+        free(&novo);
     }
     Pnovo-> ultimo -> prox = Anterior;
+    if(Anterior!=NULL)
+        Anterior->ante = Pnovo-> ultimo;
     Pnovo-> ultimo = LAnterior;
     return *Pnovo;
-
 }
