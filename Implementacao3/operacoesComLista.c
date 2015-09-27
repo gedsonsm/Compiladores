@@ -1,5 +1,7 @@
 #include "operacoesComLista.h"
 
+int indice; 
+
 void iniciaLista(struct Lista *pLista)
 {
     pLista -> primeiro = NULL;
@@ -44,7 +46,7 @@ void inseriNo (struct Lista *pLista, char carac)
     }
 }
 
-int indice;
+
 int criaLista(struct Lista *pLista, char *entrada)
 {
     for(;entrada[indice] != '\0'; indice++)
@@ -108,7 +110,7 @@ struct Lista removeParenteses (struct Lista *Pnovo,struct No *Anterior,struct No
             *Pnovo = removeParenteses (novo->lLista,Anterior,Pnovo->ultimo);
         else
             *Pnovo = removeParenteses (novo->lLista,novo->prox,Pnovo->ultimo);
-        free(novo);
+        //free(novo);
     }
     Pnovo-> ultimo -> prox = Anterior;
     Pnovo-> ultimo = LAnterior;
