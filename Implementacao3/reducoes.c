@@ -69,15 +69,11 @@ struct Lista S(struct Lista *pLista,int *Parou)
 
     l.ultimo -> prox = resto;	        // L -> a - > c -> ( -> resto
     if(resto!=NULL)
-        resto -> ante = l.ultimo;	    //                 |
-                                        //				    v
-                                        //		  		    b -> c
-
-	if(pLista -> ultimo != c)
-		l.ultimo = pLista -> ultimo; // att o ultimo da lista principal
-	else
-		l.ultimo = c;
-	return l;
+    {
+        resto -> ante = l.ultimo;
+        l.ultimo = pLista -> ultimo;
+    }
+      return l;
 }
 
 struct Lista K(struct Lista *pLista, int *parou)
