@@ -11,14 +11,13 @@ void iniciaLista(struct Lista *pLista)
 int printaLista (struct Lista *pLista)
 {
 	struct No *p;
-
     for (p = pLista -> primeiro; p != NULL; p = p -> prox) 
     {
         printf("%c", p -> c);
 		if(p -> c == '(')
         {          
             printaLista(p -> lLista);
-             printf(")");
+            //printf(")");
         }
     }
 	return 0;
@@ -101,24 +100,34 @@ int clonaNo(struct No *novo,struct Lista *clone)
     return 0;
 }
 
-struct Lista removeParenteses (struct Lista *Pnovo,struct No *Anterior,struct No *LAnterior)
+void removeParenteses(struct Lista *pLista)
 {
-    struct No *novo = Pnovo->primeiro;
-    if(novo -> c == '(')
-    {
-        if(novo->prox==NULL)
-            *Pnovo = removeParenteses (novo->lLista,Anterior,Pnovo->ultimo);
-        else
-            *Pnovo = removeParenteses (novo->lLista,novo->prox,Pnovo->ultimo);
-<<<<<<< HEAD
-            free(novo);
-=======
-        free(&novo);
->>>>>>> origin/master
-    }
-    Pnovo-> ultimo -> prox = Anterior;
-    if(Anterior!=NULL)
-        Anterior->ante = Pnovo-> ultimo;
-    Pnovo-> ultimo = LAnterior;
-    return *Pnovo;
+    struct No *aux;
+    struct Lista *l;
+    aux = (struct No*) malloc (sizeof (struct No));
+    l = (struct Lista*) malloc (sizeof (struct Lista));
+
+    aux = pLista -> primeiro -> prox;
+    l = pLista -> primeiro -> lLista;
+    
+    pLista -> primeiro = l->primeiro;
+    l -> ultimo -> prox = aux;  
 }
+
+// struct Lista removeParenteses (struct Lista *Pnovo,struct No *Anterior,struct No *LAnterior)
+// {
+//     struct No *novo = Pnovo->primeiro;
+//     if(novo -> c == '(')
+//     {
+//         if(novo->prox==NULL)
+//             *Pnovo = removeParenteses (novo->lLista,Anterior,Pnovo->ultimo);
+//         else
+//             *Pnovo = removeParenteses (novo->lLista,novo->prox,Pnovo->ultimo);
+//             free(novo);
+//     }
+//     Pnovo-> ultimo -> prox = Anterior;
+//     if(Anterior!=NULL)
+//         Anterior->ante = Pnovo-> ultimo;
+//     Pnovo-> ultimo = LAnterior;
+//     return *Pnovo;
+// }

@@ -20,10 +20,30 @@ int main()
 	strEntrada[tamanhoEntrada+1] = '\0'; 
 
 	parou = criaLista(&str, strEntrada);
-    str = S(&str);
+	//printaLista(&str);
+	//printf("\n");
+ 		
+	do
+	{
+		//int c = getchar();
+		switch(str.primeiro -> c)
+		{
+			case '(':
+				removeParenteses (&str);
+			break;
+			
+			case 'S':
+				str = S(&str, &parou);
+			break;
+			
+			case 'K':
+				str = K(&str, &parou);
+			break;
+		}
+	}
+	while(parou == 0);
 	printaLista(&str);
-
-	
+	printf("\n");
     return 0;
 }
  // S' = W // C' = P // B' = H
