@@ -110,7 +110,7 @@ struct Lista removeParenteses (struct Lista *Pnovo,struct No *Anterior,struct No
             *Pnovo = removeParenteses (novo->lLista,Anterior,Pnovo->ultimo);
         else
             *Pnovo = removeParenteses (novo->lLista,novo->prox,Pnovo->ultimo);
-        //free(novo);
+        //free(&novo);
     }
     Pnovo-> ultimo -> prox = Anterior;
     Pnovo-> ultimo = LAnterior;
