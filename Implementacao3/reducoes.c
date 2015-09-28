@@ -364,3 +364,163 @@ struct Lista SH(struct Lista *pLista, int *parou)
 
 
 };
+
+struct Lista BH(struct Lista *pLista, int *parou)
+{
+    struct No *p = (struct No*) malloc (sizeof (struct No));
+	struct No *a, *b, *c, *d, *resto;
+
+	a = (struct No*) malloc (sizeof (struct No));
+	b = (struct No*) malloc (sizeof (struct No));
+	c = (struct No*) malloc (sizeof (struct No));
+	d = (struct No*) malloc (sizeof (struct No));
+	resto = (struct No*) malloc (sizeof (struct No));
+
+	struct Lista l;//lista aux
+	iniciaLista(&l);
+
+	p = pLista -> primeiro;// recebe o 1o no da lista(o no q ten o carac 'BH')
+	a = p -> prox; // cata o 'a'
+    if(a==NULL)
+    {
+         *parou=1;
+         return *pLista;
+    }
+	p = p -> prox; // cata o 'b'
+	b = p -> prox;
+    if(b==NULL)
+    {
+         *parou=1;
+         return *pLista;
+    }
+	p = p -> prox; // cata o 'c'
+	c = p -> prox;
+
+    if(c==NULL)
+    {
+         *parou=1;
+         return *pLista;
+    }
+	p = p -> prox; // cata o 'd'
+	d = p -> prox;
+    if(d==NULL)
+    {
+         *parou=1;
+         return *pLista;
+    }
+	p = p -> prox; // cata o 'resto'
+    resto = p -> prox;
+
+    //ab(cd)
+    l.primeiro = a;                 // l -> a
+    l.ultimo = a;
+    a->prox = NULL;
+    a->ante = NULL;
+
+    l.primeiro->prox = b;                  // l -> a -> b
+    b-> ante = l.primeiro;
+    b-> prox = NULL;
+    l.ultimo = b;
+
+
+    inseriNo(&l, '(');          //      -> a -> b-> (
+
+	l.ultimo -> lLista = (struct Lista*)malloc(sizeof(struct Lista));	// L -> a - > b -> ( -> resto
+	l.ultimo -> lLista -> primeiro = c;								       	//            |
+	l.ultimo -> lLista -> ultimo = c;   	 						     	// 			  v
+    c->prox = d;                                                            //            c -> d
+    c->ante = NULL;
+    d->prox = NULL;
+    d->ante = c;
+
+    l.ultimo -> prox = resto;
+
+    if(resto!=NULL)
+    {
+        resto->ante = l.ultimo;
+        l.ultimo = pLista->ultimo;
+    }
+
+    return l;
+};
+
+struct Lista CH(struct Lista *pLista, int *parou)
+{
+    struct No *p = (struct No*) malloc (sizeof (struct No));
+	struct No *a, *b, *c, *d , *resto;
+
+	a = (struct No*) malloc (sizeof (struct No));
+	b = (struct No*) malloc (sizeof (struct No));
+	c = (struct No*) malloc (sizeof (struct No));
+	d = (struct No*) malloc (sizeof (struct No));
+	resto = (struct No*) malloc (sizeof (struct No));
+
+	struct Lista l;//lista aux
+	iniciaLista(&l);
+
+	p = pLista -> primeiro;// recebe o 1o no da lista(o no q ten o carac 'S')
+	a = p -> prox; // cata o 'a'
+    if(a==NULL)
+    {
+         *parou=1;
+         return *pLista;
+    }
+	p = p -> prox; // cata o 'b'
+	b = p -> prox;
+    if(b==NULL)
+    {
+         *parou=1;
+         return *pLista;
+    }
+	p = p -> prox; // cata o 'c'
+	c = p -> prox;
+    if(c==NULL)
+    {
+         *parou=1;
+         return *pLista;
+    }
+    p = p -> prox; // cata o 'd'
+	d = p -> prox;
+    if(d==NULL)
+    {
+         *parou=1;
+         return *pLista;
+    }
+
+    p = p -> prox; // cata o 'resto'
+    resto = p -> prox;
+
+	//a(bd)c
+
+	l.primeiro = a;                     // l -> a ->
+	l.ultimo = a;
+	a -> prox = NULL;
+	a -> ante = NULL;
+
+	inseriNo(&l, '(');                  //L-> a-> (
+
+	l.ultimo -> lLista = (struct Lista*)malloc(sizeof(struct Lista));	// L -> a - > ( 
+	l.ultimo -> lLista -> primeiro = b;					//            |
+	l.ultimo -> lLista -> ultimo = b;   	 				//	      v
+    b->ante = NULL;                                                 		//	      b -> d
+    b->prox = d;
+    d->ante = b;
+    d->prox = NULL;
+    l.ultimo->lLista->ultimo = d;
+
+    l.ultimo->prox = c;       //   L -> a - > (		-> c
+    c-> ante = l.ultimo;	//            |
+				//            b -> d
+
+    c-> prox = resto;               // L -> a - > (	-> c -> resto
+				    //            |
+				    //		  b -> d
+    if(resto!=NULL)
+    {
+        resto->ante = l.ultimo;
+        l.ultimo = pLista->ultimo;
+    }
+
+    return l;
+
+};
