@@ -39,6 +39,30 @@ int main()
 			case 'K':
 				str = K(&str, &parou);
 			break;
+
+			case 'I':
+				str = I(&str, &parou);
+			break;
+
+			case 'B':
+				str = B(&str, &parou);
+			break;
+
+			case 'C':
+				str = C(&str, &parou);
+			break;
+
+			case 'W':
+				str = SH(&str, &parou);
+			break;
+
+			case 'H':
+				str = BH(&str, &parou);
+			break;
+
+			case 'P':
+				str = CH(&str, &parou);
+			break;
 		}
 	}
 	while(parou == 0);
