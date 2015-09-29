@@ -25,5 +25,7 @@ int criaLista(struct Lista *pLista, char *entrada);
 //struct Lista removeParenteses (struct Lista *Pnovo,struct No *Anterior,struct No *LAnterior);
 void removeParenteses(struct Lista *pLista);
 int clonaNo(struct No *novo,struct Lista *clone);
+void checaNulidade (struct Lista *pLista, struct No *check);
+void LiberaNo (struct No *Temp);
 
 #endif
