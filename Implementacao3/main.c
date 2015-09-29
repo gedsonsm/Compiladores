@@ -17,25 +17,21 @@ int main()
     iniciaLista(&str);
     int parou;
     int tamanhoEntrada = strlen(strEntrada);
-	strEntrada[tamanhoEntrada+1] = '\0'; 
-
+	strEntrada[tamanhoEntrada+1] = '\0';
 	parou = criaLista(&str, strEntrada);
-	//printaLista(&str);
-	//printf("\n");
- 		
+
 	do
 	{
-		//int c = getchar();
 		switch(str.primeiro -> c)
 		{
 			case '(':
 				removeParenteses (&str);
 			break;
-			
+
 			case 'S':
 				str = S(&str, &parou);
 			break;
-			
+
 			case 'K':
 				str = K(&str, &parou);
 			break;
@@ -65,9 +61,10 @@ int main()
 			break;
 		}
 	}
-	while(parou == 0);
+	while(parou==0);
 	printaLista(&str);
 	printf("\n");
+	//printf("No total houveram %d Nos Liberados",liberado);
     return 0;
 }
  // S' = W // C' = P // B' = H
