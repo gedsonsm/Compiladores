@@ -21,6 +21,7 @@ struct Lista S(struct Lista *pLista,int *Parou)
     {
          *Parou=1;
          return *pLista;
+
     }
 	p = p -> prox; // cata o 'b'
 	b = p -> prox;
@@ -73,7 +74,8 @@ struct Lista S(struct Lista *pLista,int *Parou)
         resto -> ante = l.ultimo;
         l.ultimo = pLista -> ultimo;
     }
-      return l;
+    free(pLista->primeiro);
+    return l;
 }
 
 struct Lista K(struct Lista *pLista, int *parou)
@@ -104,8 +106,6 @@ struct Lista K(struct Lista *pLista, int *parou)
          return *pLista;
     }
 
-
-
 	p = p -> prox; // cata o 'resto'
     resto = p -> prox;
 
@@ -114,12 +114,14 @@ struct Lista K(struct Lista *pLista, int *parou)
 	a -> prox = NULL;
 	l.ultimo = a;
 
+	b -> ante = NULL;
+	b -> prox = NULL;
 
-	l.ultimo -> prox = resto;	    // L -> a - > c -> ( -> resto
+	l.ultimo -> prox = resto;
     if(resto!=NULL)
-        resto -> ante = l.ultimo;	//                 |
-                                    //				    v
-                                    //		  		    b -> c
+        resto -> ante = l.ultimo;
+
+
 
 	if(pLista -> ultimo != b)
 		l.ultimo = pLista -> ultimo; // att o ultimo da lista principal
@@ -127,6 +129,8 @@ struct Lista K(struct Lista *pLista, int *parou)
 		l.ultimo = a;
 
 	*parou = 0;
+	free(pLista->primeiro);
+	//LiberaNo(b);   // Descomentar se quiser ativar a funcao Liberar
 	return l;
 }
 
@@ -188,6 +192,8 @@ struct Lista C(struct Lista *pLista, int *parou)
     }
     else
         l.ultimo = b;
+
+    free(pLista->primeiro);
     return l;
 
 
@@ -252,7 +258,7 @@ struct Lista B(struct Lista *pLista, int *parou)
         resto->ante = l.ultimo;
         l.ultimo = pLista->ultimo;
     }
-
+    free(pLista->primeiro);
     return l;
 
 
@@ -262,13 +268,17 @@ struct Lista B(struct Lista *pLista, int *parou)
 
 struct Lista I(struct Lista *pLista, int *parou)
 {
+    struct No *Del = (struct No*) malloc (sizeof (struct No));
     if(pLista-> primeiro -> prox!=NULL)
     {
+        Del = pLista-> primeiro;
         pLista-> primeiro =  pLista-> primeiro -> prox;
         pLista-> primeiro->ante = NULL;
+        free(Del);
     }
     else
         *parou=1;
+
     return *pLista;
 }
 
@@ -358,7 +368,7 @@ struct Lista SH(struct Lista *pLista, int *parou)
         resto->ante = l.ultimo;
         l.ultimo = pLista->ultimo;
     }
-
+    free(pLista->primeiro);
     return l;
 
 
@@ -440,7 +450,7 @@ struct Lista BH(struct Lista *pLista, int *parou)
         resto->ante = l.ultimo;
         l.ultimo = pLista->ultimo;
     }
-
+    free(pLista->primeiro);
     return l;
 };
 
@@ -499,7 +509,7 @@ struct Lista CH(struct Lista *pLista, int *parou)
 
 	inseriNo(&l, '(');                  //L-> a-> (
 
-	l.ultimo -> lLista = (struct Lista*)malloc(sizeof(struct Lista));	// L -> a - > ( 
+	l.ultimo -> lLista = (struct Lista*)malloc(sizeof(struct Lista));	// L -> a - > (
 	l.ultimo -> lLista -> primeiro = b;					//            |
 	l.ultimo -> lLista -> ultimo = b;   	 				//	      v
     b->ante = NULL;                                                 		//	      b -> d
@@ -521,6 +531,7 @@ struct Lista CH(struct Lista *pLista, int *parou)
         l.ultimo = pLista->ultimo;
     }
 
+    free(pLista->primeiro);
     return l;
 
 };
