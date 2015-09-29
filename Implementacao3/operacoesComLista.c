@@ -1,6 +1,7 @@
 #include "operacoesComLista.h"
 
 int indice; 
+int liberado;
 
 void iniciaLista(struct Lista *pLista)
 {
