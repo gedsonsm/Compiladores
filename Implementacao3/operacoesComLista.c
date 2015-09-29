@@ -117,7 +117,7 @@ void removeParenteses(struct Lista *pLista)
 
 void LiberaNo (struct No *Temp)
 {
-    struct No *Del = (struct No*) malloc (sizeof (struct No));
+    struct No *Del;
     while(Temp!=NULL)
     {
         if(Temp->c == '(')
