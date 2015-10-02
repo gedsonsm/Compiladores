@@ -1,7 +1,7 @@
 #include "operacoesComStr.h"
 
 
-/*Retira parenteses iniciais, deixando na 1ª posição do vetor sempre um operador*/
+/*Retira todos os parênteses iniciais, deixando na 1ª posição do vetor sempre um operador*/
 void tirarParenteses(char *entrada, char* saida, int *tamanhoEntrada)
 {
     int contgeral = 1, parenteses =1, abreFecha, ini = 0, fin, i;
@@ -12,9 +12,9 @@ void tirarParenteses(char *entrada, char* saida, int *tamanhoEntrada)
         else
         {
             fin = parenteses;
-            for(i = 0; i < parenteses; i++)//Enquanto houver parenteses na 1ª posição
+            for(i = 0; i < parenteses; i++)//Enquanto houver parênteses na 1ª posição
             {
-                //Busca parenteses corespondente
+                //Busca parênteses correspondentes
                 abreFecha = 1;
                 while(abreFecha != 0)
                 {
@@ -30,21 +30,21 @@ void tirarParenteses(char *entrada, char* saida, int *tamanhoEntrada)
                     }
                     contgeral++;
                 }
-                memcpy(&saida[ini],&entrada[fin],(contgeral-fin-1)*sizeof(char));
+                memcpy(&saida[ini],&entrada[fin],(contgeral-fin-1)*sizeof(char)); //copia conteúdo dentro do parênteses p/ a saída
                 ini = ini + (contgeral-fin-1);
                 fin = contgeral;
             }
-            memcpy(&saida[ini],&entrada[fin],(*tamanhoEntrada-fin)*sizeof(char));
+            memcpy(&saida[ini],&entrada[fin],(*tamanhoEntrada-fin)*sizeof(char)); //copia o 'resto' junto c/ a saída
             saida[ini+(*tamanhoEntrada-fin)] = '\0';
             break;
         }
         contgeral++;
 
     }
-    *tamanhoEntrada = *tamanhoEntrada - 2*parenteses;
+    *tamanhoEntrada = *tamanhoEntrada - 2*parenteses; //Atualiza o tamanho da nova entrada
 }
 
-/*Dependendo de quantos operandos, acha o tamanho dos mesmos*/
+/*Dependendo de quantos operandos acha o tamanho dos mesmos*/
 int SeparaTermos(char *entrada, int *tamanho1, int *tamanho2, int *tamanho3, int *tamanho4, int *tamanhoResto,int *tamanhoEntrada, int loop)
 {
     int abreFecha = 0;
@@ -78,7 +78,7 @@ int SeparaTermos(char *entrada, int *tamanho1, int *tamanho2, int *tamanho3, int
                 abreFecha = 0;
             break;
 
-            case '\0': //Se não há operando suficientes
+            case '\0': //Se não há operandos suficientes
                 return 1;
             break;
 
