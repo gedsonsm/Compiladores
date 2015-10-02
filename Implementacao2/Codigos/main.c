@@ -3,23 +3,9 @@
 #include "operacoesComStr.h"
 #include "reducoes.h"
 
-//#define CONT_FLAG   //Comentar para tirar contadores das reduções
-
 
 char strEntrada[90000000];
 char strSaida[90000000];
-
-#ifdef CONT_FLAG
-	int cont_S;
-	int cont_K;
-	int cont_P;
-	int cont_I;
-	int cont_C;
-	int cont_B;
-	int cont_SH;
-	int cont_CH;
-	int cont_BH;
-#endif
 
 int main()
 {
@@ -81,7 +67,19 @@ int main()
         pontE = pontS;
         pontS = aux;
     }
-    printf("\nResposta = %s\n",pontE);
+    #ifdef CONT_FLAG
+	    printf("\nResposta = %s\n",pontE);
+	   	printf("S: %d\n",cont_S);
+		printf("K: %d\n",cont_K);
+		printf("I: %d\n",cont_I);
+		printf("C: %d\n",cont_C);
+		printf("B: %d\n",cont_B);
+		printf("S': %d\n",cont_SH);
+		printf("C': %d\n",cont_CH);
+		printf("B': %d\n",cont_BH);
+	#endif
     return 0;
 }
+
+
  // S' = W // C' = P // B' = H

@@ -103,7 +103,7 @@ int OperarI(char *entrada, char* saida, int *tamEntrada)
 
     *tamEntrada = tamA + tamResto;
 
-    #ifdef DEBUG_FLAG
+    #ifdef CONT_FLAG
         cont_I++;
     #endif
 
