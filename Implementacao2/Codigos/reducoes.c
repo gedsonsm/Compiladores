@@ -61,7 +61,7 @@ int OperarI(char *entrada, char* saida, int *tamEntrada)
     int parte = 1;
     int qtd_carac = 0;
 
-    if(entrada[i] == '(')
+    if(entrada[i] == '(') //caso 'a' seja uma sequência de caracteres
     {
         qtd_carac++;
         i++;
@@ -85,7 +85,7 @@ int OperarI(char *entrada, char* saida, int *tamEntrada)
     {
         return 1;
     }
-    else
+    else //Caso 'a' seja apenas 1 caracter
     {
         qtd_carac++;
     }
@@ -267,4 +267,3 @@ int OperarCHifen(char *entrada, char* saida, int *tamEntrada)
 
     return foi;
 }
-
