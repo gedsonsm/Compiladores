@@ -18,7 +18,7 @@ int printaLista (struct Lista *pLista)
 		if(p -> c == '(')
         {          
             printaLista(p -> lLista);
-            //printf(")");
+            printf(")");
         }
     }
 	return 0;
@@ -64,7 +64,6 @@ int criaLista(struct Lista *pLista, char *entrada)
             break;
         
             case ')':
-                //inseriNo(pLista, ')');
                 return 0;
             break;
 

@@ -6,10 +6,10 @@ gcc -o Cria CriaEntrada.o
 gcc -c Codigos/main.c
 gcc -c Codigos/operacoesComLista.c
 gcc -c Codigos/reducoes.c
-gcc -o main main.o operacoesComLista.o reducoes.o 
+gcc -pg -o main main.o operacoesComLista.o reducoes.o 
 wait 
 time ./main
-rm main main.o operacoesComLista.o reducoes.o Cria CriaEntrada.o # string.in
-
-
-
+wait
+gprof main gmon.out > log.txt
+wait
+rm main main.o operacoesComLista.o reducoes.o Cria CriaEntrada.o gmon.out # string.in
