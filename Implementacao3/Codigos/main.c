@@ -38,27 +38,27 @@ int main()
 			break;
 
 			case 'I':
-				//str = I(&str, &parou);
+				I(&str, &parou);
 			break;
 
 			case 'B':
-				//str = B(&str, &parou);
+				B(&str, &parou);
 			break;
 
 			case 'C':
-				//str = C(&str, &parou);
+				C(&str, &parou);
 			break;
 
 			case 'W':
-				//str = SH(&str, &parou);
+				SH(&str, &parou);
 			break;
 
 			case 'H':
-				//str = BH(&str, &parou);
+				BH(&str, &parou);
 			break;
 
 			case 'P':
-				//str = CH(&str, &parou);
+				CH(&str, &parou);
 			break;
 		}
 	}
