@@ -8,11 +8,11 @@
 
 int S(struct Lista **pLista, int *parou);
 int K(struct Lista **pLista, int *parou);
-// struct Lista I(struct Lista *pLista, int *parou);
-// struct Lista B(struct Lista *pLista, int *parou);
-// struct Lista C(struct Lista *pLista, int *parou);
-// struct Lista SH(struct Lista *pLista, int *parou);
-// struct Lista BH(struct Lista *pLista, int *parou);
-// struct Lista CH(struct Lista *pLista, int *parou);
+int I(struct Lista **pLista, int *parou);
+int B(struct Lista **pLista, int *parou);
+int C(struct Lista **pLista, int *parou);
+int SH(struct Lista **pLista, int *parou);
+int BH(struct Lista **pLista, int *parou);
+int CH(struct Lista **pLista, int *parou);
 
 #endif
