@@ -133,7 +133,7 @@ int K(struct Lista **pLista, int *parou)
 
 	*parou = 0;
 	//free((*pLista)->primeiro);
-	LiberaNo(b);   // Descomentar se quiser ativar a funcao Liberar
+	LiberaNo(&b);   // Descomentar se quiser ativar a funcao Liberar
 
     //(*pLista) = l;
 	return 0;
