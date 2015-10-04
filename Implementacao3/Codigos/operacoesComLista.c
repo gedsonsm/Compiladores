@@ -114,22 +114,27 @@ void removeParenteses(struct Lista *pLista)
     l -> ultimo -> prox = aux;  
 }
 
-void LiberaNo (struct No *Temp)
+void LiberaNo (struct No **Temp)
 {
+
     struct No *Del;
-    while(Temp!=NULL)
+    while((*Temp)!=NULL)
     {
-        if(Temp->c == '(')
+        if((*Temp)->c == '(')
         {
-            LiberaNo (Temp->lLista->primeiro);
-            free(Temp->lLista);
+            LiberaNo (&(*Temp)->lLista->primeiro);
+            free((*Temp)->lLista);
+            (*Temp)->lLista = NULL;
             //liberado++;
         }
-        Del = Temp;
-        Temp=Temp->prox;
+        Del = (*Temp);
+        (*Temp)=(*Temp)->prox;
+        //printf("%c",Del->c);
         free(Del);
+        Del = NULL;
         //liberado++;
     }
+
 }
 
 void checaNulidade (struct Lista *pLista, struct No *check)
