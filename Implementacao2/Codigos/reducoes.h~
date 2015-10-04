@@ -21,6 +21,7 @@
 #endif
 
 
+
 int OperarS(char *entrada, char *saida, int *tamEntrada);
 int OperarK(char *entrada, char *saida, int *tamEntrada);
 int OperarI(char **entrada, char **saida, int *tamEntrada);

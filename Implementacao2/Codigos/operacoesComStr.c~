@@ -44,7 +44,6 @@ void tirarParenteses(char *entrada, char* saida, int *tamanhoEntrada)
     *tamanhoEntrada = *tamanhoEntrada - 2*parenteses; //Atualiza o tamanho da nova entrada
 }
 
-
 /*Dependendo de quantos operandos acha o tamanho dos mesmos*/
 int SeparaTermos(char *entrada, int *tamanho1, int *tamanho2, int *tamanho3, int *tamanho4, int *tamanhoResto,int *tamanhoEntrada, int loop)
 {

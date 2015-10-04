@@ -6,12 +6,12 @@ gcc Codigos/CriaEntrada_Turner.c -o Cria
 gcc -c Codigos/main.c
 gcc -c Codigos/operacoesComStr.c
 gcc -c Codigos/reducoes.c
-gcc -O4 -o main main.o operacoesComStr.o reducoes.o
+gcc -pg -o main main.o operacoesComStr.o reducoes.o
 wait 
 time ./main
+gprof main gmon.out > log.txt
 wait
-rm main main.o Cria operacoesComStr.o reducoes.o string.in
-
+rm main main.o Cria operacoesComStr.o reducoes.o string.in gmon.out
 
 
 
