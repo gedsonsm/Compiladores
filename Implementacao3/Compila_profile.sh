@@ -1,7 +1,7 @@
 #!/bin/bash
 
-gcc -c Codigos/CriaEntrada.c
-gcc -o Cria CriaEntrada.o
+gcc Codigos/CriaEntrada_KS.c -o Cria
+#gcc Codigos/CriaEntrada_Turner.c -o Cria
 ./Cria 1000
 gcc -c Codigos/main.c
 gcc -c Codigos/operacoesComLista.c
@@ -12,4 +12,4 @@ time ./main
 wait
 gprof main gmon.out > log.txt
 wait
-rm main main.o operacoesComLista.o reducoes.o Cria CriaEntrada.o gmon.out # string.in
+rm main main.o operacoesComLista.o reducoes.o Cria gmon.out # string.in

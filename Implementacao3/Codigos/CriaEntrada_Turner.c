@@ -9,8 +9,8 @@ int main(int argc, char *argv[])
     scanf("%d", &numY);
     */
     int i=0;
-    //char valordeY[1000] = "S'(C'BI(SII))I(B(C'BI(SII))I)";
-    char valordeY[1000] = "S(S(S(KS)(S(KK)(SKK)))(K(S(SKK)(SKK))))(S(S(KS)(S(KK)(SKK)))(K(S(SKK)(SKK))))";
+    //char valordeY[1000] = "S(S(S(KS)(S(KK)(SKK)))(K(S(SKK)(SKK))))(S(S(KS)(S(KK)(SKK)))(K(S(SKK)(SKK))))";
+    char valordeY[1000] = "W(PBI(SII))I(B(PBI(SII))I)";
 
     FILE *entradagerada;
     entradagerada = fopen ("string.in", "w");

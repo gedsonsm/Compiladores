@@ -3,16 +3,13 @@ Flat profile:
 Each sample counts as 0.01 seconds.
   %   cumulative   self              self     total           
  time   seconds   seconds    calls  Ts/call  Ts/call  name    
- 46.27      4.74     4.74                             LiberaNo
- 40.26      8.87     4.13                             clonaNo
- 10.17      9.91     1.04                             inseriNo
-  2.64     10.18     0.27                             iniciaLista
-  0.39     10.22     0.04                             printaLista
-  0.20     10.24     0.02                             main
-  0.15     10.26     0.02                             checaNulidade
-  0.10     10.27     0.01                             S
-  0.05     10.27     0.01                             criaLista
-  0.05     10.28     0.01                             removeParenteses
+ 49.48      4.73     4.73                             LiberaNo
+ 40.21      8.58     3.84                             clonaNo
+  7.75      9.32     0.74                             inseriNo
+  2.20      9.53     0.21                             iniciaLista
+  0.31      9.56     0.03                             printaLista
+  0.10      9.57     0.01                             main
+  0.05      9.57     0.01                             removeParenteses
 
  %         the percentage of the total running time of the
 time       program used by this function.
