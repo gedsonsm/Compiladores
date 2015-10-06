@@ -5,8 +5,6 @@
 //#include "operacoesComStr.h"
 #include "reducoes.h"
 
-//#define CONT_FLAG   //Comentar para tirar contadores das reduções
-
 
 int main()
 {
@@ -66,6 +64,18 @@ int main()
 	printaLista(str);
 	printf("\n");
 	//printf("No total houveram %d Nos Liberados",liberado);
+
+	#ifdef CONT_FLAG	   	
+		printf("S: %d\n",cont_S);
+		printf("K: %d\n",cont_K);
+		printf("I: %d\n",cont_I);
+		printf("C: %d\n",cont_C);
+		printf("B: %d\n",cont_B);
+		printf("S': %d\n",cont_SH);
+		printf("C': %d\n",cont_CH);
+		printf("B': %d\n",cont_BH);
+	#endif
+
     return 0;
 }
  // S' = W // C' = P // B' = H
