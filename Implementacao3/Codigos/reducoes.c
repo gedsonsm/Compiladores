@@ -74,9 +74,10 @@ int S(struct Lista **pLista,int *Parou)
         (*pLista)-> ultimo = (*pLista) -> ultimo;
     }
 
-    //free((*pLista)-> primeiro);
+    #ifdef CONT_FLAG
+       cont_S++;
+    #endif
 
-    //(*pLista) = l;
     return 0;
 }
 
@@ -132,10 +133,13 @@ int K(struct Lista **pLista, int *parou)
 		(*pLista) -> ultimo = a;
 
 	*parou = 0;
-	//free((*pLista)->primeiro);
+
 	LiberaNo(&b);   // Descomentar se quiser ativar a funcao Liberar
 
-    //(*pLista) = l;
+    #ifdef CONT_FLAG
+        cont_K++;
+    #endif
+
 	return 0;
 }
 
@@ -204,8 +208,11 @@ int C(struct Lista **pLista, int *parou)
 
     free(Dele);
     Dele = NULL;
-    //liberado++;
-    //free((*pLista)->primeiro);
+
+    #ifdef CONT_FLAG
+       cont_C++;
+    #endif
+
     return 0;
 
 
@@ -270,11 +277,14 @@ int B(struct Lista **pLista, int *parou)
         resto->ante =(*pLista)->ultimo;
         (*pLista)->ultimo = (*pLista)->ultimo;
     }
-    //free((*pLista)->primeiro);
 
     free(Dele);
     Dele = NULL;
-    //liberado++;
+
+    #ifdef CONT_FLAG
+       cont_B++;
+    #endif
+
     return 0;
 
 
@@ -291,10 +301,13 @@ int I(struct Lista **pLista, int *parou)
         (*pLista)-> primeiro =  (*pLista)-> primeiro -> prox;
         (*pLista)-> primeiro->ante = NULL;
         free(Del);
-        //liberado++;
     }
     else
         *parou=1;
+
+    #ifdef CONT_FLAG
+        cont_I++;
+    #endif
 
     return 0;
 }
@@ -386,11 +399,14 @@ int SH(struct Lista **pLista, int *parou)
         resto->ante = (*pLista)->ultimo;
         (*pLista)->ultimo = (*pLista)->ultimo;
     }
-    //free((*pLista)->primeiro);
 
     free(Dele);
     Dele = NULL;
-    //liberado++;
+
+    #ifdef CONT_FLAG
+        cont_SH++;
+    #endif
+
     return 0;
 
 
@@ -470,12 +486,15 @@ int BH(struct Lista **pLista, int *parou)
         resto->ante = (*pLista)->ultimo;
         (*pLista)->ultimo = (*pLista)->ultimo;
     }
-    //free((*pLista)->primeiro);
 
 
     free(Dele);
     Dele = NULL;
-    //liberado++;
+
+    #ifdef CONT_FLAG
+        cont_BH++;
+    #endif
+
     return 0;
 };
 
@@ -555,11 +574,13 @@ int CH(struct Lista **pLista, int *parou)
         (*pLista)->ultimo = (*pLista)->ultimo;
     }
 
-    //free((*pLista)->primeiro);
-
     free(Dele);
     Dele = NULL;
-    //liberado++;
+
+    #ifdef CONT_FLAG
+        cont_CH++;
+    #endif
+
     return 0;
 
 };
