@@ -510,9 +510,8 @@ int main()
     //printaGrafo(Raiz);
     //printf("\n");
     int a=0;
-    while(1)
+    do
     {
-
         a++;
         DecodificaOperacao(Raiz, &profundidade);
         switch (Busca[profundidade-1]->esq->c)
@@ -542,11 +541,8 @@ int main()
             C(profundidade);
         break;
         }
-
-        if(Fim)
-            break;
-
     }
+    while(!Fim);
     printf("Saida: ");
     printaGrafo(Raiz);
     printf("\nIteracoes: %d",a);
