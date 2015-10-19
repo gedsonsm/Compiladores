@@ -1,0 +1,43 @@
+# depslib dependency file v1.0
+1445219964 source:c:\users\gedson melo\desktop\comp_pilha\main.c
+	<stdio.h>
+	<stdlib.h>
+	"OperacoesComGrafo.h"
+	"OperacoesComPilha.h"
+
+1445200647 c:\users\gedson melo\desktop\comp_pilha\operacoescompilha.h
+	<stdio.h>
+	<stdlib.h>
+	"OperacoesComGrafo.h"
+
+1445195996 c:\users\gedson melo\desktop\comp_pilha\operacoescomgrafo.h
+	<stdio.h>
+	<stdlib.h>
+
+1445195799 source:c:\users\gedson melo\desktop\comp_pilha\operacoescomgrafo.c
+	"OperacoesComGrafo.h"
+
+1445208284 source:c:\users\gedson melo\desktop\comp_pilha\operacoescompilha.c
+	"OperacoesComPilha.h"
+
+1445216364 source:c:\users\gedson\downloads\comp_pilha\main.c
+	<stdio.h>
+	<stdlib.h>
+	"OperacoesComGrafo.h"
+	"OperacoesComPilha.h"
+
+1445192396 c:\users\gedson\downloads\comp_pilha\operacoescomgrafo.h
+	<stdio.h>
+	<stdlib.h>
+
+1445197047 c:\users\gedson\downloads\comp_pilha\operacoescompilha.h
+	<stdio.h>
+	<stdlib.h>
+	"OperacoesComGrafo.h"
+
+1445192199 source:c:\users\gedson\downloads\comp_pilha\operacoescomgrafo.c
+	"OperacoesComGrafo.h"
+
+1445204684 source:c:\users\gedson\downloads\comp_pilha\operacoescompilha.c
+	"OperacoesComPilha.h"
+
