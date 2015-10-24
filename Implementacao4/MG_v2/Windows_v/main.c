@@ -36,7 +36,6 @@
         Aux1->esq = Aux2;                                               \
         Aux1->dir = Aux3;                                               \
         Busca[profundidade-4]->esq = Aux1;                              \
-        AnulaPonteiros(3,profundidade);                                 \
     }                                                                   \
     else if(profundidade==3)                                            \
     {                                                                   \
@@ -47,7 +46,6 @@
         Aux1->esq = Aux2;                                               \
         Aux1->dir = Aux3;                                               \
         *Raiz = Aux1;                                                   \
-        AnulaPonteiros(3,profundidade);                                 \
     }                                                                   \
     else                                                                \
     {                                                                   \
@@ -63,13 +61,11 @@
     if(profundidade>2)                                                  \
     {                                                                   \
         Busca[profundidade-3]->esq = Busca[profundidade-1]->dir;        \
-        AnulaPonteiros(2,profundidade);                                 \
     }                                                                   \
     else if(profundidade==2)                                            \
     {                                                                   \
         (*Raiz)->dir = NULL;                                            \
         (*Raiz)->esq = Busca[profundidade-1]->dir;                      \
-        AnulaPonteiros(1,profundidade);                                 \
     }                                                                   \
     else                                                                \
     {                                                                   \
@@ -94,7 +90,6 @@
         Aux1->esq = Busca[profundidade-1]->dir;                         \
         Aux1->dir = Aux2;                                               \
         Busca[profundidade-4]->esq = Aux1;                              \
-        AnulaPonteiros(3,profundidade);                                 \
     }                                                                   \
     else if(profundidade==3)                                            \
     {                                                                   \
@@ -103,7 +98,6 @@
         Aux1->esq = Busca[profundidade-1]->dir;                         \
         Aux1->dir = Aux2;                                               \
         *Raiz = Aux1;                                                   \
-        AnulaPonteiros(3,profundidade);                                 \
     }                                                                   \
     else                                                                \
     {                                                                   \
@@ -126,7 +120,6 @@
         Aux1->dir = Busca[profundidade-2]->dir;                         \
         Aux1->esq = Aux2;                                               \
         Busca[profundidade-4]->esq = Aux1;                              \
-        AnulaPonteiros(3,profundidade);                                 \
     }                                                                   \
     else if(profundidade==3)                                            \
     {                                                                   \
@@ -135,7 +128,6 @@
         Aux1->dir = Busca[profundidade-2]->dir;                         \
         Aux1->esq = Aux2;                                               \
         *Raiz = Aux1;                                                   \
-        AnulaPonteiros(3,profundidade);                                 \
     }                                                                   \
     else                                                                \
     {                                                                   \
@@ -166,7 +158,6 @@
         Aux1->esq = Aux2;                                               \
         Aux1->dir = Aux3;                                               \
         Busca[profundidade-5]->esq = Aux1;                              \
-        AnulaPonteiros(4,profundidade);                                 \
     }                                                                   \
     else if(profundidade==4)                                            \
     {                                                                   \
@@ -179,7 +170,6 @@
         Aux1->esq = Aux2;                                               \
         Aux1->dir = Aux3;                                               \
         *Raiz = Aux1;                                                   \
-        AnulaPonteiros(4,profundidade);                                 \
     }                                                                   \
     else                                                                \
     {                                                                   \
@@ -206,7 +196,6 @@
         Aux1->esq = Aux2;                                               \
         Aux1->dir = Aux3;                                               \
         Busca[profundidade-5]->esq = Aux1;                              \
-        AnulaPonteiros(4,profundidade);                                 \
     }                                                                   \
     else if(profundidade==4)                                            \
     {                                                                   \
@@ -217,7 +206,6 @@
         Aux1->esq = Aux2;                                               \
         Aux1->dir = Aux3;                                               \
         *Raiz = Aux1;                                                   \
-        AnulaPonteiros(4,profundidade);                                 \
     }                                                                   \
     else                                                                \
     {                                                                   \
@@ -244,7 +232,6 @@
         Aux1->esq = Aux2;                                               \
         Aux1->dir = Busca[profundidade-3]->dir;                         \
         Busca[profundidade-5]->esq = Aux1;                              \
-        AnulaPonteiros(4,profundidade);                                 \
     }                                                                   \
     else if(profundidade==4)                                            \
     {                                                                   \
@@ -255,7 +242,6 @@
         Aux1->esq = Aux2;                                               \
         Aux1->dir = Busca[profundidade-3]->dir;                         \
         *Raiz = Aux1;                                                   \
-        AnulaPonteiros(4,profundidade);                                 \
     }                                                                   \
     else                                                                \
     {                                                                   \
@@ -270,7 +256,6 @@
     if(profundidade>1)                                                  \
     {                                                                   \
         Busca[profundidade-2]->esq = Busca[profundidade-1]->dir;        \
-        AnulaPonteiros(1,profundidade);                                 \
     }                                                                   \
     else if(profundidade==1)                                            \
     {                                                                   \
@@ -406,14 +391,14 @@ void DecodificaOperacao(No *Raiz, int *profundidade)
     Busca[*profundidade] = Aux1;
 }
 
-void AnulaPonteiros(int Padrao,int profundidade)
-{
-    for(;Padrao>0;Padrao--)
-    {
-        Busca[profundidade-Padrao]->esq = NULL;
-        Busca[profundidade-Padrao]->dir = NULL;
-    }
-}
+//void AnulaPonteiros(int Padrao,int profundidade)
+//{
+//   for(;Padrao>0;Padrao--)
+//    {
+//        Busca[profundidade-Padrao]->esq = NULL;
+//        Busca[profundidade-Padrao]->dir = NULL;
+//    }
+//}
 
 
 #ifdef SEM_MACRO
@@ -435,7 +420,6 @@ void S (int profundidade,No **Raiz)
         Aux1->esq = Aux2;
         Aux1->dir = Aux3;
         Busca[profundidade-4]->esq = Aux1;
-        AnulaPonteiros(3,profundidade);
     }
     else if(profundidade==3)
     {
@@ -446,7 +430,6 @@ void S (int profundidade,No **Raiz)
         Aux1->esq = Aux2;
         Aux1->dir = Aux3;
         *Raiz = Aux1;
-        AnulaPonteiros(3,profundidade);
     }
     else
     {
@@ -461,13 +444,11 @@ void K (int profundidade,No **Raiz)
     if(profundidade>2)
     {
         Busca[profundidade-3]->esq = Busca[profundidade-1]->dir;
-        AnulaPonteiros(2,profundidade);
     }
     else if(profundidade==2)
     {
         (*Raiz)->dir = NULL;
         (*Raiz)->esq = Busca[profundidade-1]->dir;
-        AnulaPonteiros(1,profundidade);
     }
     else
     {
@@ -490,7 +471,6 @@ void B (int profundidade,No **Raiz)
         Aux1->esq = Busca[profundidade-1]->dir;
         Aux1->dir = Aux2;
         Busca[profundidade-4]->esq = Aux1;
-        AnulaPonteiros(3,profundidade);
     }
     else if(profundidade==3)
     {
@@ -499,7 +479,6 @@ void B (int profundidade,No **Raiz)
         Aux1->esq = Busca[profundidade-1]->dir;
         Aux1->dir = Aux2;
         *Raiz = Aux1;
-        AnulaPonteiros(3,profundidade);
     }
     else
     {
@@ -521,7 +500,6 @@ void C (int profundidade,No **Raiz)
         Aux1->dir = Busca[profundidade-2]->dir;
         Aux1->esq = Aux2;
         Busca[profundidade-4]->esq = Aux1;
-        AnulaPonteiros(3,profundidade);
     }
     else if(profundidade==3)
     {
@@ -530,7 +508,6 @@ void C (int profundidade,No **Raiz)
         Aux1->dir = Busca[profundidade-2]->dir;
         Aux1->esq = Aux2;
         *Raiz = Aux1;
-        AnulaPonteiros(3,profundidade);
     }
     else
     {
@@ -560,7 +537,6 @@ void W (int profundidade,No **Raiz)
         Aux1->esq = Aux2;
         Aux1->dir = Aux3;
         Busca[profundidade-5]->esq = Aux1;
-        AnulaPonteiros(4,profundidade);
     }
     else if(profundidade==4)
     {
@@ -573,7 +549,6 @@ void W (int profundidade,No **Raiz)
         Aux1->esq = Aux2;
         Aux1->dir = Aux3;
         *Raiz = Aux1;
-        AnulaPonteiros(4,profundidade);
     }
     else
     {
@@ -599,7 +574,6 @@ void H (int profundidade,No **Raiz)
         Aux1->esq = Aux2;
         Aux1->dir = Aux3;
         Busca[profundidade-5]->esq = Aux1;
-        AnulaPonteiros(4,profundidade);
     }
     else if(profundidade==4)
     {
@@ -610,7 +584,6 @@ void H (int profundidade,No **Raiz)
         Aux1->esq = Aux2;
         Aux1->dir = Aux3;
         *Raiz = Aux1;
-        AnulaPonteiros(4,profundidade);
     }
     else
     {
@@ -636,7 +609,6 @@ void P (int profundidade,No **Raiz)
         Aux1->esq = Aux2;
         Aux1->dir = Busca[profundidade-3]->dir;
         Busca[profundidade-5]->esq = Aux1;
-        AnulaPonteiros(4,profundidade);
     }
     else if(profundidade==4)
     {
@@ -647,7 +619,6 @@ void P (int profundidade,No **Raiz)
         Aux1->esq = Aux2;
         Aux1->dir = Busca[profundidade-3]->dir;
         *Raiz = Aux1;
-        AnulaPonteiros(4,profundidade);
     }
     else
     {
@@ -661,7 +632,6 @@ void I (int profundidade,No **Raiz)
     if(profundidade>1)
     {
         Busca[profundidade-2]->esq = Busca[profundidade-1]->dir;
-        AnulaPonteiros(1,profundidade);
     }
     else if(profundidade==1)
     {
