@@ -2,8 +2,393 @@
 #include <stdlib.h>
 #include "OperacoesComGrafo.h"
 #include "OperacoesComPilha.h"
-#define SEM_MACRO
-//#define COM_MACRO
+//#define SEM_MACRO
+#define COM_MACRO
+
+
+#ifdef COM_MACRO
+#define S(P, raiz)                                          \
+({                                                          \
+    pai_a = (No*) malloc(sizeof(No));                       \
+    pai_b = (No*) malloc(sizeof(No));                       \
+    pai_c = (No*) malloc(sizeof(No));                       \
+	pai_resto = (No*) malloc(sizeof(No));                   \
+                                                            \
+    No *Aux1;                                               \
+    No *Aux2;                                               \
+    No *Aux3;                                               \
+    criaNo('@', &Aux1);                                     \
+    criaNo('@', &Aux2);                                     \
+    criaNo('@', &Aux3);                                     \
+                                                            \
+    if (tamPilha > 3)                                       \
+	{                                                       \
+		pai_a = pop(P);                                     \
+        pai_b = pop(P);                                     \
+        pai_c = pop(P);                                     \
+		pai_resto = pop(P);                                 \
+                                                            \
+		Aux2->esq = pai_a->dir;                             \
+		Aux2->dir = pai_c->dir;                             \
+		Aux3->esq = pai_b->dir;                             \
+		Aux3->dir = pai_c->dir;                             \
+		Aux1->esq = Aux2;                                   \
+		Aux1->dir = Aux3;                                   \
+		pai_resto->esq = Aux1;                              \
+                                                            \
+		DecodificaOperacao(pai_resto, P);                   \
+	}                                                       \
+	else if(tamPilha == 3)                                  \
+    {                                                       \
+        pai_a = pop(P);                                     \
+        pai_b = pop(P);                                     \
+        pai_c = pop(P);                                     \
+                                                            \
+		Aux2->esq = pai_a->dir;                             \
+		Aux2->dir = pai_c->dir;                             \
+		Aux3->esq = pai_b->dir;                             \
+		Aux3->dir = pai_c->dir;                             \
+		Aux1->esq = Aux2;                                   \
+		Aux1->dir = Aux3;                                   \
+		*raiz = Aux1;                                       \
+                                                            \
+        DecodificaOperacao(*raiz, P);                       \
+    }                                                       \
+    else                                                    \
+    {                                                       \
+        Fim = 1;                                            \
+    }                                                       \
+})
+
+#define K(P, raiz)                                          \
+({                                                          \
+    pai_a = (No*) malloc(sizeof(No));                       \
+    pai_b = (No*) malloc(sizeof(No));                       \
+    pai_resto = (No*) malloc(sizeof(No));                   \
+                                                            \
+    if(tamPilha > 2)                                        \
+    {                                                       \
+        pai_a = pop(P);                                     \
+        pai_b = pop(P);                                     \
+        pai_resto = pop(P);                                 \
+        pai_resto->esq = pai_a->dir;                        \
+                                                            \
+        DecodificaOperacao(pai_resto, P);                   \
+    }                                                       \
+    else if(tamPilha == 2)                                  \
+    {                                                       \
+        pai_a = pop(P);                                     \
+        pai_b = pop(P);                                     \
+                                                            \
+        (*raiz)->dir = NULL;                                \
+        (*raiz)->esq = pai_a->dir;                          \
+                                                            \
+        DecodificaOperacao(*raiz, P);                       \
+    }                                                       \
+    else                                                    \
+    {                                                       \
+        Fim = 1;                                            \
+    }                                                       \
+})
+
+#define C(P, raiz)                                          \
+({                                                          \
+    pai_a = (No*) malloc(sizeof(No));                       \
+    pai_b = (No*) malloc(sizeof(No));                       \
+    pai_c = (No*) malloc(sizeof(No));                       \
+    pai_resto = (No*) malloc (sizeof(No));                  \
+                                                            \
+    No *Aux1 ;                                              \
+    No *Aux2 ;                                              \
+    criaNo('@', &Aux1);                                     \
+    criaNo('@', &Aux2);                                     \
+                                                            \
+    if(tamPilha > 3)                                        \
+    {                                                       \
+        pai_a = pop(P);                                     \
+        pai_b = pop(P);                                     \
+        pai_c = pop(P);                                     \
+        pai_resto = pop(P);                                 \
+                                                            \
+        Aux2->esq = pai_a->dir;                             \
+        Aux2->dir = pai_c->dir;                             \
+        Aux1->dir = pai_b->dir;                             \
+        Aux1->esq = Aux2;                                   \
+        pai_resto->esq = Aux1;                              \
+                                                            \
+        DecodificaOperacao(pai_resto, P);                   \
+    }                                                       \
+    if(tamPilha == 3)                                       \
+    {                                                       \
+        pai_a = pop(P);                                     \
+        pai_b = pop(P);                                     \
+        pai_c = pop(P);                                     \
+                                                            \
+        Aux2->esq = pai_a->dir;                             \
+        Aux2->dir = pai_c->dir;                             \
+        Aux1->dir = pai_b->dir;                             \
+        Aux1->esq = Aux2;                                   \
+        *raiz = Aux1;                                       \
+                                                            \
+        DecodificaOperacao(*raiz, P);                       \
+    }                                                       \
+    else                                                    \
+    {                                                       \
+        Fim = 1;                                            \
+    }                                                       \
+})
+
+#define B(P, raiz)                                          \
+({                                                          \
+    pai_a = (No*) malloc(sizeof(No));                       \
+    pai_b = (No*) malloc(sizeof(No));                       \
+    pai_c = (No*) malloc(sizeof(No));                       \
+    pai_resto = (No*) malloc (sizeof(No));                  \
+                                                            \
+    No *Aux1;                                               \
+    No *Aux2;                                               \
+    criaNo('@', &Aux1);                                     \
+    criaNo('@', &Aux2);                                     \
+                                                            \
+    if(tamPilha > 3)                                        \
+    {                                                       \
+        pai_a = pop(P);                                     \
+        pai_b = pop(P);                                     \
+        pai_c = pop(P);                                     \
+        pai_resto = pop(P);                                 \
+                                                            \
+        Aux2->esq = pai_b->dir;                             \
+        Aux2->dir = pai_c->dir;                             \
+        Aux1->esq = pai_a->dir;                             \
+        Aux1->dir = Aux2;                                   \
+        pai_resto->esq = Aux1;                              \
+                                                            \
+        DecodificaOperacao(pai_resto, P);                   \
+    }                                                       \
+    else if(tamPilha == 3)                                  \
+    {                                                       \
+        pai_a = pop(P);                                     \
+        pai_b = pop(P);                                     \
+        pai_c = pop(P);                                     \
+                                                            \
+        Aux2->esq = pai_b->dir;                             \
+        Aux2->dir = pai_c->dir;                             \
+        Aux1->esq = pai_a->dir;                             \
+        Aux1->dir = Aux2;                                   \
+        *raiz = Aux1;                                       \
+                                                            \
+        DecodificaOperacao(*raiz, P);                       \
+    }                                                       \
+    else                                                    \
+    {                                                       \
+        Fim = 1;                                            \
+    }                                                       \
+})
+
+#define W(P, raiz)                                          \
+({                                                          \
+    pai_a = (No*) malloc(sizeof(No));                       \
+    pai_b = (No*) malloc(sizeof(No));                       \
+    pai_c = (No*) malloc(sizeof(No));                       \
+    pai_d = (No*) malloc(sizeof(No));                       \
+    pai_resto = (No*) malloc(sizeof(No));                   \
+                                                            \
+    No *Aux1;                                               \
+    No *Aux2;                                               \
+    No *Aux3;                                               \
+    No *Aux4;                                               \
+    criaNo('@', &Aux1);                                     \
+    criaNo('@', &Aux2);                                     \
+    criaNo('@', &Aux3);                                     \
+    criaNo('@', &Aux4);                                     \
+                                                            \
+    if(tamPilha > 4)                                        \
+    {                                                       \
+        pai_a = pop(P);                                     \
+        pai_b = pop(P);                                     \
+        pai_c = pop(P);                                     \
+        pai_d = pop(P);                                     \
+        pai_resto = pop(P);                                 \
+                                                            \
+        Aux4->esq = pai_b->dir;                             \
+        Aux4->dir = pai_d->dir;                             \
+        Aux3->esq = pai_c->dir;                             \
+        Aux3->dir = pai_d->dir;                             \
+        Aux2->esq = pai_a->dir;                             \
+        Aux2->dir = Aux4;                                   \
+        Aux1->esq = Aux2;                                   \
+        Aux1->dir = Aux3;                                   \
+        pai_resto->esq = Aux1;                              \
+                                                            \
+        DecodificaOperacao(pai_resto, P);                   \
+    }                                                       \
+    else if(tamPilha == 4)                                  \
+    {                                                       \
+        pai_a = pop(P);                                     \
+        pai_b = pop(P);                                     \
+        pai_c = pop(P);                                     \
+        pai_d = pop(P);                                     \
+                                                            \
+        Aux4->esq = pai_b->dir;                             \
+        Aux4->dir = pai_d->dir;                             \
+        Aux3->esq = pai_c->dir;                             \
+        Aux3->dir = pai_d->dir;                             \
+        Aux2->esq = pai_a->dir;                             \
+        Aux2->dir = Aux4;                                   \
+        Aux1->esq = Aux2;                                   \
+        Aux1->dir = Aux3;                                   \
+        *raiz = Aux1;                                       \
+                                                            \
+        DecodificaOperacao(*raiz, P);                       \
+    }                                                       \
+    else                                                    \
+    {                                                       \
+        printf("\nParametros Insuficientes (FIM)\n");       \
+        Fim = 1;                                            \
+    }                                                       \
+})
+
+#define P(P, raiz)                                          \
+({                                                          \
+    pai_a = (No*) malloc(sizeof(No));                       \
+    pai_b = (No*) malloc(sizeof(No));                       \
+    pai_c = (No*) malloc(sizeof(No));                       \
+    pai_d = (No*) malloc(sizeof(No));                       \
+    pai_resto = (No*) malloc(sizeof(No));                   \
+                                                            \
+    No *Aux1;                                               \
+    No *Aux2;                                               \
+    No *Aux3;                                               \
+    criaNo('@', &Aux1);                                     \
+    criaNo('@', &Aux2);                                     \
+    criaNo('@', &Aux3);                                     \
+                                                            \
+    if(tamPilha > 4)                                        \
+    {                                                       \
+        pai_a = pop(P);                                     \
+        pai_b = pop(P);                                     \
+        pai_c = pop(P);                                     \
+        pai_d = pop(P);                                     \
+        pai_resto = pop(P);                                 \
+                                                            \
+        Aux3->esq = pai_b->dir;                             \
+        Aux3->dir = pai_d->dir;                             \
+        Aux2->esq = pai_a->dir;                             \
+        Aux2->dir = Aux3;                                   \
+        Aux1->esq = Aux2;                                   \
+        Aux1->dir = pai_c->dir;                             \
+        pai_resto->esq = Aux1;                              \
+                                                            \
+        DecodificaOperacao(pai_resto, P);                   \
+    }                                                       \
+    else if(tamPilha == 4)                                  \
+    {                                                       \
+        pai_a = pop(P);                                     \
+        pai_b = pop(P);                                     \
+        pai_c = pop(P);                                     \
+        pai_d = pop(P);                                     \
+                                                            \
+        Aux3->esq = pai_b->dir;                             \
+        Aux3->dir = pai_d->dir;                             \
+        Aux2->esq = pai_a->dir;                             \
+        Aux2->dir = Aux3;                                   \
+        Aux1->esq = Aux2;                                   \
+        Aux1->dir = pai_c->dir;                             \
+        *raiz = Aux1;                                       \
+                                                            \
+        DecodificaOperacao(*raiz, P);                       \
+    }                                                       \
+    else                                                    \
+    {                                                       \
+        Fim = 1;                                            \
+    }                                                       \
+})
+
+#define H(P, raiz)                                          \
+({                                                          \
+    pai_a = (No*) malloc(sizeof(No));                       \
+    pai_b = (No*) malloc(sizeof(No));                       \
+    pai_c = (No*) malloc(sizeof(No));                       \
+    pai_d = (No*) malloc(sizeof(No));                       \
+    pai_resto = (No*) malloc(sizeof(No));                   \
+                                                            \
+    No *Aux1 ;                                              \
+    No *Aux2 ;                                              \
+    No *Aux3 ;                                              \
+    criaNo('@', &Aux1);                                     \
+    criaNo('@', &Aux2);                                     \
+    criaNo('@', &Aux3);                                     \
+                                                            \
+    if(tamPilha > 4)                                        \
+    {                                                       \
+        pai_a = pop(P);                                     \
+        pai_b = pop(P);                                     \
+        pai_c = pop(P);                                     \
+        pai_d = pop(P);                                     \
+        pai_resto = pop(P);                                 \
+                                                            \
+        Aux3->esq = pai_c->dir;                             \
+        Aux3->dir = pai_d->dir;                             \
+        Aux2->esq = pai_a->dir;                             \
+        Aux2->dir = pai_b->dir;                             \
+        Aux1->esq = Aux2;                                   \
+        Aux1->dir = Aux3;                                   \
+        pai_resto->esq = Aux1;                              \
+                                                            \
+        DecodificaOperacao(pai_resto, P);                   \
+    }                                                       \
+    else if(tamPilha == 4)                                  \
+    {                                                       \
+        pai_a = pop(P);                                     \
+        pai_b = pop(P);                                     \
+        pai_c = pop(P);                                     \
+        pai_d = pop(P);                                     \
+                                                            \
+        Aux3->esq = pai_c->dir;                             \
+        Aux3->dir = pai_d->dir;                             \
+        Aux2->esq = pai_a->dir;                             \
+        Aux2->dir = pai_b->dir;                             \
+        Aux1->esq = Aux2;                                   \
+        Aux1->dir = Aux3;                                   \
+        *raiz =Aux1;                                        \
+                                                            \
+        DecodificaOperacao(*raiz, P);                       \
+    }                                                       \
+    else                                                    \
+    {                                                       \
+        Fim = 1;                                            \
+    }                                                       \
+})
+
+#define I(P, raiz)                                          \
+({                                                          \
+    pai_a = (No*) malloc(sizeof(No));                       \
+    pai_resto = (No*) malloc(sizeof(No));                   \
+                                                            \
+    if(tamPilha > 1)                                        \
+    {                                                       \
+        pai_a = pop(P);                                     \
+        pai_resto = pop(P);                                 \
+                                                            \
+        pai_resto->esq = pai_a->dir;                        \
+                                                            \
+        DecodificaOperacao(pai_resto, P);                   \
+    }                                                       \
+    else if(tamPilha == 1)                                  \
+    {                                                       \
+        pai_a = pop(P);                                     \
+                                                            \
+        (*raiz)->dir = NULL;                                \
+        (*raiz)->esq = pai_a->dir;                          \
+                                                            \
+        DecodificaOperacao(*raiz, P);                       \
+    }                                                       \
+    else                                                    \
+    {                                                       \
+        Fim=1;                                              \
+    }                                                       \
+})
+#endif // COM_MACRO
 
 int Fim,i;
 No *OP;
@@ -11,8 +396,7 @@ No *pai_a;
 No *pai_b;
 No *pai_c;
 No *pai_d;
-No *resto;
-
+No *pai_resto;
 
 void DecodificaOperacao(No *Raiz, pilha *p)
 {
@@ -26,273 +410,6 @@ void DecodificaOperacao(No *Raiz, pilha *p)
     }
 }
 
-#ifdef COM_MACRO
-
-#define S(P,raiz)({                                                         \
-{                                                                           \
-    pai_a = (No*) malloc(sizeof(No));                                       \
-    pai_b = (No*) malloc(sizeof(No));                                       \
-    pai_c = (No*) malloc(sizeof(No));                                       \
-                                                                            \
-    No *novo1 = (No*) malloc(sizeof(No));                                   \
-                                                                            \
-    if(tamPilha > 2)                                                        \
-    {                                                                       \
-        pai_a = pop(P);                                                     \
-        pai_b = pop(P);                                                     \
-        pai_c = pop(P);                                                     \
-                                                                            \
-        pai_b->esq = (pai_a->dir);                                          \
-        novo1 = pai_b->dir;                                                 \
-        pai_b->dir = pai_c->dir;                                            \
-        pai_c->dir = pai_a;                                                 \
-        pai_c->dir->dir = pai_b->dir;                                       \
-        pai_c->dir->esq = novo1 ;                                           \
-                                                                            \
-        DecodificaOperacao(pai_c, P);                                       \
-    }                                                                       \
-    else                                                                    \
-    {                                                                       \
-        printf("\nParametros Insuficientes (FIM)\n");                       \
-        Fim = 1;                                                            \
-    }                                                                       \
-}                                                                           \
-})
-
-
-#define K(P,raiz)({                                                        \
-{                                                                           \
-    pai_a = (No*) malloc(sizeof(No));                                       \
-    pai_b = (No*) malloc(sizeof(No));                                       \
-    resto = (No*) malloc(sizeof(No));                                       \
-    No *novo1 = (No*) malloc(sizeof(No));                                   \
-                                                                            \
-    if(tamPilha > 2)                                                        \
-    {                                                                       \
-        pai_a = pop(P);                                                     \
-        pai_b = pop(P);                                                     \
-        resto = pop(P);                                                     \
-                                                                            \
-        pai_a->esq = NULL;                                                  \
-        resto->esq = pai_a->dir;                                            \
-        novo1 = pai_b;                                                      \
-        novo1->esq->dir = NULL;                                             \
-        novo1->dir = NULL;                                                  \
-        novo1->esq = NULL;                                                  \
-        DecodificaOperacao(resto, P);                                       \
-    }                                                                       \
-    else if(tamPilha == 2)                                                  \
-    {                                                                       \
-        pai_a = pop(P);                                                     \
-        pai_b = pop(P);                                                     \
-                                                                            \
-        novo1 = pai_b->esq;                                                 \
-        pai_b->dir = NULL;                                                  \
-        pai_b->esq = NULL;                                                  \
-                                                                            \
-        if(pai_a->dir->c == '@')                                            \
-        {                                                                   \
-            pai_b = pai_a->dir;                                             \
-        }                                                                   \
-        else                                                                \
-        {                                                                   \
-            pai_b->esq = pai_a->dir;                                        \
-        }                                                                   \
-        DecodificaOperacao(pai_b, P);                                       \
-        novo1->dir = NULL;                                                  \
-        novo1->esq = NULL;                                                  \
-    }                                                                       \
-    else                                                                    \
-    {                                                                       \
-        printf("\nParametros Insuficientes (FIM)\n");                       \
-        Fim = 1;                                                            \
-    }                                                                       \
-}                                                                           \
-})                                                                          \
-
-
-
-#define C(P,raiz)({                                                        \
-{                                                                           \
-    pai_a = (No*) malloc(sizeof(No));                                       \
-    pai_b = (No*) malloc(sizeof(No));                                       \
-    pai_c = (No*) malloc(sizeof(No));                                       \
-    if(tamPilha > 2)                                                        \
-    {                                                                       \
-        pai_a = pop(P);                                                     \
-        pai_b = pop(P);                                                     \
-        pai_c = pop(P);                                                     \
-        pai_a->esq = pai_c->dir;                                            \
-        pai_c->dir = pai_b->dir;                                            \
-        pai_b->dir = pai_a->esq;                                            \
-        pai_b->esq = pai_a->dir;                                            \
-        pai_a->esq = NULL;                                                  \
-        pai_a->dir = NULL;                                                  \
-        DecodificaOperacao(pai_c, P);                                       \
-    }                                                                       \
-    else                                                                    \
-    {                                                                       \
-        printf("\nParametros Insuficientes (FIM)\n");                       \
-        Fim = 1;                                                            \
-    }                                                                       \
-}                                                                           \
-})
-
-#define B(P,raiz)({                                                        \
-{                                                                           \
-    pai_a = (No*) malloc(sizeof(No));                                       \
-    pai_b = (No*) malloc(sizeof(No));                                       \
-    pai_c = (No*) malloc(sizeof(No));                                       \
-    No *Aux = (No*) malloc (sizeof(No));                                    \
-    if(tamPilha > 2)                                                        \
-    {                                                                       \
-        pai_a = pop(P);                                                     \
-        pai_b = pop(P);                                                     \
-        pai_c = pop(P);                                                     \
-        pai_c->esq = pai_a->dir;                                            \
-        Aux = pai_c->dir;                                                   \
-        pai_c->dir = pai_a;                                                 \
-        pai_c->dir->dir = Aux;                                              \
-        pai_c->dir->esq = pai_b->dir;                                       \
-        pai_b->dir = NULL;                                                  \
-        pai_b->esq = NULL;                                                  \
-        DecodificaOperacao(pai_c, P);                                       \
-    }                                                                       \
-    else                                                                    \
-    {                                                                       \
-        printf("\nParametros Insuficientes (FIM)\n");                       \
-        Fim = 1;                                                            \
-    }                                                                       \
-}                                                                           \
-})
-
-
-#define W(P,raiz)({                                                        \
-{                                                                           \
-    pai_a = (No*) malloc(sizeof(No));                                       \
-    pai_b = (No*) malloc(sizeof(No));                                       \
-    pai_c = (No*) malloc(sizeof(No));                                       \
-    pai_d = (No*) malloc(sizeof(No));                                       \
-                                                                            \
-    if(tamPilha > 3)                                                        \
-    {                                                                       \
-        pai_a = pop(P);                                                     \
-        pai_b = pop(P);                                                     \
-        pai_c = pop(P);                                                     \
-        pai_d = pop(P);                                                     \
-        pai_d->esq = pai_a;                                                 \
-        pai_d->esq->esq = pai_d->esq->dir;                                  \
-        pai_d->esq->dir = pai_b;                                            \
-        pai_d->esq->dir->esq = pai_d->esq->dir->dir;                        \
-        pai_d->esq->dir->dir = pai_d->dir;                                  \
-        pai_d->dir = pai_c;                                                 \
-        pai_d->dir->esq = pai_d->dir->dir;                                  \
-        pai_d->dir->dir = pai_d->esq->dir->dir;                             \
-        DecodificaOperacao(pai_d, P);                                       \
-    }                                                                       \
-    else                                                                    \
-    {                                                                       \
-        printf("\nParametros Insuficientes (FIM)\n");                       \
-        Fim = 1;                                                            \
-    }                                                                       \
-}                                                                           \
-})
-
-
-#define P(P,raiz)({                                                        \
-{                                                                           \
-    pai_a = (No*) malloc(sizeof(No));                                       \
-    pai_b = (No*) malloc(sizeof(No));                                       \
-    pai_c = (No*) malloc(sizeof(No));                                       \
-    pai_d = (No*) malloc(sizeof(No));                                       \
-    No *Aux = (No*) malloc (sizeof(No));                                    \
-    if(tamPilha > 3)                                                        \
-    {                                                                       \
-        pai_a = pop(P);                                                     \
-        pai_b = pop(P);                                                     \
-        pai_c = pop(P);                                                     \
-        pai_d = pop(P);                                                     \
-        Aux = pai_d->dir;                                                   \
-        pai_d->dir = pai_c->dir;                                            \
-        pai_d->esq = pai_a;                                                 \
-        pai_d->esq->esq = pai_d->esq->dir;                                  \
-        pai_d->esq->dir = pai_b;                                            \
-        pai_d->esq->dir->esq = pai_d->esq->dir->dir;                        \
-        pai_d->esq->dir->dir = Aux;                                         \
-        pai_c->dir = NULL;                                                  \
-        pai_c->esq = NULL;                                                  \
-        DecodificaOperacao(pai_d, P);                                       \
-    }                                                                       \
-    else                                                                    \
-    {                                                                       \
-        printf("\nParametros Insuficientes (FIM)\n");                       \
-        Fim = 1;                                                            \
-    }                                                                       \
-}                                                                           \
-})
-
-#define H(P,raiz)({                                                        \
-{                                                                           \
-    pai_a = (No*) malloc(sizeof(No));                                       \
-    pai_b = (No*) malloc(sizeof(No));                                       \
-    pai_c = (No*) malloc(sizeof(No));                                       \
-    pai_d = (No*) malloc(sizeof(No));                                       \
-    No *Aux = (No*) malloc (sizeof(No));                                    \
-    if(tamPilha > 3)                                                        \
-    {                                                                       \
-        pai_a = pop(P);                                                     \
-        pai_b = pop(P);                                                     \
-        pai_c = pop(P);                                                     \
-        pai_d = pop(P);                                                     \
-        pai_d->esq = pai_b;                                                 \
-        pai_d->esq->esq = pai_a->dir;                                       \
-        Aux = pai_d->dir;                                                   \
-        pai_d->dir = pai_c;                                                 \
-        pai_d->dir->esq = pai_d->dir->dir;                                  \
-        pai_d->dir->dir = Aux;                                              \
-        pai_a->esq = NULL;                                                  \
-        pai_a->dir = NULL;                                                  \
-        DecodificaOperacao(pai_d, P);                                       \
-    }                                                                       \
-    else                                                                    \
-    {                                                                       \
-        printf("\nParametros Insuficientes (FIM)\n");                       \
-        Fim = 1;                                                            \
-    }                                                                       \
-}                                                                           \
-})
-
-#define I(P,raiz)({                                                        \
-{                                                                           \
-    pai_a = (No*) malloc(sizeof(No));                                       \
-    pai_b = (No*) malloc(sizeof(No));                                       \
-    if(tamPilha > 1)                                                        \
-    {                                                                       \
-        pai_a = pop(P);                                                     \
-        pai_b = pop(P);                                                     \
-        pai_b->esq = pai_a->dir;                                            \
-        pai_a->esq = NULL;                                                  \
-        pai_a->dir = NULL;                                                  \
-        DecodificaOperacao(pai_b, P);                                       \
-    }                                                                       \
-    else if(tamPilha == 1)                                                  \
-    {                                                                       \
-        pai_a = pop(P);                                                     \
-        pai_a->esq = pai_a->dir;                                            \
-        pai_a->dir = NULL;                                                  \
-        DecodificaOperacao(pai_a, P);                                       \
-    }                                                                       \
-    else                                                                    \
-    {                                                                       \
-        printf("\nParametros Insuficientes (FIM)\n");                       \
-        Fim=1;                                                              \
-    }                                                                       \
-}                                                                           \
-})
-#endif // COM_MACRO
-
-
-
 #ifdef SEM_MACRO
 
 void S(pilha *P, No **raiz)
@@ -300,27 +417,50 @@ void S(pilha *P, No **raiz)
     pai_a = (No*) malloc(sizeof(No));
     pai_b = (No*) malloc(sizeof(No));
     pai_c = (No*) malloc(sizeof(No));
+	pai_resto = (No*) malloc(sizeof(No));
 
-    No *novo1 = (No*) malloc(sizeof(No));
+    No *Aux1;
+    No *Aux2;
+    No *Aux3;
+    criaNo('@', &Aux1);
+    criaNo('@', &Aux2);
+    criaNo('@', &Aux3);
 
-    if(tamPilha > 2)
+    if (tamPilha > 3)
+	{
+		pai_a = pop(P);
+        pai_b = pop(P);
+        pai_c = pop(P);
+		pai_resto = pop(P);
+
+		Aux2->esq = pai_a->dir;
+		Aux2->dir = pai_c->dir;
+		Aux3->esq = pai_b->dir;
+		Aux3->dir = pai_c->dir;
+		Aux1->esq = Aux2;
+		Aux1->dir = Aux3;
+		pai_resto->esq = Aux1;
+
+		DecodificaOperacao(pai_resto, P);
+	}
+	else if(tamPilha == 3)
     {
         pai_a = pop(P);
         pai_b = pop(P);
         pai_c = pop(P);
 
-        pai_b->esq = (pai_a->dir);
-        novo1 = pai_b->dir;
-        pai_b->dir = pai_c->dir;
-        pai_c->dir = pai_a;
-        pai_c->dir->dir = pai_b->dir;
-        pai_c->dir->esq = novo1 ;
-        //pai_c->esq = NULL ;
-        DecodificaOperacao(pai_c, P);
+		Aux2->esq = pai_a->dir;
+		Aux2->dir = pai_c->dir;
+		Aux3->esq = pai_b->dir;
+		Aux3->dir = pai_c->dir;
+		Aux1->esq = Aux2;
+		Aux1->dir = Aux3;
+		*raiz = Aux1;
+
+        DecodificaOperacao(*raiz, P);
     }
     else
     {
-        printf("\nParametros Insuficientes (FIM)\n");
         Fim = 1;
     }
 }
@@ -329,47 +469,30 @@ void K(pilha *P, No **raiz)
 {
     pai_a = (No*) malloc(sizeof(No));
     pai_b = (No*) malloc(sizeof(No));
-    resto = (No*) malloc(sizeof(No));
-    No *novo1 = (No*) malloc(sizeof(No));
+    pai_resto = (No*) malloc(sizeof(No));
 
     if(tamPilha > 2)
     {
         pai_a = pop(P);
         pai_b = pop(P);
-        resto = pop(P);
+        pai_resto = pop(P);
 
-        pai_a->esq = NULL;
-        resto->esq = pai_a->dir;
-        novo1 = pai_b;
-        novo1->esq->dir = NULL;
-        novo1->dir = NULL;
-        novo1->esq = NULL;
-        DecodificaOperacao(resto, P);
+        pai_resto->esq = pai_a->dir;
+
+        DecodificaOperacao(pai_resto, P);
     }
     else if(tamPilha == 2)
     {
         pai_a = pop(P);
         pai_b = pop(P);
 
-        novo1 = pai_b->esq;
-        pai_b->dir = NULL;
-        pai_b->esq = NULL;
+        (*raiz)->dir = NULL;
+        (*raiz)->esq = pai_a->dir;
 
-        if(pai_a->dir->c == '@')
-        {
-            pai_b = pai_a->dir;
-        }
-        else
-        {
-            pai_b->esq = pai_a->dir;
-        }
-        DecodificaOperacao(pai_b, P);
-        novo1->dir = NULL;
-        novo1->esq = NULL;
+        DecodificaOperacao(*raiz, P);
     }
     else
     {
-        printf("\nParametros Insuficientes (FIM)\n");
         Fim = 1;
     }
 }
@@ -379,25 +502,44 @@ void C(pilha *P, No **raiz)
     pai_a = (No*) malloc(sizeof(No));
     pai_b = (No*) malloc(sizeof(No));
     pai_c = (No*) malloc(sizeof(No));
+    pai_resto = (No*) malloc (sizeof(No));
 
-    if(tamPilha > 2)
+    No *Aux1 ;
+    No *Aux2 ;
+    criaNo('@', &Aux1);
+    criaNo('@', &Aux2);
+
+    if(tamPilha > 3)
+    {
+        pai_a = pop(P);
+        pai_b = pop(P);
+        pai_c = pop(P);
+        pai_resto = pop(P);
+
+        Aux2->esq = pai_a->dir;
+        Aux2->dir = pai_c->dir;
+        Aux1->dir = pai_b->dir;
+        Aux1->esq = Aux2;
+        pai_resto->esq = Aux1;
+
+        DecodificaOperacao(pai_resto, P);
+    }
+    if(tamPilha == 3)
     {
         pai_a = pop(P);
         pai_b = pop(P);
         pai_c = pop(P);
 
-        pai_a->esq = pai_c->dir;
-        pai_c->dir = pai_b->dir;
-        pai_b->dir = pai_a->esq;
-        pai_b->esq = pai_a->dir;
-        pai_a->esq = NULL;
-        pai_a->dir = NULL;
+        Aux2->esq = pai_a->dir;
+        Aux2->dir = pai_c->dir;
+        Aux1->dir = pai_b->dir;
+        Aux1->esq = Aux2;
+        *raiz = Aux1;
 
-        DecodificaOperacao(pai_c, P);
+        DecodificaOperacao(*raiz, P);
     }
     else
     {
-        printf("\nParametros Insuficientes (FIM)\n");
         Fim = 1;
     }
 }
@@ -407,28 +549,44 @@ void B(pilha *P, No **raiz)
     pai_a = (No*) malloc(sizeof(No));
     pai_b = (No*) malloc(sizeof(No));
     pai_c = (No*) malloc(sizeof(No));
-    No *Aux = (No*) malloc (sizeof(No));
+    pai_resto = (No*) malloc (sizeof(No));
 
-    if(tamPilha > 2)
+    No *Aux1;
+    No *Aux2;
+    criaNo('@', &Aux1);
+    criaNo('@', &Aux2);
+
+    if(tamPilha > 3)
+    {
+        pai_a = pop(P);
+        pai_b = pop(P);
+        pai_c = pop(P);
+        pai_resto = pop(P);
+
+        Aux2->esq = pai_b->dir;
+        Aux2->dir = pai_c->dir;
+        Aux1->esq = pai_a->dir;
+        Aux1->dir = Aux2;
+        pai_resto->esq = Aux1;
+
+        DecodificaOperacao(pai_resto, P);
+    }
+    else if(tamPilha == 3)
     {
         pai_a = pop(P);
         pai_b = pop(P);
         pai_c = pop(P);
 
+        Aux2->esq = pai_b->dir;
+        Aux2->dir = pai_c->dir;
+        Aux1->esq = pai_a->dir;
+        Aux1->dir = Aux2;
+        *raiz = Aux1;
 
-        pai_c->esq = pai_a->dir;
-        Aux = pai_c->dir;
-        pai_c->dir = pai_a;
-        pai_c->dir->dir = Aux;
-        pai_c->dir->esq = pai_b->dir;
-        pai_b->dir = NULL;
-        pai_b->esq = NULL;
-
-        DecodificaOperacao(pai_c, P);
+        DecodificaOperacao(*raiz, P);
     }
     else
     {
-        printf("\nParametros Insuficientes (FIM)\n");
         Fim = 1;
     }
 }
@@ -439,29 +597,58 @@ void W(pilha *P, No **raiz)
     pai_b = (No*) malloc(sizeof(No));
     pai_c = (No*) malloc(sizeof(No));
     pai_d = (No*) malloc(sizeof(No));
+    pai_resto = (No*) malloc(sizeof(No));
 
-    if(tamPilha > 3)
+    No *Aux1;
+    No *Aux2;
+    No *Aux3;
+    No *Aux4;
+    criaNo('@', &Aux1);
+    criaNo('@', &Aux2);
+    criaNo('@', &Aux3);
+    criaNo('@', &Aux4);
+
+    if(tamPilha > 4)
+    {
+        pai_a = pop(P);
+        pai_b = pop(P);
+        pai_c = pop(P);
+        pai_d = pop(P);
+        pai_resto = pop(P);
+
+        Aux4->esq = pai_b->dir;
+        Aux4->dir = pai_d->dir;
+        Aux3->esq = pai_c->dir;
+        Aux3->dir = pai_d->dir;
+        Aux2->esq = pai_a->dir;
+        Aux2->dir = Aux4;
+        Aux1->esq = Aux2;
+        Aux1->dir = Aux3;
+        pai_resto->esq = Aux1;
+
+        DecodificaOperacao(pai_resto, P);
+    }
+    else if(tamPilha == 4)
     {
         pai_a = pop(P);
         pai_b = pop(P);
         pai_c = pop(P);
         pai_d = pop(P);
 
+        Aux4->esq = pai_b->dir;
+        Aux4->dir = pai_d->dir;
+        Aux3->esq = pai_c->dir;
+        Aux3->dir = pai_d->dir;
+        Aux2->esq = pai_a->dir;
+        Aux2->dir = Aux4;
+        Aux1->esq = Aux2;
+        Aux1->dir = Aux3;
+        *raiz = Aux1;
 
-        pai_d->esq = pai_a;
-        pai_d->esq->esq = pai_d->esq->dir;
-        pai_d->esq->dir = pai_b;
-        pai_d->esq->dir->esq = pai_d->esq->dir->dir;
-        pai_d->esq->dir->dir = pai_d->dir;
-        pai_d->dir = pai_c;
-        pai_d->dir->esq = pai_d->dir->dir;
-        pai_d->dir->dir = pai_d->esq->dir->dir;
-
-        DecodificaOperacao(pai_d, P);
+        DecodificaOperacao(*raiz, P);
     }
     else
     {
-        printf("\nParametros Insuficientes (FIM)\n");
         Fim = 1;
     }
 }
@@ -472,32 +659,52 @@ void P(pilha *P, No **raiz)
     pai_b = (No*) malloc(sizeof(No));
     pai_c = (No*) malloc(sizeof(No));
     pai_d = (No*) malloc(sizeof(No));
-    No *Aux = (No*) malloc (sizeof(No));
+    pai_resto = (No*) malloc(sizeof(No));
 
-    if(tamPilha > 3)
+    No *Aux1;
+    No *Aux2;
+    No *Aux3;
+    criaNo('@', &Aux1);
+    criaNo('@', &Aux2);
+    criaNo('@', &Aux3);
+
+    if(tamPilha > 4)
+    {
+        pai_a = pop(P);
+        pai_b = pop(P);
+        pai_c = pop(P);
+        pai_d = pop(P);
+        pai_resto = pop(P);
+
+        Aux3->esq = pai_b->dir;
+        Aux3->dir = pai_d->dir;
+        Aux2->esq = pai_a->dir;
+        Aux2->dir = Aux3;
+        Aux1->esq = Aux2;
+        Aux1->dir = pai_c->dir;
+        pai_resto->esq = Aux1;
+
+        DecodificaOperacao(pai_resto, P);
+    }
+    else if(tamPilha == 4)
     {
         pai_a = pop(P);
         pai_b = pop(P);
         pai_c = pop(P);
         pai_d = pop(P);
 
+        Aux3->esq = pai_b->dir;
+        Aux3->dir = pai_d->dir;
+        Aux2->esq = pai_a->dir;
+        Aux2->dir = Aux3;
+        Aux1->esq = Aux2;
+        Aux1->dir = pai_c->dir;
+        *raiz = Aux1;
 
-
-        Aux = pai_d->dir;
-        pai_d->dir = pai_c->dir;
-        pai_d->esq = pai_a;
-        pai_d->esq->esq = pai_d->esq->dir;
-        pai_d->esq->dir = pai_b;
-        pai_d->esq->dir->esq = pai_d->esq->dir->dir;
-        pai_d->esq->dir->dir = Aux;
-        pai_c->dir = NULL;
-        pai_c->esq = NULL;
-
-        DecodificaOperacao(pai_d, P);
+        DecodificaOperacao(*raiz, P);
     }
     else
     {
-        printf("\nParametros Insuficientes (FIM)\n");
         Fim = 1;
     }
 }
@@ -508,30 +715,52 @@ void H(pilha *P, No **raiz)
     pai_b = (No*) malloc(sizeof(No));
     pai_c = (No*) malloc(sizeof(No));
     pai_d = (No*) malloc(sizeof(No));
-    No *Aux = (No*) malloc (sizeof(No));
+    pai_resto = (No*) malloc(sizeof(No));
 
-    if(tamPilha > 3)
+    No *Aux1 ;
+    No *Aux2 ;
+    No *Aux3 ;
+    criaNo('@', &Aux1);
+    criaNo('@', &Aux2);
+    criaNo('@', &Aux3);
+
+    if(tamPilha > 4)
+    {
+        pai_a = pop(P);
+        pai_b = pop(P);
+        pai_c = pop(P);
+        pai_d = pop(P);
+        pai_resto = pop(P);
+
+        Aux3->esq = pai_c->dir;
+        Aux3->dir = pai_d->dir;
+        Aux2->esq = pai_a->dir;
+        Aux2->dir = pai_b->dir;
+        Aux1->esq = Aux2;
+        Aux1->dir = Aux3;
+        pai_resto->esq = Aux1;
+
+        DecodificaOperacao(pai_resto, P);
+    }
+    else if(tamPilha == 4)
     {
         pai_a = pop(P);
         pai_b = pop(P);
         pai_c = pop(P);
         pai_d = pop(P);
 
+        Aux3->esq = pai_c->dir;
+        Aux3->dir = pai_d->dir;
+        Aux2->esq = pai_a->dir;
+        Aux2->dir = pai_b->dir;
+        Aux1->esq = Aux2;
+        Aux1->dir = Aux3;
+        *raiz =Aux1;
 
-        pai_d->esq = pai_b;
-        pai_d->esq->esq = pai_a->dir;
-        Aux = pai_d->dir;
-        pai_d->dir = pai_c;
-        pai_d->dir->esq = pai_d->dir->dir;
-        pai_d->dir->dir = Aux;
-        pai_a->esq = NULL;
-        pai_a->dir = NULL;
-
-        DecodificaOperacao(pai_d, P);
+        DecodificaOperacao(*raiz, P);
     }
     else
     {
-        printf("\nParametros Insuficientes (FIM)\n");
         Fim = 1;
     }
 }
@@ -539,29 +768,28 @@ void H(pilha *P, No **raiz)
 void I(pilha *P, No **raiz)
 {
     pai_a = (No*) malloc(sizeof(No));
-    pai_b = (No*) malloc(sizeof(No));
+    pai_resto = (No*) malloc(sizeof(No));
 
     if(tamPilha > 1)
     {
         pai_a = pop(P);
-        pai_b = pop(P);
+        pai_resto = pop(P);
 
-        pai_b->esq = pai_a->dir;
-        pai_a->esq = NULL;
-        pai_a->dir = NULL;
+        pai_resto->esq = pai_a->dir;
 
-        DecodificaOperacao(pai_b, P);
+        DecodificaOperacao(pai_resto, P);
     }
     else if(tamPilha == 1)
     {
         pai_a = pop(P);
-        pai_a->esq = pai_a->dir;
-        pai_a->dir = NULL;
-        DecodificaOperacao(pai_a, P);
+
+        (*raiz)->dir = NULL;
+        (*raiz)->esq = pai_a->dir;
+
+        DecodificaOperacao(*raiz, P);
     }
     else
     {
-        printf("\nParametros Insuficientes (FIM)\n");
         Fim=1;
     }
 }
@@ -572,18 +800,17 @@ int main()
 {
     char strEntrada[200000];
     No *Raiz;
-    int profundidade = 0;
     pilha Pilha[200000];
     OP = (No*) malloc(sizeof(No));
     FILE *arq = fopen("string.in", "r");
     fscanf(arq,"%s",strEntrada);
+
     criaNo('@', &Raiz);
     Raiz = criaGrafo(strEntrada, Raiz);
     DecodificaOperacao(Raiz, Pilha);
-    int a=0;
+
     while(Fim == 0)
     {
-        a++;
         OP = pop(Pilha);
         switch (OP->c)
         {
@@ -612,13 +839,11 @@ int main()
             C(Pilha, &Raiz);
             break;
         }
-
-
     }
 
     printf("Saida: ");
     printaGrafo(Raiz);
-    printf("\nIteracoes: %d",a);
+    printf("\n");
 
     return 0;
 }
