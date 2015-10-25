@@ -4,9 +4,6 @@
 #define COM_MACRO
 
 /** Macros **/
-
-
-
 #define criaNo(carac, novo)({                                           \
 {                                                                       \
     novo = &grafo[indice];                                              \
@@ -49,7 +46,6 @@
     }                                                                   \
     else                                                                \
     {                                                                   \
-        printf("Numero De Parametros Insuficientes\n");                 \
         Fim=1;                                                          \
     }                                                                   \
 }                                                                       \
@@ -69,13 +65,10 @@
     }                                                                   \
     else                                                                \
     {                                                                   \
-        printf("Numero De Parametros Insuficientes\n");                 \
         Fim=1;                                                          \
     }                                                                   \
 }                                                                       \
 })                                                                      \
-
-
 
 #define B(profundidade,Raiz)({                                          \
 {                                                                       \
@@ -101,7 +94,6 @@
     }                                                                   \
     else                                                                \
     {                                                                   \
-        printf("Numero De Parametros Insuficientes\n");                 \
         Fim=1;                                                          \
     }                                                                   \
 }                                                                       \
@@ -131,7 +123,6 @@
     }                                                                   \
     else                                                                \
     {                                                                   \
-        printf("Numero De Parametros Insuficientes\n");                 \
         Fim=1;                                                          \
     }                                                                   \
 }                                                                       \
@@ -173,7 +164,6 @@
     }                                                                   \
     else                                                                \
     {                                                                   \
-        printf("Numero De Parametros Insuficientes\n");                 \
         Fim=1;                                                          \
     }                                                                   \
 }                                                                       \
@@ -209,7 +199,6 @@
     }                                                                   \
     else                                                                \
     {                                                                   \
-        printf("Numero De Parametros Insuficientes\n");                 \
         Fim=1;                                                          \
     }                                                                   \
 }                                                                       \
@@ -245,7 +234,6 @@
     }                                                                   \
     else                                                                \
     {                                                                   \
-        printf("Numero De Parametros Insuficientes\n");                 \
         Fim=1;                                                          \
     }                                                                   \
 }                                                                       \
@@ -264,23 +252,11 @@
     }                                                                   \
     else                                                                \
     {                                                                   \
-        printf("Numero De Parametros Insuficientes\n");                 \
         Fim=1;                                                          \
     }                                                                   \
 }                                                                       \
 })
-
-
 #endif // COM_MACRO
-
-
-
-
-
-
-
-
-
 
 
 typedef struct No
@@ -391,16 +367,6 @@ void DecodificaOperacao(No *Raiz, int *profundidade)
     Busca[*profundidade] = Aux1;
 }
 
-//void AnulaPonteiros(int Padrao,int profundidade)
-//{
-//   for(;Padrao>0;Padrao--)
-//    {
-//        Busca[profundidade-Padrao]->esq = NULL;
-//        Busca[profundidade-Padrao]->dir = NULL;
-//    }
-//}
-
-
 #ifdef SEM_MACRO
 
 void S (int profundidade,No **Raiz)
@@ -433,7 +399,6 @@ void S (int profundidade,No **Raiz)
     }
     else
     {
-        printf("Numero De Parametros Insuficientes\n");
         Fim=1;
     }
 }
@@ -452,7 +417,6 @@ void K (int profundidade,No **Raiz)
     }
     else
     {
-        printf("Numero De Parametros Insuficientes\n");
         Fim=1;
     }
 
@@ -482,7 +446,6 @@ void B (int profundidade,No **Raiz)
     }
     else
     {
-        printf("Numero De Parametros Insuficientes\n");
         Fim=1;
     }
 }
@@ -511,7 +474,6 @@ void C (int profundidade,No **Raiz)
     }
     else
     {
-        printf("Numero De Parametros Insuficientes\n");
         Fim=1;
     }
 }
@@ -552,7 +514,6 @@ void W (int profundidade,No **Raiz)
     }
     else
     {
-        printf("Numero De Parametros Insuficientes\n");
         Fim=1;
     }
 }
@@ -587,7 +548,6 @@ void H (int profundidade,No **Raiz)
     }
     else
     {
-        printf("Numero De Parametros Insuficientes\n");
         Fim=1;
     }
 }
@@ -640,12 +600,10 @@ void I (int profundidade,No **Raiz)
     }
     else
     {
-        printf("Numero De Parametros Insuficientes\n");
         Fim=1;
     }
 
 }
-
 #endif // SEM_MACRO
 
 int main()
@@ -657,10 +615,9 @@ int main()
     fscanf(arq,"%s",strEntrada);
     criaNo('@', Raiz);
     Raiz = criaGrafo(strEntrada, Raiz);
-    int a=0;
+
     while(1)
     {
-        a++;
         DecodificaOperacao(Raiz, &profundidade);
         switch (Busca[profundidade-1]->esq->c)
         {
@@ -691,11 +648,10 @@ int main()
         }
         if(Fim)
             break;
-
     }
     printf("Saida: ");
     printaGrafo(Raiz);
-    printf("\nIteracoes: %d",a);
+    printf("\n");
     return 0;
 }
 // S' = W // C' = P // B' = H
