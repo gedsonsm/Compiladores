@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define SEM_MACRO
-//#define COM_MACRO
+//#define SEM_MACRO
+#define COM_MACRO
 
 /** Macros **/
 
@@ -19,183 +19,266 @@
 
 #ifdef COM_MACRO
 
-#define S(profundidade)({                                                          \
-    {                                                                   \
-        if(profundidade > 2)                                            \
-        {                                                               \
-        Busca[profundidade-2]->esq = (Busca[profundidade-1]->dir);      \
-        Aux = Busca[profundidade-2]->dir;                               \
-        Busca[profundidade-2]->dir = Busca[profundidade-3]->dir;        \
-        Busca[profundidade-3]->dir = Busca[profundidade-1];             \
-        Busca[profundidade-3]->dir->dir = Busca[profundidade-2]->dir;   \
-        Busca[profundidade-3]->dir->esq = Aux ;                         \
-    }                                                                   \
-}                                                                       \
-})
-
-#define K(profundidade)({                                                          \
+#define S(profundidade,Raiz)({                                          \
 {                                                                       \
-    if(profundidade > 2)                                                \
+    No *Aux1 ;                                                          \
+    No *Aux2 ;                                                          \
+    No *Aux3 ;                                                          \
+    criaNo('@', Aux1);                                                  \
+    criaNo('@', Aux2);                                                  \
+    criaNo('@', Aux3);                                                  \
+    if(profundidade>3)                                                  \
     {                                                                   \
-        Busca[profundidade-1]->esq = NULL;                              \
-        Busca[profundidade-3]->esq = Busca[profundidade-1]->dir;        \
-        Aux = Busca[profundidade-2];                                    \
-        Aux->esq->dir = NULL;                                           \
-        Aux->dir = NULL;                                                \
-        Aux->esq = NULL;                                                \
+        Aux2->esq = Busca[profundidade-1]->dir;                         \
+        Aux2->dir = Busca[profundidade-3]->dir;                         \
+        Aux3->esq = Busca[profundidade-2]->dir;                         \
+        Aux3->dir = Busca[profundidade-3]->dir;                         \
+        Aux1->esq = Aux2;                                               \
+        Aux1->dir = Aux3;                                               \
+        Busca[profundidade-4]->esq = Aux1;                              \
     }                                                                   \
-    else if(profundidade == 2)                                          \
+    else if(profundidade==3)                                            \
     {                                                                   \
-        Aux = Busca[profundidade-2]->esq;                               \
-        Busca[profundidade-2]->dir = NULL;                              \
-        Busca[profundidade-2]->esq = NULL;                              \
-        if(Busca[profundidade-1]->dir->c == '@')                        \
-        {                                                               \
-            Busca[profundidade-2] = Busca[profundidade-1]->dir;         \
-        }                                                               \
-        else                                                            \
-        {                                                               \
-            Busca[profundidade-2]->esq = Busca[profundidade-1]->dir;    \
-        }                                                               \
-        Aux->dir = NULL;                                                \
-        Aux->esq = NULL;                                                \
+        Aux2->esq = Busca[profundidade-1]->dir;                         \
+        Aux2->dir = Busca[profundidade-3]->dir;                         \
+        Aux3->esq = Busca[profundidade-2]->dir;                         \
+        Aux3->dir = Busca[profundidade-3]->dir;                         \
+        Aux1->esq = Aux2;                                               \
+        Aux1->dir = Aux3;                                               \
+        *Raiz = Aux1;                                                   \
     }                                                                   \
     else                                                                \
     {                                                                   \
-        printf("\nParametros Insuficientes (FIM)\n");                   \
+        printf("Numero De Parametros Insuficientes\n");                 \
         Fim=1;                                                          \
     }                                                                   \
 }                                                                       \
 })
 
-#define B(profundidade)({                                               \
+
+#define K(profundidade,Raiz)({                                          \
 {                                                                       \
     if(profundidade>2)                                                  \
     {                                                                   \
-        No *Aux = (No*) malloc (sizeof(No));                            \
         Busca[profundidade-3]->esq = Busca[profundidade-1]->dir;        \
-        Aux = Busca[profundidade-3]->dir;                               \
-        Busca[profundidade-3]->dir = Busca[profundidade-1];             \
-        Busca[profundidade-3]->dir->dir = Aux;                          \
-        Busca[profundidade-3]->dir->esq = Busca[profundidade-2]->dir;   \
-        Busca[profundidade-2]->dir = NULL;                              \
-        Busca[profundidade-2]->esq = NULL;                              \
+    }                                                                   \
+    else if(profundidade==2)                                            \
+    {                                                                   \
+        (*Raiz)->dir = NULL;                                            \
+        (*Raiz)->esq = Busca[profundidade-1]->dir;                      \
     }                                                                   \
     else                                                                \
     {                                                                   \
-        printf("\nParametros Insuficientes (FIM)\n");                   \
+        printf("Numero De Parametros Insuficientes\n");                 \
+        Fim=1;                                                          \
+    }                                                                   \
+}                                                                       \
+})                                                                      \
+
+
+
+#define B(profundidade,Raiz)({                                          \
+{                                                                       \
+    No *Aux1 ;                                                          \
+    No *Aux2 ;                                                          \
+    criaNo('@', Aux1);                                                  \
+    criaNo('@', Aux2);                                                  \
+    if(profundidade>3)                                                  \
+    {                                                                   \
+        Aux2->esq = Busca[profundidade-2]->dir;                         \
+        Aux2->dir = Busca[profundidade-3]->dir;                         \
+        Aux1->esq = Busca[profundidade-1]->dir;                         \
+        Aux1->dir = Aux2;                                               \
+        Busca[profundidade-4]->esq = Aux1;                              \
+    }                                                                   \
+    else if(profundidade==3)                                            \
+    {                                                                   \
+        Aux2->esq = Busca[profundidade-2]->dir;                         \
+        Aux2->dir = Busca[profundidade-3]->dir;                         \
+        Aux1->esq = Busca[profundidade-1]->dir;                         \
+        Aux1->dir = Aux2;                                               \
+        *Raiz = Aux1;                                                   \
+    }                                                                   \
+    else                                                                \
+    {                                                                   \
+        printf("Numero De Parametros Insuficientes\n");                 \
         Fim=1;                                                          \
     }                                                                   \
 }                                                                       \
 })
 
-#define H(profundidade)({                                                    \
-{                                                                            \
-    if(profundidade>3)                                                       \
-    {                                                                        \
-        No *Aux = (No*) malloc (sizeof(No));                                 \
-        Busca[profundidade-4]->esq = Busca[profundidade-2];                  \
-        Busca[profundidade-4]->esq->esq = Busca[profundidade-1]->dir;        \
-        Aux = Busca[profundidade-4]->dir;                                    \
-        Busca[profundidade-4]->dir = Busca[profundidade-3];                  \
-        Busca[profundidade-4]->dir->esq = Busca[profundidade-4]->dir->dir;   \
-        Busca[profundidade-4]->dir->dir = Aux;                               \
-        Busca[profundidade-1]->esq = NULL;                                   \
-        Busca[profundidade-1]->dir = NULL;                                   \
-    }                                                                        \
-    else                                                                     \
-    {                                                                        \
-        printf("\nParametros Insuficientes (FIM)\n");                        \
-        Fim=1;                                                               \
-    }                                                                        \
-}                                                                            \
+#define C(profundidade,Raiz)({                                          \
+{                                                                       \
+    No *Aux1 ;                                                          \
+    No *Aux2 ;                                                          \
+    criaNo('@', Aux1);                                                  \
+    criaNo('@', Aux2);                                                  \
+    if(profundidade>3)                                                  \
+    {                                                                   \
+        Aux2->esq = Busca[profundidade-1]->dir;                         \
+        Aux2->dir = Busca[profundidade-3]->dir;                         \
+        Aux1->dir = Busca[profundidade-2]->dir;                         \
+        Aux1->esq = Aux2;                                               \
+        Busca[profundidade-4]->esq = Aux1;                              \
+    }                                                                   \
+    else if(profundidade==3)                                            \
+    {                                                                   \
+        Aux2->esq = Busca[profundidade-1]->dir;                         \
+        Aux2->dir = Busca[profundidade-3]->dir;                         \
+        Aux1->dir = Busca[profundidade-2]->dir;                         \
+        Aux1->esq = Aux2;                                               \
+        *Raiz = Aux1;                                                   \
+    }                                                                   \
+    else                                                                \
+    {                                                                   \
+        printf("Numero De Parametros Insuficientes\n");                 \
+        Fim=1;                                                          \
+    }                                                                   \
+}                                                                       \
 })
 
-#define P(profundidade)({                                                                    \
-{                                                                                            \
-    if(profundidade>3)                                                                       \
-    {                                                                                        \
-        No *Aux = (No*) malloc (sizeof(No));                                                 \
-        Aux = Busca[profundidade-4]->dir;                                                    \
-        Busca[profundidade-4]->dir = Busca[profundidade-3]->dir;                             \
-        Busca[profundidade-4]->esq = Busca[profundidade-1];                                  \
-        Busca[profundidade-4]->esq->esq = Busca[profundidade-4]->esq->dir;                   \
-        Busca[profundidade-4]->esq->dir = Busca[profundidade-2];                             \
-        Busca[profundidade-4]->esq->dir->esq = Busca[profundidade-4]->esq->dir->dir;         \
-        Busca[profundidade-4]->esq->dir->dir = Aux;                                          \
-        Busca[profundidade-3]->dir = NULL;                                                   \
-        Busca[profundidade-3]->esq = NULL;                                                   \
-    }                                                                                        \
-    else                                                                                     \
-    {                                                                                        \
-        printf("\nParametros Insuficientes (FIM)\n");                                        \
-        Fim=1;                                                                               \
-    }                                                                                        \
-}                                                                                            \
+#define W(profundidade,Raiz)({                                          \
+{                                                                       \
+    No *Aux1 ;                                                          \
+    No *Aux2 ;                                                          \
+    No *Aux3 ;                                                          \
+    No *Aux4 ;                                                          \
+    criaNo('@', Aux1);                                                  \
+    criaNo('@', Aux2);                                                  \
+    criaNo('@', Aux3);                                                  \
+    criaNo('@', Aux4);                                                  \
+    if(profundidade>4)                                                  \
+    {                                                                   \
+        Aux4->esq = Busca[profundidade-2]->dir;                         \
+        Aux4->dir = Busca[profundidade-4]->dir;                         \
+        Aux3->esq = Busca[profundidade-3]->dir;                         \
+        Aux3->dir = Busca[profundidade-4]->dir;                         \
+        Aux2->esq = Busca[profundidade-1]->dir;                         \
+        Aux2->dir = Aux4;                                               \
+        Aux1->esq = Aux2;                                               \
+        Aux1->dir = Aux3;                                               \
+        Busca[profundidade-5]->esq = Aux1;                              \
+    }                                                                   \
+    else if(profundidade==4)                                            \
+    {                                                                   \
+        Aux4->esq = Busca[profundidade-2]->dir;                         \
+        Aux4->dir = Busca[profundidade-4]->dir;                         \
+        Aux3->esq = Busca[profundidade-3]->dir;                         \
+        Aux3->dir = Busca[profundidade-4]->dir;                         \
+        Aux2->esq = Busca[profundidade-1]->dir;                         \
+        Aux2->dir = Aux4;                                               \
+        Aux1->esq = Aux2;                                               \
+        Aux1->dir = Aux3;                                               \
+        *Raiz = Aux1;                                                   \
+    }                                                                   \
+    else                                                                \
+    {                                                                   \
+        printf("Numero De Parametros Insuficientes\n");                 \
+        Fim=1;                                                          \
+    }                                                                   \
+}                                                                       \
 })
 
-#define I(profundidade)({                                                                    \
-{                                                                                            \
-    if(profundidade > 1)                                                                     \
-    {                                                                                        \
-       Busca[profundidade-2]->esq = Busca[profundidade-1]->dir;                              \
-       Busca[profundidade-1]->esq = NULL;                                                    \
-       Busca[profundidade-1]->dir = NULL;                                                    \
-    }                                                                                        \
-    else if(profundidade == 1)                                                               \
-    {                                                                                        \
-        Busca[profundidade-1]->esq = Busca[profundidade-1]->dir;                             \
-        Busca[profundidade-1]->dir = NULL;                                                   \
-    }                                                                                        \
- 	else                                                                                     \
-    {                                                                                        \
-        printf("\nParametros Insuficientes (FIM)\n");                                        \
-        Fim=1;                                                                               \
-    }                                                                                        \
-}                                                                                            \
+#define H(profundidade,Raiz)({                                          \
+{                                                                       \
+    No *Aux1 ;                                                          \
+    No *Aux2 ;                                                          \
+    No *Aux3 ;                                                          \
+    criaNo('@', Aux1);                                                  \
+    criaNo('@', Aux2);                                                  \
+    criaNo('@', Aux3);                                                  \
+    if(profundidade>4)                                                  \
+    {                                                                   \
+        Aux3->esq = Busca[profundidade-3]->dir;                         \
+        Aux3->dir = Busca[profundidade-4]->dir;                         \
+        Aux2->esq = Busca[profundidade-1]->dir;                         \
+        Aux2->dir = Busca[profundidade-2]->dir;                         \
+        Aux1->esq = Aux2;                                               \
+        Aux1->dir = Aux3;                                               \
+        Busca[profundidade-5]->esq = Aux1;                              \
+    }                                                                   \
+    else if(profundidade==4)                                            \
+    {                                                                   \
+        Aux3->esq = Busca[profundidade-3]->dir;                         \
+        Aux3->dir = Busca[profundidade-4]->dir;                         \
+        Aux2->esq = Busca[profundidade-1]->dir;                         \
+        Aux2->dir = Busca[profundidade-2]->dir;                         \
+        Aux1->esq = Aux2;                                               \
+        Aux1->dir = Aux3;                                               \
+        *Raiz = Aux1;                                                   \
+    }                                                                   \
+    else                                                                \
+    {                                                                   \
+        printf("Numero De Parametros Insuficientes\n");                 \
+        Fim=1;                                                          \
+    }                                                                   \
+}                                                                       \
 })
 
-#define W(profundidade)({                                                                               \
-{                                                                                            \
-    if(profundidade>3)                                                                       \
-    {                                                                                        \
-        Busca[profundidade-4]->esq = Busca[profundidade-1];                                  \
-        Busca[profundidade-4]->esq->esq = Busca[profundidade-4]->esq->dir;                   \
-        Busca[profundidade-4]->esq->dir = Busca[profundidade-2];                             \
-        Busca[profundidade-4]->esq->dir->esq = Busca[profundidade-4]->esq->dir->dir;         \
-        Busca[profundidade-4]->esq->dir->dir = Busca[profundidade-4]->dir;                   \
-        Busca[profundidade-4]->dir = Busca[profundidade-3];                                  \
-        Busca[profundidade-4]->dir->esq = Busca[profundidade-4]->dir->dir;                   \
-        Busca[profundidade-4]->dir->dir = Busca[profundidade-4]->esq->dir->dir;              \
-    }                                                                                        \
-    else                                                                                     \
-    {                                                                                        \
-        printf("\nParametros Insuficientes (FIM)\n");                                        \
-        Fim=1;                                                                               \
-    }                                                                                        \
-                                                                                             \
-}                                                                                            \
+#define P(profundidade,Raiz)({                                          \
+{                                                                       \
+    No *Aux1 ;                                                          \
+    No *Aux2 ;                                                          \
+    No *Aux3 ;                                                          \
+    criaNo('@', Aux1);                                                  \
+    criaNo('@', Aux2);                                                  \
+    criaNo('@', Aux3);                                                  \
+    if(profundidade>4)                                                  \
+    {                                                                   \
+        Aux3->esq = Busca[profundidade-2]->dir;                         \
+        Aux3->dir = Busca[profundidade-4]->dir;                         \
+        Aux2->esq = Busca[profundidade-1]->dir;                         \
+        Aux2->dir = Aux3;                                               \
+        Aux1->esq = Aux2;                                               \
+        Aux1->dir = Busca[profundidade-3]->dir;                         \
+        Busca[profundidade-5]->esq = Aux1;                              \
+    }                                                                   \
+    else if(profundidade==4)                                            \
+    {                                                                   \
+        Aux3->esq = Busca[profundidade-2]->dir;                         \
+        Aux3->dir = Busca[profundidade-4]->dir;                         \
+        Aux2->esq = Busca[profundidade-1]->dir;                         \
+        Aux2->dir = Aux3;                                               \
+        Aux1->esq = Aux2;                                               \
+        Aux1->dir = Busca[profundidade-3]->dir;                         \
+        *Raiz = Aux1;                                                   \
+    }                                                                   \
+    else                                                                \
+    {                                                                   \
+        printf("Numero De Parametros Insuficientes\n");                 \
+        Fim=1;                                                          \
+    }                                                                   \
+}                                                                       \
 })
 
-#define C(profundidade)({                                                                    \
-{                                                                                            \
-    if(profundidade>2)                                                                       \
-    {                                                                                        \
-        Busca[profundidade-1]->esq = Busca[profundidade-3]->dir;                             \
-        Busca[profundidade-3]->dir = Busca[profundidade-2]->dir;                             \
-        Busca[profundidade-2]->dir = Busca[profundidade-1]->esq;                             \
-        Busca[profundidade-2]->esq = Busca[profundidade-1]->dir;                             \
-        Busca[profundidade-1]->esq = NULL;                                                   \
-        Busca[profundidade-1]->dir = NULL;                                                   \
-    }                                                                                        \
-    else                                                                                     \
-    {                                                                                        \
-        printf("\nParametros Insuficientes (FIM)\n");                                        \
-        Fim=1;                                                                               \
-    }                                                                                        \
-}                                                                                            \
+#define I(profundidade,Raiz)({                                          \
+{                                                                       \
+    if(profundidade>1)                                                  \
+    {                                                                   \
+        Busca[profundidade-2]->esq = Busca[profundidade-1]->dir;        \
+    }                                                                   \
+    else if(profundidade==1)                                            \
+    {                                                                   \
+        (*Raiz)->esq = (*Raiz)->dir;                                    \
+        (*Raiz)->dir = NULL;                                            \
+    }                                                                   \
+    else                                                                \
+    {                                                                   \
+        printf("Numero De Parametros Insuficientes\n");                 \
+        Fim=1;                                                          \
+    }                                                                   \
+}                                                                       \
 })
-#endif // /** Fim das Macros **/
+
+
+#endif // COM_MACRO
+
+
+
+
+
+
+
 
 
 
@@ -303,200 +386,267 @@ void DecodificaOperacao(No *Raiz, int *profundidade)
     {
         Busca[*profundidade] = Aux1;
         Aux1 = Aux1->esq;
-        *profundidade+=1;
+        *profundidade = *profundidade +1;
     }
     Busca[*profundidade] = Aux1;
 }
 
+//void AnulaPonteiros(int Padrao,int profundidade)
+//{
+//   for(;Padrao>0;Padrao--)
+//    {
+//        Busca[profundidade-Padrao]->esq = NULL;
+//        Busca[profundidade-Padrao]->dir = NULL;
+//    }
+//}
 
 
-#ifdef SEM_MACRO //Operacoes Sem Macro
+#ifdef SEM_MACRO
 
-void H (int profundidade)
+void S (int profundidade,No **Raiz)
 {
-    //printf("Para um Valor de Profundidade %d\n",profundidade);
+    No *Aux1 ;
+    No *Aux2 ;
+    No *Aux3 ;
+    criaNo('@', Aux1);
+    criaNo('@', Aux2);
+    criaNo('@', Aux3);
     if(profundidade>3)
     {
-        No *Aux = (No*) malloc (sizeof(No));
-        Busca[profundidade-4]->esq = Busca[profundidade-2];
-        Busca[profundidade-4]->esq->esq = Busca[profundidade-1]->dir;
-        Aux = Busca[profundidade-4]->dir;
-        Busca[profundidade-4]->dir = Busca[profundidade-3];
-        Busca[profundidade-4]->dir->esq = Busca[profundidade-4]->dir->dir;
-        Busca[profundidade-4]->dir->dir = Aux;
-        Busca[profundidade-1]->esq = NULL;
-        Busca[profundidade-1]->dir = NULL;
-
+        Aux2->esq = Busca[profundidade-1]->dir;
+        Aux2->dir = Busca[profundidade-3]->dir;
+        Aux3->esq = Busca[profundidade-2]->dir;
+        Aux3->dir = Busca[profundidade-3]->dir;
+        Aux1->esq = Aux2;
+        Aux1->dir = Aux3;
+        Busca[profundidade-4]->esq = Aux1;
+    }
+    else if(profundidade==3)
+    {
+        Aux2->esq = Busca[profundidade-1]->dir;
+        Aux2->dir = Busca[profundidade-3]->dir;
+        Aux3->esq = Busca[profundidade-2]->dir;
+        Aux3->dir = Busca[profundidade-3]->dir;
+        Aux1->esq = Aux2;
+        Aux1->dir = Aux3;
+        *Raiz = Aux1;
     }
     else
     {
-        printf("\nParametros Insuficientes (FIM)\n");
+        printf("Numero De Parametros Insuficientes\n");
         Fim=1;
     }
 }
 
-void B (int profundidade)
+void K (int profundidade,No **Raiz)
 {
-    //printf("Para um Valor de Profundidade %d\n",profundidade);
+
     if(profundidade>2)
     {
-        No *Aux = (No*) malloc (sizeof(No));
         Busca[profundidade-3]->esq = Busca[profundidade-1]->dir;
-        Aux = Busca[profundidade-3]->dir;
-        Busca[profundidade-3]->dir = Busca[profundidade-1];
-        Busca[profundidade-3]->dir->dir = Aux;
-        Busca[profundidade-3]->dir->esq = Busca[profundidade-2]->dir;
-        Busca[profundidade-2]->dir = NULL;
-        Busca[profundidade-2]->esq = NULL;
+    }
+    else if(profundidade==2)
+    {
+        (*Raiz)->dir = NULL;
+        (*Raiz)->esq = Busca[profundidade-1]->dir;
     }
     else
     {
-        printf("\nParametros Insuficientes (FIM)\n");
+        printf("Numero De Parametros Insuficientes\n");
         Fim=1;
     }
+
 }
 
-void S (int profundidade)
+void B (int profundidade,No **Raiz)
 {
-    //printf("Para um Valor de Profundidade %d\n",profundidade);
-    if(profundidade>2)                                                    //Essa variavel guarda o tamanho do meu grafo, calculada na funcao DecodificaOperacao
-    {
-        No *Aux = (No*) malloc (sizeof(No));                              // Variavel auxiliar para salva um ramo que sera perdido
-        Busca[profundidade-2]->esq = (Busca[profundidade-1]->dir);        //O meu Vetor Busca, guarda o caminho mais a esquerda do meu grafo. Minha ultima posicao do vetor eh meu operador, minha posicao -1 eh o ultimo arroba, minha posicao -2 eh meu penultimo arroba. Vou mandar uma print para tu ver isso melhor
-        Aux = Busca[profundidade-2]->dir;                                 // O resto, eh so eu apontando ponteiros, na figura da pra entender
-        Busca[profundidade-2]->dir = Busca[profundidade-3]->dir;
-        Busca[profundidade-3]->dir = Busca[profundidade-1];
-        Busca[profundidade-3]->dir->dir = Busca[profundidade-2]->dir;
-        Busca[profundidade-3]->dir->esq = Aux ;
-        //Busca[profundidade-3]->esq = NULL ;
-    }
-    else
-    {
-        printf("\nParametros Insuficientes (FIM)\n");
-        Fim=1;
-    }
-}
-
-void K (int profundidade)
-{
-    if(profundidade > 2)
-    {
-        Busca[profundidade-1]->esq = NULL;
-        Busca[profundidade-3]->esq = Busca[profundidade-1]->dir;
-        Aux = Busca[profundidade-2];
-        Aux->esq->dir = NULL;
-        Aux->dir = NULL;
-        Aux->esq = NULL;
-    }
-    else if(profundidade == 2)
-    {
-        Aux = Busca[profundidade-2]->esq;
-        Busca[profundidade-2]->dir = NULL;
-        Busca[profundidade-2]->esq = NULL;
-
-        if(Busca[profundidade-1]->dir->c == '@')
-        {
-            Busca[profundidade-2] = Busca[profundidade-1]->dir;
-        }
-        else
-        {
-            Busca[profundidade-2]->esq = Busca[profundidade-1]->dir;
-        }
-        Aux->dir = NULL;
-        Aux->esq = NULL;
-    }
-    else
-    {
-        printf("\nParametros Insuficientes (FIM)\n");
-        Fim=1;
-    }
-}
-
-void P (int profundidade)
-{
-    //printf("Para um Valor de Profundidade %d\n",profundidade);
+    No *Aux1 ;
+    No *Aux2 ;
+    criaNo('@', Aux1);
+    criaNo('@', Aux2);
     if(profundidade>3)
     {
-
-        No *Aux = (No*) malloc (sizeof(No));
-        Aux = Busca[profundidade-4]->dir;
-        Busca[profundidade-4]->dir = Busca[profundidade-3]->dir;
-        Busca[profundidade-4]->esq = Busca[profundidade-1];
-        Busca[profundidade-4]->esq->esq = Busca[profundidade-4]->esq->dir;
-        Busca[profundidade-4]->esq->dir = Busca[profundidade-2];
-        Busca[profundidade-4]->esq->dir->esq = Busca[profundidade-4]->esq->dir->dir;
-        Busca[profundidade-4]->esq->dir->dir = Aux;
-        Busca[profundidade-3]->dir = NULL;
-        Busca[profundidade-3]->esq = NULL;
+        Aux2->esq = Busca[profundidade-2]->dir;
+        Aux2->dir = Busca[profundidade-3]->dir;
+        Aux1->esq = Busca[profundidade-1]->dir;
+        Aux1->dir = Aux2;
+        Busca[profundidade-4]->esq = Aux1;
+    }
+    else if(profundidade==3)
+    {
+        Aux2->esq = Busca[profundidade-2]->dir;
+        Aux2->dir = Busca[profundidade-3]->dir;
+        Aux1->esq = Busca[profundidade-1]->dir;
+        Aux1->dir = Aux2;
+        *Raiz = Aux1;
     }
     else
     {
-        printf("\nParametros Insuficientes (FIM)\n");
+        printf("Numero De Parametros Insuficientes\n");
         Fim=1;
     }
 }
 
-void I(int profundidade)
+void C (int profundidade,No **Raiz)
 {
-    if(profundidade > 1)
-    {
-        Busca[profundidade-2]->esq = Busca[profundidade-1]->dir;
-        Busca[profundidade-1]->esq = NULL;
-        Busca[profundidade-1]->dir = NULL;
-    }
-    else if(profundidade == 1)
-    {
-        Busca[profundidade-1]->esq = Busca[profundidade-1]->dir;
-        Busca[profundidade-1]->dir = NULL;
-    }
-    else
-    {
-        printf("\nParametros Insuficientes (FIM)\n");
-        Fim=1;
-    }
-}
-
-void W (int profundidade)
-{
-    //printf("Para um Valor de Profundidade %d\n",profundidade);
+    No *Aux1 ;
+    No *Aux2 ;
+    criaNo('@', Aux1);
+    criaNo('@', Aux2);
     if(profundidade>3)
     {
-        Busca[profundidade-4]->esq = Busca[profundidade-1];
-        Busca[profundidade-4]->esq->esq = Busca[profundidade-4]->esq->dir;
-        Busca[profundidade-4]->esq->dir = Busca[profundidade-2];
-        Busca[profundidade-4]->esq->dir->esq = Busca[profundidade-4]->esq->dir->dir;
-        Busca[profundidade-4]->esq->dir->dir = Busca[profundidade-4]->dir;
-        Busca[profundidade-4]->dir = Busca[profundidade-3];
-        Busca[profundidade-4]->dir->esq = Busca[profundidade-4]->dir->dir;
-        Busca[profundidade-4]->dir->dir = Busca[profundidade-4]->esq->dir->dir;
+        Aux2->esq = Busca[profundidade-1]->dir;
+        Aux2->dir = Busca[profundidade-3]->dir;
+        Aux1->dir = Busca[profundidade-2]->dir;
+        Aux1->esq = Aux2;
+        Busca[profundidade-4]->esq = Aux1;
+    }
+    else if(profundidade==3)
+    {
+        Aux2->esq = Busca[profundidade-1]->dir;
+        Aux2->dir = Busca[profundidade-3]->dir;
+        Aux1->dir = Busca[profundidade-2]->dir;
+        Aux1->esq = Aux2;
+        *Raiz = Aux1;
     }
     else
     {
-        printf("\nParametros Insuficientes (FIM)\n");
+        printf("Numero De Parametros Insuficientes\n");
         Fim=1;
     }
 }
 
-void C (int profundidade)
+void W (int profundidade,No **Raiz)
 {
-    //printf("Para um Valor de Profundidade %d\n",profundidade);
-    if(profundidade>2)
+    No *Aux1 ;
+    No *Aux2 ;
+    No *Aux3 ;
+    No *Aux4 ;
+    criaNo('@', Aux1);
+    criaNo('@', Aux2);
+    criaNo('@', Aux3);
+    criaNo('@', Aux4);
+    if(profundidade>4)
     {
-        Busca[profundidade-1]->esq = Busca[profundidade-3]->dir;
-        Busca[profundidade-3]->dir = Busca[profundidade-2]->dir;
-        Busca[profundidade-2]->dir = Busca[profundidade-1]->esq;
-        Busca[profundidade-2]->esq = Busca[profundidade-1]->dir;
-        Busca[profundidade-1]->esq = NULL;
-        Busca[profundidade-1]->dir = NULL;
+        Aux4->esq = Busca[profundidade-2]->dir;
+        Aux4->dir = Busca[profundidade-4]->dir;
+        Aux3->esq = Busca[profundidade-3]->dir;
+        Aux3->dir = Busca[profundidade-4]->dir;
+        Aux2->esq = Busca[profundidade-1]->dir;
+        Aux2->dir = Aux4;
+        Aux1->esq = Aux2;
+        Aux1->dir = Aux3;
+        Busca[profundidade-5]->esq = Aux1;
+    }
+    else if(profundidade==4)
+    {
+        Aux4->esq = Busca[profundidade-2]->dir;
+        Aux4->dir = Busca[profundidade-4]->dir;
+        Aux3->esq = Busca[profundidade-3]->dir;
+        Aux3->dir = Busca[profundidade-4]->dir;
+        Aux2->esq = Busca[profundidade-1]->dir;
+        Aux2->dir = Aux4;
+        Aux1->esq = Aux2;
+        Aux1->dir = Aux3;
+        *Raiz = Aux1;
     }
     else
     {
-        printf("\nParametros Insuficientes (FIM)\n");
+        printf("Numero De Parametros Insuficientes\n");
         Fim=1;
     }
 }
+
+void H (int profundidade,No **Raiz)
+{
+    No *Aux1 ;
+    No *Aux2 ;
+    No *Aux3 ;
+    criaNo('@', Aux1);
+    criaNo('@', Aux2);
+    criaNo('@', Aux3);
+    if(profundidade>4)
+    {
+        Aux3->esq = Busca[profundidade-3]->dir;
+        Aux3->dir = Busca[profundidade-4]->dir;
+        Aux2->esq = Busca[profundidade-1]->dir;
+        Aux2->dir = Busca[profundidade-2]->dir;
+        Aux1->esq = Aux2;
+        Aux1->dir = Aux3;
+        Busca[profundidade-5]->esq = Aux1;
+    }
+    else if(profundidade==4)
+    {
+        Aux3->esq = Busca[profundidade-3]->dir;
+        Aux3->dir = Busca[profundidade-4]->dir;
+        Aux2->esq = Busca[profundidade-1]->dir;
+        Aux2->dir = Busca[profundidade-2]->dir;
+        Aux1->esq = Aux2;
+        Aux1->dir = Aux3;
+        *Raiz = Aux1;
+    }
+    else
+    {
+        printf("Numero De Parametros Insuficientes\n");
+        Fim=1;
+    }
+}
+
+void P (int profundidade,No **Raiz)
+{
+    No *Aux1 ;
+    No *Aux2 ;
+    No *Aux3 ;
+    criaNo('@', Aux1);
+    criaNo('@', Aux2);
+    criaNo('@', Aux3);
+    if(profundidade>4)
+    {
+        Aux3->esq = Busca[profundidade-2]->dir;
+        Aux3->dir = Busca[profundidade-4]->dir;
+        Aux2->esq = Busca[profundidade-1]->dir;
+        Aux2->dir = Aux3;
+        Aux1->esq = Aux2;
+        Aux1->dir = Busca[profundidade-3]->dir;
+        Busca[profundidade-5]->esq = Aux1;
+    }
+    else if(profundidade==4)
+    {
+        Aux3->esq = Busca[profundidade-2]->dir;
+        Aux3->dir = Busca[profundidade-4]->dir;
+        Aux2->esq = Busca[profundidade-1]->dir;
+        Aux2->dir = Aux3;
+        Aux1->esq = Aux2;
+        Aux1->dir = Busca[profundidade-3]->dir;
+        *Raiz = Aux1;
+    }
+    else
+    {
+        printf("Numero De Parametros Insuficientes\n");
+        Fim=1;
+    }
+}
+
+void I (int profundidade,No **Raiz)
+{
+    if(profundidade>1)
+    {
+        Busca[profundidade-2]->esq = Busca[profundidade-1]->dir;
+    }
+    else if(profundidade==1)
+    {
+        (*Raiz)->esq = (*Raiz)->dir;
+        (*Raiz)->dir = NULL;
+    }
+    else
+    {
+        printf("Numero De Parametros Insuficientes\n");
+        Fim=1;
+    }
+
+}
+
 #endif // SEM_MACRO
-
 
 int main()
 {
@@ -507,46 +657,45 @@ int main()
     fscanf(arq,"%s",strEntrada);
     criaNo('@', Raiz);
     Raiz = criaGrafo(strEntrada, Raiz);
-    //printaGrafo(Raiz);
-    //printf("\n");
     int a=0;
-    do
+    while(1)
     {
         a++;
         DecodificaOperacao(Raiz, &profundidade);
         switch (Busca[profundidade-1]->esq->c)
         {
         case 'S':
-            S(profundidade);
+            S(profundidade,&Raiz);
         break;
         case 'K':
-            K(profundidade);
+            K(profundidade,&Raiz);
         break;
         case 'B':
-            B(profundidade);
+            B(profundidade,&Raiz);
         break;
         case 'H':
-            H(profundidade);
+            H(profundidade,&Raiz);
         break;
         case 'P':
-            P(profundidade);
+            P(profundidade,&Raiz);
         break;
         case 'I':
-            I(profundidade);
+            I(profundidade,&Raiz);
         break;
         case 'W':
-            W(profundidade);
+            W(profundidade,&Raiz);
         break;
         case 'C':
-            C(profundidade);
+            C(profundidade,&Raiz);
         break;
         }
+        if(Fim)
+            break;
+
     }
-    while(!Fim);
     printf("Saida: ");
     printaGrafo(Raiz);
     printf("\nIteracoes: %d",a);
-
     return 0;
 }
 // S' = W // C' = P // B' = H
