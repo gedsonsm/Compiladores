@@ -2,11 +2,14 @@
 #include <stdlib.h>
 #include "OperacoesComGrafo.h"
 #include "OperacoesComPilha.h"
+//#define CONT_FLAG
+
 //#define SEM_MACRO
 #define COM_MACRO
 
 
 #ifdef COM_MACRO
+
 #define S(P, raiz)                                          \
 ({                                                          \
     pai_a = (No*) malloc(sizeof(No));                       \
@@ -397,6 +400,17 @@ No *pai_b;
 No *pai_c;
 No *pai_d;
 No *pai_resto;
+
+#ifdef CONT_FLAG
+	int cont_S;
+	int cont_K;
+	int cont_I;
+	int cont_C;
+	int cont_B;
+	int cont_W;
+	int cont_P;
+	int cont_H;
+#endif
 
 void DecodificaOperacao(No *Raiz, pilha *p)
 {
@@ -814,36 +828,71 @@ int main()
         OP = pop(Pilha);
         switch (OP->c)
         {
-        case 'S':
-            S(Pilha, &Raiz);
-            break;
-        case 'K':
-            K(Pilha, &Raiz);
-            break;
-        case 'B':
-            B(Pilha, &Raiz);
-            break;
-        case 'H':
-            H(Pilha, &Raiz);
-            break;
-        case 'P':
-            P(Pilha, &Raiz);
-            break;
-        case 'I':
-            I(Pilha, &Raiz);
-            break;
-        case 'W':
-            W(Pilha, &Raiz);
-            break;
-        case 'C':
-            C(Pilha, &Raiz);
-            break;
+            case 'S':
+                S(Pilha, &Raiz);
+                #ifdef CONT_FLAG
+                    cont_S++;
+                #endif
+                break;
+            case 'K':
+                K(Pilha, &Raiz);
+                #ifdef CONT_FLAG
+                    cont_K++;
+                #endif
+                break;
+            case 'B':
+                B(Pilha, &Raiz);
+                #ifdef CONT_FLAG
+                    cont_B++;
+                #endif
+                break;
+            case 'H':
+                H(Pilha, &Raiz);
+                #ifdef CONT_FLAG
+                    cont_H++;
+                #endif
+                break;
+            case 'P':
+                P(Pilha, &Raiz);
+                #ifdef CONT_FLAG
+                    cont_P++;
+                #endif
+                break;
+            case 'I':
+                I(Pilha, &Raiz);
+                #ifdef CONT_FLAG
+                    cont_I++;
+                #endif
+                break;
+            case 'W':
+                W(Pilha, &Raiz);
+                #ifdef CONT_FLAG
+                    cont_W++;
+                #endif
+                break;
+            case 'C':
+                C(Pilha, &Raiz);
+                #ifdef CONT_FLAG
+                    cont_C++;
+                #endif
+                break;
         }
     }
 
     printf("Saida: ");
     printaGrafo(Raiz);
     printf("\n");
+
+    #ifdef CONT_FLAG
+		printf("S: %d\n",cont_S);
+		printf("K: %d\n",cont_K);
+		printf("I: %d\n",cont_I);
+		printf("C: %d\n",cont_C);
+		printf("B: %d\n",cont_B);
+		printf("S': %d\n",cont_W);
+		printf("C': %d\n",cont_P);
+		printf("B': %d\n",cont_H);
+	#endif
 
     return 0;
 }
