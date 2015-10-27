@@ -817,7 +817,7 @@ int main()
     pilha Pilha[200000];
     OP = (No*) malloc(sizeof(No));
     FILE *arq = fopen("string.in", "r");
-    int auhahu= fscanf(arq,"%s",strEntrada);
+    fscanf(arq,"%s",strEntrada);
 
     criaNo('@', &Raiz);
     Raiz = criaGrafo(strEntrada, Raiz);
