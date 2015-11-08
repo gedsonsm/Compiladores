@@ -1,0 +1,45 @@
+# depslib dependency file v1.0
+1447000486 source:c:\users\gedson melo\downloads\compiladores-master\implementacao4\mg_v2\windows_v\main.c
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	"OperacoesComGrafo.h"
+	"OperacoesComPilha.h"
+
+1446929320 c:\users\gedson melo\downloads\compiladores-master\implementacao4\mg_v2\windows_v\operacoescomgrafo.h
+	<stdio.h>
+	<stdlib.h>
+
+1446912701 c:\users\gedson melo\downloads\compiladores-master\implementacao4\mg_v2\windows_v\operacoescompilha.h
+	<stdio.h>
+	<stdlib.h>
+	"OperacoesComGrafo.h"
+
+1447000402 source:c:\users\gedson melo\downloads\compiladores-master\implementacao4\mg_v2\windows_v\operacoescomgrafo.c
+	"OperacoesComGrafo.h"
+
+1446912675 source:c:\users\gedson melo\downloads\compiladores-master\implementacao4\mg_v2\windows_v\operacoescompilha.c
+	"OperacoesComPilha.h"
+
+1447000486 source:c:\users\gedson\documents\github\compiladores\implementacao5\windows_v\main.c
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	"OperacoesComGrafo.h"
+	"OperacoesComPilha.h"
+
+1446929320 c:\users\gedson\documents\github\compiladores\implementacao5\windows_v\operacoescomgrafo.h
+	<stdio.h>
+	<stdlib.h>
+
+1446912701 c:\users\gedson\documents\github\compiladores\implementacao5\windows_v\operacoescompilha.h
+	<stdio.h>
+	<stdlib.h>
+	"OperacoesComGrafo.h"
+
+1447000402 source:c:\users\gedson\documents\github\compiladores\implementacao5\windows_v\operacoescomgrafo.c
+	"OperacoesComGrafo.h"
+
+1446912675 source:c:\users\gedson\documents\github\compiladores\implementacao5\windows_v\operacoescompilha.c
+	"OperacoesComPilha.h"
+
